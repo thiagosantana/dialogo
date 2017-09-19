@@ -4,17 +4,17 @@
 	"description": "",
 	"main": "app.js",
 	"scripts": {
-		"test": "echo \"Error: no test specified\" && exit 1",
+		"test": "mocha",
 		"saas": "npm-sass css/app.scss > dist/css/app.css",
 		"pug": "node template_pug.js > dist/index.html",
 		"start": "webpack --config webpack.config.js",
-		"build": "npm-sass css/app.scss > dist/css/app.css | node template_pug.js > dist/index.html | webpack --config webpack.config.js"
+		"build":
+			"npm-sass css/app.scss > dist/css/app.css | node template_pug.js > dist/index.html | webpack --config webpack.config.js"
 	},
-	"author": "Thiago Santana <thiago.santana@gmail.com> (https://thiagosantana.github.io/)",
+	"author":
+		"Thiago Santana <thiago.santana@gmail.com> (https://thiagosantana.github.io/)",
 	"license": "MIT",
-	"presets": [
-		"env"
-	],
+	"presets": ["env"],
 	"devDependencies": {
 		"babel-cli": "6.26.0",
 		"babel-preset-env": "1.6.0",
@@ -22,6 +22,7 @@
 		"jointjs": "1.1.0",
 		"jquery": "3.2.1",
 		"lodash": "3.10.1",
+		"mocha": "3.5.3",
 		"pug": "2.0.0-rc.4",
 		"webpack": "3.6.0",
 		"webpack-dev-server": "2.8.2"
