@@ -386,6 +386,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__begin_js__ = __webpack_require__(64);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__end_js__ = __webpack_require__(65);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__service_js__ = __webpack_require__(66);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__control_manager_js__ = __webpack_require__(67);
+
 
 
 
@@ -66030,7 +66032,7 @@ const configureNewSayBehavior = () => {
 		if (Object(__WEBPACK_IMPORTED_MODULE_0__app_js__["isFlowInitialized"])()) {
 			Object(__WEBPACK_IMPORTED_MODULE_1__event_js__["a" /* publish */])("oncreatesay", {});
 		} else {
-			alert("Fluxo ainda não ativo.");
+			alert("Fluxo ainda não ativo!");
 		}
 	};
 };
@@ -66141,6 +66143,61 @@ function init() {
 }
 
 init();
+
+
+
+
+/***/ }),
+/* 67 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* unused harmony export controlManager */
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__app_js__ = __webpack_require__(4);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__event_js__ = __webpack_require__(5);
+
+
+
+class ControlManager {
+	constructor(canEnable) {
+		this.name = Object(__WEBPACK_IMPORTED_MODULE_0__app_js__["makeName"])("ControlManager_");
+		this.type = "ClientControlManagement";
+		this.nextActivity = "";
+		this.actions = [];
+	}
+
+	addAction(action) {
+		this.actions.push({
+			type: "InputMessageBox",
+			properties: {
+				disableControls: action
+			}
+		});
+	}
+}
+
+const configureNewControlManagerBehavior = () => {
+	let vinterBtnCreateControlManager = document.getElementById(
+		"vinter-btn-create-control-manager"
+	);
+	vinterBtnCreateControlManager.onclick = () => {
+		if (Object(__WEBPACK_IMPORTED_MODULE_0__app_js__["isFlowInitialized"])()) {
+			Object(__WEBPACK_IMPORTED_MODULE_1__event_js__["a" /* publish */])("oncreatecontrolmanager", {});
+		} else {
+			alert("Fluxo ainda não ativo.");
+		}
+	};
+};
+
+function controlManager(canEnable) {
+	let controlManager = new ControlManager();
+	controlManager.addAction(canEnable);
+	return controlManager;
+}
+
+function init() {
+	configureNewControlManagerBehavior();
+}
 
 
 

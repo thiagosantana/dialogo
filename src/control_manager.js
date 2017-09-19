@@ -38,4 +38,8 @@ function controlManager(canEnable) {
 	return controlManager;
 }
 
+function init() {
+	configureNewControlManagerBehavior();
+}
+
 export { controlManager };

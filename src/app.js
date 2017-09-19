@@ -4,6 +4,7 @@ import { say } from "./say.js";
 import { begin } from "./begin.js";
 import { end } from "./end.js";
 import { serviceCall } from "./service.js";
+import { controlManager } from "./control_manager.js";
 
 let vinter_flow = {};
 window.vinter_flow = vinter_flow;

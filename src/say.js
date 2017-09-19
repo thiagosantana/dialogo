@@ -20,7 +20,7 @@ const configureNewSayBehavior = () => {
 		if (isFlowInitialized()) {
 			publish("oncreatesay", {});
 		} else {
-			alert("Fluxo ainda não ativo.");
+			alert("Fluxo ainda não ativo!");
 		}
 	};
 };
