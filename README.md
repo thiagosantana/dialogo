@@ -1,3 +1,3 @@
 # dialogo
-npm install
+npm install  
 npm run build
