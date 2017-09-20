@@ -472,6 +472,12 @@ function addServiceCallActivity() {
 	Object(__WEBPACK_IMPORTED_MODULE_0__event_js__["a" /* publish */])("onservicecalladded", theNewServiceCall);
 }
 
+function addControlManagerActivity() {
+	let theNewControlManager = Object(__WEBPACK_IMPORTED_MODULE_6__control_manager_js__["a" /* controlManager */])(false);
+	vinter_flow.workflows[0].activities.push(theNewControlManager);
+	Object(__WEBPACK_IMPORTED_MODULE_0__event_js__["a" /* publish */])("oncontrolmanageradded", theNewControlManager);
+}
+
 function getBeginActivity() {
 	let begin = vinter_flow.workflows[0].activities.filter(
 		activity => activity.type === "Root"
@@ -533,6 +539,11 @@ Object(__WEBPACK_IMPORTED_MODULE_0__event_js__["b" /* subscribe */])("oncreatesa
 Object(__WEBPACK_IMPORTED_MODULE_0__event_js__["b" /* subscribe */])("oncreateservicecall", () => {
 	console.log("oncreateservicecall");
 	addServiceCallActivity();
+});
+
+Object(__WEBPACK_IMPORTED_MODULE_0__event_js__["b" /* subscribe */])("oncreatecontrolmanager", () => {
+	console.log("oncreatecontrolmanager");
+	addControlManagerActivity();
 });
 
 init();
@@ -12060,6 +12071,7 @@ paper.on("link:connect", (link, evt, target) => {
 
 function load(json) {
 	console.log("TODO");
+	console.log("TODO");
 }
 
 function renderBegin() {
@@ -12209,9 +12221,15 @@ const onSayAdded = say => {
 const onServiceCallAdded = serviceCall => {
 	renderSay(serviceCall); //only for test purpose
 };
+
+const onControlManagerAdded = controlManager => {
+	renderSay(controlManager); //only for test purpose
+};
+
 Object(__WEBPACK_IMPORTED_MODULE_1__event_js__["b" /* subscribe */])("onflowcreated", onFlowCreated);
 Object(__WEBPACK_IMPORTED_MODULE_1__event_js__["b" /* subscribe */])("onsayadded", onSayAdded);
 Object(__WEBPACK_IMPORTED_MODULE_1__event_js__["b" /* subscribe */])("onservicecalladded", onServiceCallAdded);
+Object(__WEBPACK_IMPORTED_MODULE_1__event_js__["b" /* subscribe */])("oncontrolmanageradded", onControlManagerAdded);
 
 
 
@@ -66152,7 +66170,7 @@ init();
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* unused harmony export controlManager */
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return controlManager; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__app_js__ = __webpack_require__(4);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__event_js__ = __webpack_require__(5);
 
@@ -66181,6 +66199,7 @@ const configureNewControlManagerBehavior = () => {
 		"vinter-btn-create-control-manager"
 	);
 	vinterBtnCreateControlManager.onclick = () => {
+		console.log("control manager");
 		if (Object(__WEBPACK_IMPORTED_MODULE_0__app_js__["isFlowInitialized"])()) {
 			Object(__WEBPACK_IMPORTED_MODULE_1__event_js__["a" /* publish */])("oncreatecontrolmanager", {});
 		} else {
@@ -66200,6 +66219,7 @@ function init() {
 }
 
 
+init();
 
 
 /***/ })

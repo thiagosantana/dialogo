@@ -83,6 +83,12 @@ function addServiceCallActivity() {
 	publish("onservicecalladded", theNewServiceCall);
 }
 
+function addControlManagerActivity() {
+	let theNewControlManager = controlManager(false);
+	vinter_flow.workflows[0].activities.push(theNewControlManager);
+	publish("oncontrolmanageradded", theNewControlManager);
+}
+
 function getBeginActivity() {
 	let begin = vinter_flow.workflows[0].activities.filter(
 		activity => activity.type === "Root"
@@ -144,6 +150,11 @@ subscribe("oncreatesay", () => {
 subscribe("oncreateservicecall", () => {
 	console.log("oncreateservicecall");
 	addServiceCallActivity();
+});
+
+subscribe("oncreatecontrolmanager", () => {
+	console.log("oncreatecontrolmanager");
+	addControlManagerActivity();
 });
 
 init();

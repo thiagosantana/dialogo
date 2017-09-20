@@ -68,6 +68,7 @@ paper.on("link:connect", (link, evt, target) => {
 
 function load(json) {
 	console.log("TODO");
+	console.log("TODO");
 }
 
 function renderBegin() {
@@ -217,8 +218,14 @@ const onSayAdded = say => {
 const onServiceCallAdded = serviceCall => {
 	renderSay(serviceCall); //only for test purpose
 };
+
+const onControlManagerAdded = controlManager => {
+	renderSay(controlManager); //only for test purpose
+};
+
 subscribe("onflowcreated", onFlowCreated);
 subscribe("onsayadded", onSayAdded);
 subscribe("onservicecalladded", onServiceCallAdded);
+subscribe("oncontrolmanageradded", onControlManagerAdded);
 
 export { load };

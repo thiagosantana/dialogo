@@ -24,6 +24,7 @@ const configureNewControlManagerBehavior = () => {
 		"vinter-btn-create-control-manager"
 	);
 	vinterBtnCreateControlManager.onclick = () => {
+		console.log("control manager");
 		if (isFlowInitialized()) {
 			publish("oncreatecontrolmanager", {});
 		} else {
@@ -43,3 +44,4 @@ function init() {
 }
 
 export { controlManager };
+init();
