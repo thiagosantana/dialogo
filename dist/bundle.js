@@ -436,6 +436,22 @@ const configureNewFlowBehavior = () => {
 	};
 };
 
+const configureOpenJSON = () => {
+	let vinterBtnShowJson = document.getElementById("vinter-btn-show-json");
+	let closeShowJson = document.getElementById("close-show-json");
+	closeShowJson.onclick = () => {
+		changeElementDisplay("vinter-modal-show-json", "none");
+	};
+	vinterBtnShowJson.onclick = () => {
+		document.getElementById("json-content").innerHTML = JSON.stringify(
+			vinter_flow.workflows[0],
+			null,
+			4
+		);
+		changeElementDisplay("vinter-modal-show-json", "block");
+	};
+};
+
 function setupFlow() {
 	vinter_flow.workflows = [];
 	vinter_flow.workflows[0] = {
@@ -528,6 +544,7 @@ function isFlowInitialized() {
 
 function init() {
 	configureNewFlowBehavior();
+	configureOpenJSON();
 	setupFlow();
 }
 
@@ -12010,8 +12027,8 @@ window.joint = __webpack_require__(19);
 let graph = new joint.dia.Graph();
 let paper = new joint.dia.Paper({
 	el: $("#vinter-graph"),
-	width: 600,
-	height: 300,
+	width: window.innerWidth,
+	height: window.innerHeight,
 	model: graph,
 	gridSize: 10,
 	defaultLink: new joint.dia.Link({

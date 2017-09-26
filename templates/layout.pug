@@ -6,10 +6,11 @@ html(lang="en")
         link(href="css/app.css", rel="stylesheet")
         link(href="https://cdnjs.cloudflare.com/ajax/libs/jointjs/1.1.0/joint.css", rel="stylesheet")
     body
-        h1 PUG TEST
+        h1 Editor de Fluxo
         div(id="cmd-bar")
             include includes/btn-commands.pug
         div(id="vinter-graph")
         include includes/new-flow.pug
         include includes/edit-say.pug
+        include includes/show-json.pug
         script(src="./bundle.js")

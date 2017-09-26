@@ -31,3 +31,7 @@ body {
   color: #000;
   text-decoration: none;
   cursor: pointer; }
+
+.json {
+  overflow-y: scroll;
+  height: 350px; }

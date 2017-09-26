@@ -7,8 +7,8 @@ window.joint = require("jointjs");
 let graph = new joint.dia.Graph();
 let paper = new joint.dia.Paper({
 	el: $("#vinter-graph"),
-	width: 600,
-	height: 300,
+	width: window.innerWidth,
+	height: window.innerHeight,
 	model: graph,
 	gridSize: 10,
 	defaultLink: new joint.dia.Link({
