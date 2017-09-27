@@ -34,4 +34,22 @@ function decision() {
 	return new Decision();
 }
 
+const configureNewDecisionBehavior = () => {
+	let vinterBtnCreateDecision = document.getElementById(
+		"vinter-btn-create-decision"
+	);
+	vinterBtnCreateDecision.onclick = () => {
+		if (isFlowInitialized()) {
+			publish("oncreatedecision", {});
+		} else {
+			alert("Fluxo ainda não ativo!");
+		}
+	};
+};
+
+function init() {
+	configureNewDecisionBehavior();
+}
+
+init();
 export { decision };

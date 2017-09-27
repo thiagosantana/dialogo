@@ -248,8 +248,8 @@ const onSayAdded = say => {
 	renderSay(say);
 };
 
-const onFormAdded = say => {
-	renderSay(say);
+const onFormAdded = form => {
+	renderSay(form);
 };
 
 const onServiceCallAdded = serviceCall => {
@@ -260,10 +260,40 @@ const onControlManagerAdded = controlManager => {
 	renderSay(controlManager); //only for test purpose
 };
 
+const onDecisionAdded = decision => {
+	renderSay(decision); //only for test purpose
+};
+
+const onQuestionAdded = question => {
+	renderSay(question); //only for test purpose
+};
+
+const onMemoryAdded = memory => {
+	renderSay(memory); //only for test purpose
+};
+
+const onCustomCodeAdded = custom => {
+	renderSay(custom); //only for test purpose
+};
+
+const onDisconnectAdded = disconnect => {
+	renderSay(disconnect); //only for test purpose
+};
+
+const onEscalateAdded = escalate => {
+	renderSay(escalate);
+};
+
 subscribe("onflowcreated", onFlowCreated);
 subscribe("onsayadded", onSayAdded);
 subscribe("onformadded", onFormAdded);
 subscribe("onservicecalladded", onServiceCallAdded);
 subscribe("oncontrolmanageradded", onControlManagerAdded);
+subscribe("ondecisionadded", onDecisionAdded);
+subscribe("onquestionadded", onQuestionAdded);
+subscribe("onmemoryadded", onMemoryAdded);
+subscribe("oncustomcodeadded", onCustomCodeAdded);
+subscribe("ondisconnectadded", onDisconnectAdded);
+subscribe("onescalateadded", onEscalateAdded);
 
 export { load };

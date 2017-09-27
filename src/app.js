@@ -3,7 +3,13 @@ import { load } from "./graph.js";
 import { say } from "./say.js";
 import { begin } from "./begin.js";
 import { end } from "./end.js";
+import { decision } from "./decision.js";
 import { serviceCall } from "./service.js";
+import { question } from "./question.js";
+import { memory } from "./memory.js";
+import { custom } from "./custom_code.js";
+import { disconnect } from "./disconnect.js";
+import { escalate } from "./escalate.js";
 import { controlManager } from "./control_manager.js";
 import { form } from "./form.js";
 
@@ -112,6 +118,42 @@ function addFormActivity() {
 	publish("onformadded", theForm);
 }
 
+function addDecisionActivity() {
+	let theDecision = decision();
+	vinter_flow.workflows[0].activities.push(theDecision);
+	publish("ondecisionadded", theDecision);
+}
+
+function addQuestionActivity() {
+	let theQuestion = question();
+	vinter_flow.workflows[0].activities.push(theQuestion);
+	publish("onquestionadded", theQuestion);
+}
+
+function addMemoryActivity() {
+	let theMemory = memory();
+	vinter_flow.workflows[0].activities.push(theMemory);
+	publish("onmemoryadded", theMemory);
+}
+
+function addCustomCodeActivity() {
+	let theCustom = custom();
+	vinter_flow.workflows[0].activities.push(theCustom);
+	publish("oncustomcodeadded", theCustom);
+}
+
+function addDisconnectActivity() {
+	let theDisconnect = disconnect();
+	vinter_flow.workflows[0].activities.push(theDisconnect);
+	publish("ondisconnectadded", theDisconnect);
+}
+
+function addEscalateActivity() {
+	let theEscalate = escalate();
+	vinter_flow.workflows[0].activities.push(theEscalate);
+	publish("onescalateadded", theEscalate);
+}
+
 function getBeginActivity() {
 	let begin = vinter_flow.workflows[0].activities.filter(
 		activity => activity.type === "Root"
@@ -171,6 +213,11 @@ subscribe("oncreatesay", () => {
 	addSayActivity();
 });
 
+subscribe("oncreatedecision", () => {
+	console.log("oncreatedecision");
+	addDecisionActivity();
+});
+
 subscribe("oncreateform", () => {
 	console.log("oncreateform");
 	addFormActivity();
@@ -184,6 +231,31 @@ subscribe("oncreateservicecall", () => {
 subscribe("oncreatecontrolmanager", () => {
 	console.log("oncreatecontrolmanager");
 	addControlManagerActivity();
+});
+
+subscribe("oncreatequestion", () => {
+	console.log("oncreatequestion");
+	addQuestionActivity();
+});
+
+subscribe("oncreatememory", () => {
+	console.log("oncreatememory");
+	addMemoryActivity();
+});
+
+subscribe("oncreatecustomcode", () => {
+	console.log("oncreatecustomcode");
+	addCustomCodeActivity();
+});
+
+subscribe("oncreatedisconnect", () => {
+	console.log("oncreatedisconnect");
+	addDisconnectActivity();
+});
+
+subscribe("oncreateescalate", () => {
+	console.log("oncreateescalate");
+	addEscalateActivity();
 });
 
 init();

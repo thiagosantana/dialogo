@@ -33,4 +33,22 @@ function question() {
 	return new Question();
 }
 
+const configureNewQuestionBehavior = () => {
+	let vinterBtnCreateQuestion = document.getElementById(
+		"vinter-btn-create-question"
+	);
+	vinterBtnCreateQuestion.onclick = () => {
+		if (isFlowInitialized()) {
+			publish("oncreatequestion", {});
+		} else {
+			alert("Fluxo ainda não ativo!");
+		}
+	};
+};
+
+function init() {
+	configureNewQuestionBehavior();
+}
+
+init();
 export { question };
