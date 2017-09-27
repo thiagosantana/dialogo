@@ -5,6 +5,7 @@ import { begin } from "./begin.js";
 import { end } from "./end.js";
 import { serviceCall } from "./service.js";
 import { controlManager } from "./control_manager.js";
+import { form } from "./form.js";
 
 let vinter_flow = {};
 window.vinter_flow = vinter_flow;
@@ -105,6 +106,12 @@ function addControlManagerActivity() {
 	publish("oncontrolmanageradded", theNewControlManager);
 }
 
+function addFormActivity() {
+	let theForm = form();
+	vinter_flow.workflows[0].activities.push(theForm);
+	publish("onformadded", theForm);
+}
+
 function getBeginActivity() {
 	let begin = vinter_flow.workflows[0].activities.filter(
 		activity => activity.type === "Root"
@@ -164,6 +171,11 @@ subscribe("oncreatesay", () => {
 	addSayActivity();
 });
 
+subscribe("oncreateform", () => {
+	console.log("oncreateform");
+	addFormActivity();
+});
+
 subscribe("oncreateservicecall", () => {
 	console.log("oncreateservicecall");
 	addServiceCallActivity();
@@ -181,5 +193,6 @@ export {
 	getEndActivity,
 	getActivityById,
 	makeName,
-	isFlowInitialized
+	isFlowInitialized,
+	changeElementDisplay
 };

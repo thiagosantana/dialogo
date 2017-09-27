@@ -7,8 +7,22 @@ window.joint = require("jointjs");
 let graph = new joint.dia.Graph();
 let paper = new joint.dia.Paper({
 	el: $("#vinter-graph"),
-	width: window.innerWidth,
-	height: window.innerHeight,
+	highlighting: {
+		default: {
+			name: "stroke",
+			options: {
+				padding: 3
+			}
+		},
+		connecting: {
+			name: "addClass",
+			options: {
+				className: "highlight-connecting"
+			}
+		}
+	},
+	width: window.innerWidth - 15,
+	height: window.innerHeight * 0.85,
 	model: graph,
 	gridSize: 10,
 	defaultLink: new joint.dia.Link({
@@ -56,6 +70,25 @@ let paper = new joint.dia.Paper({
 	markAvailable: true,
 	gridSize: 10,
 	drawGrid: true
+});
+
+let selected = false;
+
+let highlighter = {
+	highlighter: {
+		name: "addClass",
+		options: {
+			className: "highlighted"
+		}
+	}
+};
+
+window.g = graph;
+window.p = paper;
+
+paper.on("cell:pointerclick", cellView => {
+	let activity = getActivityById(cellView.model.id);
+	if (activity.type === "Say") publish("oneditsay", activity);
 });
 
 paper.on("cell:pointerup", (cellView, evt, x, y) => {
@@ -215,6 +248,10 @@ const onSayAdded = say => {
 	renderSay(say);
 };
 
+const onFormAdded = say => {
+	renderSay(say);
+};
+
 const onServiceCallAdded = serviceCall => {
 	renderSay(serviceCall); //only for test purpose
 };
@@ -225,6 +262,7 @@ const onControlManagerAdded = controlManager => {
 
 subscribe("onflowcreated", onFlowCreated);
 subscribe("onsayadded", onSayAdded);
+subscribe("onformadded", onFormAdded);
 subscribe("onservicecalladded", onServiceCallAdded);
 subscribe("oncontrolmanageradded", onControlManagerAdded);
 

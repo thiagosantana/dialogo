@@ -380,6 +380,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getActivityById", function() { return getActivityById; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "makeName", function() { return makeName; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "isFlowInitialized", function() { return isFlowInitialized; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "changeElementDisplay", function() { return changeElementDisplay; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__event_js__ = __webpack_require__(5);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__graph_js__ = __webpack_require__(18);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__say_js__ = __webpack_require__(63);
@@ -387,6 +388,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__end_js__ = __webpack_require__(65);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__service_js__ = __webpack_require__(66);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__control_manager_js__ = __webpack_require__(67);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__form_js__ = __webpack_require__(68);
+
 
 
 
@@ -494,6 +497,12 @@ function addControlManagerActivity() {
 	Object(__WEBPACK_IMPORTED_MODULE_0__event_js__["a" /* publish */])("oncontrolmanageradded", theNewControlManager);
 }
 
+function addFormActivity() {
+	let theForm = Object(__WEBPACK_IMPORTED_MODULE_7__form_js__["a" /* form */])();
+	vinter_flow.workflows[0].activities.push(theForm);
+	Object(__WEBPACK_IMPORTED_MODULE_0__event_js__["a" /* publish */])("onformadded", theForm);
+}
+
 function getBeginActivity() {
 	let begin = vinter_flow.workflows[0].activities.filter(
 		activity => activity.type === "Root"
@@ -551,6 +560,11 @@ function init() {
 Object(__WEBPACK_IMPORTED_MODULE_0__event_js__["b" /* subscribe */])("oncreatesay", () => {
 	console.log("oncreatesay");
 	addSayActivity();
+});
+
+Object(__WEBPACK_IMPORTED_MODULE_0__event_js__["b" /* subscribe */])("oncreateform", () => {
+	console.log("oncreateform");
+	addFormActivity();
 });
 
 Object(__WEBPACK_IMPORTED_MODULE_0__event_js__["b" /* subscribe */])("oncreateservicecall", () => {
@@ -12027,8 +12041,22 @@ window.joint = __webpack_require__(19);
 let graph = new joint.dia.Graph();
 let paper = new joint.dia.Paper({
 	el: $("#vinter-graph"),
-	width: window.innerWidth,
-	height: window.innerHeight,
+	highlighting: {
+		default: {
+			name: "stroke",
+			options: {
+				padding: 3
+			}
+		},
+		connecting: {
+			name: "addClass",
+			options: {
+				className: "highlight-connecting"
+			}
+		}
+	},
+	width: window.innerWidth - 15,
+	height: window.innerHeight * 0.85,
 	model: graph,
 	gridSize: 10,
 	defaultLink: new joint.dia.Link({
@@ -12076,6 +12104,25 @@ let paper = new joint.dia.Paper({
 	markAvailable: true,
 	gridSize: 10,
 	drawGrid: true
+});
+
+let selected = false;
+
+let highlighter = {
+	highlighter: {
+		name: "addClass",
+		options: {
+			className: "highlighted"
+		}
+	}
+};
+
+window.g = graph;
+window.p = paper;
+
+paper.on("cell:pointerclick", cellView => {
+	let activity = Object(__WEBPACK_IMPORTED_MODULE_0__app_js__["getActivityById"])(cellView.model.id);
+	if (activity.type === "Say") Object(__WEBPACK_IMPORTED_MODULE_1__event_js__["a" /* publish */])("oneditsay", activity);
 });
 
 paper.on("cell:pointerup", (cellView, evt, x, y) => {
@@ -12235,6 +12282,10 @@ const onSayAdded = say => {
 	renderSay(say);
 };
 
+const onFormAdded = say => {
+	renderSay(say);
+};
+
 const onServiceCallAdded = serviceCall => {
 	renderSay(serviceCall); //only for test purpose
 };
@@ -12245,6 +12296,7 @@ const onControlManagerAdded = controlManager => {
 
 Object(__WEBPACK_IMPORTED_MODULE_1__event_js__["b" /* subscribe */])("onflowcreated", onFlowCreated);
 Object(__WEBPACK_IMPORTED_MODULE_1__event_js__["b" /* subscribe */])("onsayadded", onSayAdded);
+Object(__WEBPACK_IMPORTED_MODULE_1__event_js__["b" /* subscribe */])("onformadded", onFormAdded);
 Object(__WEBPACK_IMPORTED_MODULE_1__event_js__["b" /* subscribe */])("onservicecalladded", onServiceCallAdded);
 Object(__WEBPACK_IMPORTED_MODULE_1__event_js__["b" /* subscribe */])("oncontrolmanageradded", onControlManagerAdded);
 
@@ -66048,12 +66100,14 @@ module.exports = "0.7.4";
 
 
 
+let editable = null;
+
 class Say {
 	constructor() {
 		this.type = "Say";
 		this.name = Object(__WEBPACK_IMPORTED_MODULE_0__app_js__["makeName"])("SAY_");
 		this.nextActivity = "";
-		this.sleep = 3000;
+		this.sleep = "3000";
 		this.utterance = "Lorem Ipsum";
 	}
 }
@@ -66075,6 +66129,31 @@ const configureNewSayBehavior = () => {
 function init() {
 	configureNewSayBehavior();
 }
+
+const onEditSay = say => {
+	editable = say;
+	let vinterCloseEditSay = document.getElementById("close-edit-say");
+	vinterCloseEditSay.onclick = () => {
+		Object(__WEBPACK_IMPORTED_MODULE_0__app_js__["changeElementDisplay"])("vinter-modal-edit-say", "none");
+		editable = null;
+	};
+	let textUtterance = document.getElementById("edit-say-utterance");
+	let textSleep = document.getElementById("edit-say-sleep");
+	textUtterance.value = say.utterance;
+	textSleep.value = say.sleep;
+	Object(__WEBPACK_IMPORTED_MODULE_0__app_js__["changeElementDisplay"])("vinter-modal-edit-say", "block");
+	let btnEditSay = document.getElementById("vinter-btn-confirm-edit-say");
+	btnEditSay.onclick = () => {
+		say.utterance = textUtterance.value;
+		say.sleep = textSleep.value;
+		Object(__WEBPACK_IMPORTED_MODULE_0__app_js__["changeElementDisplay"])("vinter-modal-edit-say", "none");
+		editable = null;
+		textUtterance.value = "";
+		textSleep.value = "";
+	};
+};
+
+Object(__WEBPACK_IMPORTED_MODULE_1__event_js__["b" /* subscribe */])("oneditsay", onEditSay);
 
 init();
 
@@ -66237,6 +66316,80 @@ function init() {
 
 
 init();
+
+
+/***/ }),
+/* 68 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return form; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__app_js__ = __webpack_require__(4);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__event_js__ = __webpack_require__(5);
+
+
+
+class Form {
+	constructor() {
+		this.name = Object(__WEBPACK_IMPORTED_MODULE_0__app_js__["makeName"])("FORM_");
+		this.type = "Form";
+		this.noMatchType = "1";
+		this.noMatchUtterance =
+			"Por favor, clique em confirmar ou cancelar para continuar.";
+		this.nextActivity = "";
+		this.cancelNextActivityName = "";
+		this.label = "";
+		this.customHTMLForm = "";
+		this.utterance = "Utterance...";
+		this.utteranceCancel = "";
+		this.utteranceLog = "";
+		this.layout = "VERTICAL";
+		this.fieldsScope = "DIALOG";
+		this.fields = [];
+		this.validator = {
+			maxAttemptExceededWorkFlowAction: "CANCEL",
+			maxAttemptExceededUtterance:
+				"Número máximo de tentativas excedido. Posso ajudar em algo mais?",
+			maxAttempt: 5,
+			items: []
+		};
+	}
+	addField(field) {
+		this.fields.push(field);
+	}
+	removeField(field) {
+		let newFields = this.fields.filter(f => {
+			f.name !== field.name;
+		});
+		this.fields = newFields;
+	}
+	addValidator(validator) {
+		this.validator.items.push(validator);
+	}
+}
+
+function form() {
+	return new Form();
+}
+
+const configureNewFormBehavior = () => {
+	let vinterBtnCreateForm = document.getElementById("vinter-btn-create-form");
+	vinterBtnCreateForm.onclick = () => {
+		if (Object(__WEBPACK_IMPORTED_MODULE_0__app_js__["isFlowInitialized"])()) {
+			Object(__WEBPACK_IMPORTED_MODULE_1__event_js__["a" /* publish */])("oncreateform", {});
+		} else {
+			alert("Fluxo ainda não ativo!");
+		}
+	};
+};
+
+function init() {
+	configureNewFormBehavior();
+}
+
+init();
+
+
 
 
 /***/ })

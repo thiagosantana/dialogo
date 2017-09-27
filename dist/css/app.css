@@ -35,3 +35,14 @@ body {
 .json {
   overflow-y: scroll;
   height: 350px; }
+
+#vinter-graph {
+  overflow-y: scroll;
+  height: 600px; }
+
+.highlighted rect {
+  fill: lightgreen;
+  stroke-width: 3px; }
+
+.joint-highlight-stroke {
+  stroke: green !important; }
