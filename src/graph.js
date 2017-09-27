@@ -108,7 +108,7 @@ function renderBegin() {
 	let begin = getBeginActivity();
 	let model = new joint.shapes.devs.Model({
 		position: { x: 30, y: 30 },
-		size: { width: 50, height: 50 },
+		size: { width: 25, height: 25 },
 		outPorts: ["nextActivity"],
 		ports: {
 			groups: {
@@ -136,7 +136,7 @@ function renderBegin() {
 				"text-transform": "capitalize",
 				"font-size": 16
 			},
-			rect: { fill: "black", "stroke-width": 5, stroke: "gray" }
+			rect: { fill: "green", "stroke-width": 1, stroke: "black" }
 		}
 	});
 	graph.addCell(model);
@@ -147,7 +147,7 @@ function renderEnd() {
 	let end = getEndActivity();
 	let model = new joint.shapes.devs.Model({
 		position: { x: 80, y: 80 },
-		size: { width: 50, height: 50 },
+		size: { width: 25, height: 25 },
 		inPorts: [""],
 		ports: {
 			groups: {
@@ -175,7 +175,7 @@ function renderEnd() {
 				"text-transform": "capitalize",
 				"font-size": 16
 			},
-			rect: { fill: "black", "stroke-width": 5, stroke: "gray" }
+			rect: { fill: "red", "stroke-width": 2, stroke: "black" }
 		}
 	});
 	graph.addCell(model);
@@ -185,7 +185,7 @@ function renderEnd() {
 function renderSay(say) {
 	let model = new joint.shapes.devs.Model({
 		position: { x: 150, y: 150 },
-		size: { width: 50, height: 50 },
+		size: { width: 65, height: 65 },
 		inPorts: [""],
 		outPorts: ["nextActivity"],
 		ports: {
@@ -208,17 +208,95 @@ function renderSay(say) {
 		},
 		attrs: {
 			text: {
-				text: "",
+				text: say.type,
 				fill: "white",
-				"font-weight": "bold",
+				"font-weight": "",
 				"text-transform": "capitalize",
-				"font-size": 16
+				"font-size": 12
+			},
+			rect: { fill: "black", "stroke-width": 2, stroke: "gray" }
+		}
+	});
+	graph.addCell(model);
+	say.id = model.id;
+}
+
+function renderForm(form) {
+	let model = new joint.shapes.devs.Model({
+		position: { x: 150, y: 150 },
+		size: { width: 50, height: 50 },
+		inPorts: [""],
+		outPorts: ["nextActivity", "cancelNextActivityName"],
+		ports: {
+			groups: {
+				in: {
+					attrs: {
+						".port-body": {
+							fill: "#16A085"
+						}
+					}
+				},
+				out: {
+					attrs: {
+						".port-body": {
+							fill: "#B9B7A7"
+						}
+					}
+				}
+			}
+		},
+		attrs: {
+			text: {
+				text: form.type,
+				fill: "white",
+				"font-weight": "",
+				"text-transform": "capitalize",
+				"font-size": 13
 			},
 			rect: { fill: "black", "stroke-width": 5, stroke: "gray" }
 		}
 	});
 	graph.addCell(model);
-	say.id = model.id;
+	form.id = model.id;
+}
+
+function renderDecision(decision) {
+	let model = new joint.shapes.devs.Model({
+		position: { x: 150, y: 150 },
+		size: { width: 65, height: 65 },
+		inPorts: [""],
+		outPorts: ["defaultNextActivity"],
+		ports: {
+			groups: {
+				in: {
+					attrs: {
+						".port-body": {
+							fill: "#16A085"
+						}
+					}
+				},
+				out: {
+					attrs: {
+						".port-body": {
+							fill: "#B9B7A7"
+						}
+					}
+				}
+			}
+		},
+		attrs: {
+			text: {
+				text: "DS",
+				fill: "white",
+				"font-weight": "",
+				"text-transform": "capitalize",
+				"font-size": 13
+			},
+			rect: { fill: "black", "stroke-width": 5, stroke: "gray" }
+		}
+	});
+	graph.addCell(model);
+	decision.id = model.id;
 }
 
 function updateWorkflowConnections() {
@@ -227,7 +305,12 @@ function updateWorkflowConnections() {
 		let targetID = link.attributes.target.id;
 		let activitySource = getActivityById(sourceID);
 		let activityTarget = getActivityById(targetID);
-		activitySource.nextActivity = activityTarget.name;
+		if (link.get("source").port === "nextActivity")
+			activitySource.nextActivity = activityTarget.name;
+		if (link.get("source").port === "cancelNextActivityName")
+			activitySource.cancelNextActivityName = activityTarget.name;
+		if (link.get("source").port === "defaultNextActivity")
+			activitySource.defaultNextActivity = activityTarget.name;
 	});
 }
 
@@ -249,7 +332,7 @@ const onSayAdded = say => {
 };
 
 const onFormAdded = form => {
-	renderSay(form);
+	renderForm(form);
 };
 
 const onServiceCallAdded = serviceCall => {
@@ -261,7 +344,7 @@ const onControlManagerAdded = controlManager => {
 };
 
 const onDecisionAdded = decision => {
-	renderSay(decision); //only for test purpose
+	renderDecision(decision); //only for test purpose
 };
 
 const onQuestionAdded = question => {
