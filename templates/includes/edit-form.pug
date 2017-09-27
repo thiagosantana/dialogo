@@ -1,0 +1,12 @@
+div(class="modal", id="vinter-modal-edit-form")
+    div(class="modal-content")
+        span(class="close", id="close-edit-form") &times;
+        h2 Edit Form
+        form(id="edit-form")
+            div
+                label(for="utterance") Utterance:
+                input(type="text", id="edit-form-utterance")
+            div(id="dynamic-fields")
+                button(type="button", id="vinter-btn-add-field") ADD
+            div(class="vinter-btn-confirm")
+                button(type="button", id="vinter-btn-confirm-edit-form") EDIT
