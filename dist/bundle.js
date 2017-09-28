@@ -60,7 +60,7 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 4);
+/******/ 	return __webpack_require__(__webpack_require__.s = 2);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -92,7 +92,7 @@ module.exports = lodash;
 
 
 var _ = __webpack_require__(0),
-    Graph = __webpack_require__(3).Graph;
+    Graph = __webpack_require__(5).Graph;
 
 module.exports = {
   addDummyNode: addDummyNode,
@@ -329,48 +329,6 @@ function notime(name, fn) {
 
 /***/ }),
 /* 2 */
-/***/ (function(module, exports, __webpack_require__) {
-
-/* global window */
-
-var lodash;
-
-if (true) {
-  try {
-    lodash = __webpack_require__(25);
-  } catch (e) {}
-}
-
-if (!lodash) {
-  lodash = window._;
-}
-
-module.exports = lodash;
-
-
-/***/ }),
-/* 3 */
-/***/ (function(module, exports, __webpack_require__) {
-
-/* global window */
-
-var graphlib;
-
-if (true) {
-  try {
-    graphlib = __webpack_require__(11);
-  } catch (e) {}
-}
-
-if (!graphlib) {
-  graphlib = window.graphlib;
-}
-
-module.exports = graphlib;
-
-
-/***/ }),
-/* 4 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -381,14 +339,26 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "makeName", function() { return makeName; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "isFlowInitialized", function() { return isFlowInitialized; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "changeElementDisplay", function() { return changeElementDisplay; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__event_js__ = __webpack_require__(5);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__event_js__ = __webpack_require__(3);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__graph_js__ = __webpack_require__(18);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__say_js__ = __webpack_require__(63);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__begin_js__ = __webpack_require__(64);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__end_js__ = __webpack_require__(65);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__service_js__ = __webpack_require__(66);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__control_manager_js__ = __webpack_require__(67);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__form_js__ = __webpack_require__(68);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__decision_js__ = __webpack_require__(66);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__service_js__ = __webpack_require__(67);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__question_js__ = __webpack_require__(68);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__memory_js__ = __webpack_require__(69);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__custom_code_js__ = __webpack_require__(70);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__disconnect_js__ = __webpack_require__(71);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__escalate_js__ = __webpack_require__(72);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__control_manager_js__ = __webpack_require__(73);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__form_js__ = __webpack_require__(74);
+
+
+
+
+
+
 
 
 
@@ -399,7 +369,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
 let vinter_flow = {};
-window.vinter_flow = vinter_flow;
 
 var initialized = false;
 
@@ -447,7 +416,7 @@ const configureOpenJSON = () => {
 	};
 	vinterBtnShowJson.onclick = () => {
 		document.getElementById("json-content").innerHTML = JSON.stringify(
-			vinter_flow.workflows[0],
+			vinter_flow,
 			null,
 			4
 		);
@@ -459,8 +428,8 @@ function setupFlow() {
 	vinter_flow.workflows = [];
 	vinter_flow.workflows[0] = {
 		name: "",
-		version: 2.0,
-		engineVersion: 3.0,
+		version: "2.0",
+		engineVersion: "3.0",
 		idAvi: -1,
 		activities: []
 	};
@@ -486,21 +455,57 @@ function addSayActivity() {
 }
 
 function addServiceCallActivity() {
-	let theNewServiceCall = Object(__WEBPACK_IMPORTED_MODULE_5__service_js__["a" /* serviceCall */])();
+	let theNewServiceCall = Object(__WEBPACK_IMPORTED_MODULE_6__service_js__["a" /* serviceCall */])();
 	vinter_flow.workflows[0].activities.push(theNewServiceCall);
 	Object(__WEBPACK_IMPORTED_MODULE_0__event_js__["a" /* publish */])("onservicecalladded", theNewServiceCall);
 }
 
 function addControlManagerActivity() {
-	let theNewControlManager = Object(__WEBPACK_IMPORTED_MODULE_6__control_manager_js__["a" /* controlManager */])(false);
+	let theNewControlManager = Object(__WEBPACK_IMPORTED_MODULE_12__control_manager_js__["a" /* controlManager */])(false);
 	vinter_flow.workflows[0].activities.push(theNewControlManager);
 	Object(__WEBPACK_IMPORTED_MODULE_0__event_js__["a" /* publish */])("oncontrolmanageradded", theNewControlManager);
 }
 
 function addFormActivity() {
-	let theForm = Object(__WEBPACK_IMPORTED_MODULE_7__form_js__["a" /* form */])();
+	let theForm = Object(__WEBPACK_IMPORTED_MODULE_13__form_js__["a" /* form */])();
 	vinter_flow.workflows[0].activities.push(theForm);
 	Object(__WEBPACK_IMPORTED_MODULE_0__event_js__["a" /* publish */])("onformadded", theForm);
+}
+
+function addDecisionActivity() {
+	let theDecision = Object(__WEBPACK_IMPORTED_MODULE_5__decision_js__["a" /* decision */])();
+	vinter_flow.workflows[0].activities.push(theDecision);
+	Object(__WEBPACK_IMPORTED_MODULE_0__event_js__["a" /* publish */])("ondecisionadded", theDecision);
+}
+
+function addQuestionActivity() {
+	let theQuestion = Object(__WEBPACK_IMPORTED_MODULE_7__question_js__["a" /* question */])();
+	vinter_flow.workflows[0].activities.push(theQuestion);
+	Object(__WEBPACK_IMPORTED_MODULE_0__event_js__["a" /* publish */])("onquestionadded", theQuestion);
+}
+
+function addMemoryActivity() {
+	let theMemory = Object(__WEBPACK_IMPORTED_MODULE_8__memory_js__["a" /* memory */])();
+	vinter_flow.workflows[0].activities.push(theMemory);
+	Object(__WEBPACK_IMPORTED_MODULE_0__event_js__["a" /* publish */])("onmemoryadded", theMemory);
+}
+
+function addCustomCodeActivity() {
+	let theCustom = Object(__WEBPACK_IMPORTED_MODULE_9__custom_code_js__["a" /* custom */])();
+	vinter_flow.workflows[0].activities.push(theCustom);
+	Object(__WEBPACK_IMPORTED_MODULE_0__event_js__["a" /* publish */])("oncustomcodeadded", theCustom);
+}
+
+function addDisconnectActivity() {
+	let theDisconnect = Object(__WEBPACK_IMPORTED_MODULE_10__disconnect_js__["a" /* disconnect */])();
+	vinter_flow.workflows[0].activities.push(theDisconnect);
+	Object(__WEBPACK_IMPORTED_MODULE_0__event_js__["a" /* publish */])("ondisconnectadded", theDisconnect);
+}
+
+function addEscalateActivity() {
+	let theEscalate = Object(__WEBPACK_IMPORTED_MODULE_11__escalate_js__["a" /* escalate */])();
+	vinter_flow.workflows[0].activities.push(theEscalate);
+	Object(__WEBPACK_IMPORTED_MODULE_0__event_js__["a" /* publish */])("onescalateadded", theEscalate);
 }
 
 function getBeginActivity() {
@@ -562,6 +567,11 @@ Object(__WEBPACK_IMPORTED_MODULE_0__event_js__["b" /* subscribe */])("oncreatesa
 	addSayActivity();
 });
 
+Object(__WEBPACK_IMPORTED_MODULE_0__event_js__["b" /* subscribe */])("oncreatedecision", () => {
+	console.log("oncreatedecision");
+	addDecisionActivity();
+});
+
 Object(__WEBPACK_IMPORTED_MODULE_0__event_js__["b" /* subscribe */])("oncreateform", () => {
 	console.log("oncreateform");
 	addFormActivity();
@@ -577,13 +587,38 @@ Object(__WEBPACK_IMPORTED_MODULE_0__event_js__["b" /* subscribe */])("oncreateco
 	addControlManagerActivity();
 });
 
+Object(__WEBPACK_IMPORTED_MODULE_0__event_js__["b" /* subscribe */])("oncreatequestion", () => {
+	console.log("oncreatequestion");
+	addQuestionActivity();
+});
+
+Object(__WEBPACK_IMPORTED_MODULE_0__event_js__["b" /* subscribe */])("oncreatememory", () => {
+	console.log("oncreatememory");
+	addMemoryActivity();
+});
+
+Object(__WEBPACK_IMPORTED_MODULE_0__event_js__["b" /* subscribe */])("oncreatecustomcode", () => {
+	console.log("oncreatecustomcode");
+	addCustomCodeActivity();
+});
+
+Object(__WEBPACK_IMPORTED_MODULE_0__event_js__["b" /* subscribe */])("oncreatedisconnect", () => {
+	console.log("oncreatedisconnect");
+	addDisconnectActivity();
+});
+
+Object(__WEBPACK_IMPORTED_MODULE_0__event_js__["b" /* subscribe */])("oncreateescalate", () => {
+	console.log("oncreateescalate");
+	addEscalateActivity();
+});
+
 init();
 
 
 
 
 /***/ }),
-/* 5 */
+/* 3 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -617,6 +652,48 @@ function publish(topic, info) {
 }
 
 
+
+
+/***/ }),
+/* 4 */
+/***/ (function(module, exports, __webpack_require__) {
+
+/* global window */
+
+var lodash;
+
+if (true) {
+  try {
+    lodash = __webpack_require__(25);
+  } catch (e) {}
+}
+
+if (!lodash) {
+  lodash = window._;
+}
+
+module.exports = lodash;
+
+
+/***/ }),
+/* 5 */
+/***/ (function(module, exports, __webpack_require__) {
+
+/* global window */
+
+var graphlib;
+
+if (true) {
+  try {
+    graphlib = __webpack_require__(11);
+  } catch (e) {}
+}
+
+if (!graphlib) {
+  graphlib = window.graphlib;
+}
+
+module.exports = graphlib;
 
 
 /***/ }),
@@ -749,7 +826,7 @@ module.exports = function(module) {
 "use strict";
 
 
-var _ = __webpack_require__(2);
+var _ = __webpack_require__(4);
 
 module.exports = Graph;
 
@@ -11576,7 +11653,7 @@ module.exports = {
 /* 12 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var _ = __webpack_require__(2),
+var _ = __webpack_require__(4),
     PriorityQueue = __webpack_require__(13);
 
 module.exports = dijkstra;
@@ -11636,7 +11713,7 @@ function runDijkstra(g, source, weightFn, edgeFn) {
 /* 13 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var _ = __webpack_require__(2);
+var _ = __webpack_require__(4);
 
 module.exports = PriorityQueue;
 
@@ -11794,7 +11871,7 @@ PriorityQueue.prototype._swap = function(i, j) {
 /* 14 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var _ = __webpack_require__(2);
+var _ = __webpack_require__(4);
 
 module.exports = tarjan;
 
@@ -11847,7 +11924,7 @@ function tarjan(g) {
 /* 15 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var _ = __webpack_require__(2);
+var _ = __webpack_require__(4);
 
 module.exports = topsort;
 topsort.CycleException = CycleException;
@@ -11887,7 +11964,7 @@ function CycleException() {}
 /* 16 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var _ = __webpack_require__(2);
+var _ = __webpack_require__(4);
 
 module.exports = dfs;
 
@@ -11936,7 +12013,7 @@ function doDfs(g, v, postorder, visited, acc) {
 
 
 var _ = __webpack_require__(0),
-    Graph = __webpack_require__(3).Graph,
+    Graph = __webpack_require__(5).Graph,
     slack = __webpack_require__(7).slack;
 
 module.exports = feasibleTree;
@@ -12030,8 +12107,8 @@ function shiftRanks(t, g, delta) {
 
 "use strict";
 /* unused harmony export load */
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__app_js__ = __webpack_require__(4);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__event_js__ = __webpack_require__(5);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__app_js__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__event_js__ = __webpack_require__(3);
 
 
 
@@ -12123,6 +12200,8 @@ window.p = paper;
 paper.on("cell:pointerclick", cellView => {
 	let activity = Object(__WEBPACK_IMPORTED_MODULE_0__app_js__["getActivityById"])(cellView.model.id);
 	if (activity.type === "Say") Object(__WEBPACK_IMPORTED_MODULE_1__event_js__["a" /* publish */])("oneditsay", activity);
+	if (activity.type === "Form") Object(__WEBPACK_IMPORTED_MODULE_1__event_js__["a" /* publish */])("oneditform", activity);
+	if (activity.type === "CustomCode") Object(__WEBPACK_IMPORTED_MODULE_1__event_js__["a" /* publish */])("oneditcustomcode", activity);
 });
 
 paper.on("cell:pointerup", (cellView, evt, x, y) => {
@@ -12141,8 +12220,8 @@ function load(json) {
 function renderBegin() {
 	let begin = Object(__WEBPACK_IMPORTED_MODULE_0__app_js__["getBeginActivity"])();
 	let model = new joint.shapes.devs.Model({
-		position: { x: 30, y: 30 },
-		size: { width: 50, height: 50 },
+		position: { x: 300, y: 30 },
+		size: { width: 25, height: 25 },
 		outPorts: ["nextActivity"],
 		ports: {
 			groups: {
@@ -12170,7 +12249,7 @@ function renderBegin() {
 				"text-transform": "capitalize",
 				"font-size": 16
 			},
-			rect: { fill: "black", "stroke-width": 5, stroke: "gray" }
+			rect: { fill: "green", "stroke-width": 1, stroke: "black" }
 		}
 	});
 	graph.addCell(model);
@@ -12180,8 +12259,8 @@ function renderBegin() {
 function renderEnd() {
 	let end = Object(__WEBPACK_IMPORTED_MODULE_0__app_js__["getEndActivity"])();
 	let model = new joint.shapes.devs.Model({
-		position: { x: 80, y: 80 },
-		size: { width: 50, height: 50 },
+		position: { x: 300, y: 500 },
+		size: { width: 25, height: 25 },
 		inPorts: [""],
 		ports: {
 			groups: {
@@ -12209,7 +12288,7 @@ function renderEnd() {
 				"text-transform": "capitalize",
 				"font-size": 16
 			},
-			rect: { fill: "black", "stroke-width": 5, stroke: "gray" }
+			rect: { fill: "red", "stroke-width": 2, stroke: "black" }
 		}
 	});
 	graph.addCell(model);
@@ -12219,7 +12298,7 @@ function renderEnd() {
 function renderSay(say) {
 	let model = new joint.shapes.devs.Model({
 		position: { x: 150, y: 150 },
-		size: { width: 50, height: 50 },
+		size: { width: 65, height: 65 },
 		inPorts: [""],
 		outPorts: ["nextActivity"],
 		ports: {
@@ -12242,17 +12321,95 @@ function renderSay(say) {
 		},
 		attrs: {
 			text: {
-				text: "",
+				text: say.type,
 				fill: "white",
-				"font-weight": "bold",
+				"font-weight": "",
 				"text-transform": "capitalize",
-				"font-size": 16
+				"font-size": 12
+			},
+			rect: { fill: "black", "stroke-width": 2, stroke: "gray" }
+		}
+	});
+	graph.addCell(model);
+	say.id = model.id;
+}
+
+function renderForm(form) {
+	let model = new joint.shapes.devs.Model({
+		position: { x: 150, y: 150 },
+		size: { width: 65, height: 65 },
+		inPorts: [""],
+		outPorts: ["nextActivity", "cancelNextActivityName"],
+		ports: {
+			groups: {
+				in: {
+					attrs: {
+						".port-body": {
+							fill: "#16A085"
+						}
+					}
+				},
+				out: {
+					attrs: {
+						".port-body": {
+							fill: "#B9B7A7"
+						}
+					}
+				}
+			}
+		},
+		attrs: {
+			text: {
+				text: form.type,
+				fill: "white",
+				"font-weight": "",
+				"text-transform": "capitalize",
+				"font-size": 13
+			},
+			rect: { fill: "blue", "stroke-width": 2, stroke: "black" }
+		}
+	});
+	graph.addCell(model);
+	form.id = model.id;
+}
+
+function renderDecision(decision) {
+	let model = new joint.shapes.devs.Model({
+		position: { x: 150, y: 150 },
+		size: { width: 65, height: 65 },
+		inPorts: [""],
+		outPorts: ["defaultNextActivity"],
+		ports: {
+			groups: {
+				in: {
+					attrs: {
+						".port-body": {
+							fill: "#16A085"
+						}
+					}
+				},
+				out: {
+					attrs: {
+						".port-body": {
+							fill: "#B9B7A7"
+						}
+					}
+				}
+			}
+		},
+		attrs: {
+			text: {
+				text: "DS",
+				fill: "white",
+				"font-weight": "",
+				"text-transform": "capitalize",
+				"font-size": 13
 			},
 			rect: { fill: "black", "stroke-width": 5, stroke: "gray" }
 		}
 	});
 	graph.addCell(model);
-	say.id = model.id;
+	decision.id = model.id;
 }
 
 function updateWorkflowConnections() {
@@ -12261,7 +12418,12 @@ function updateWorkflowConnections() {
 		let targetID = link.attributes.target.id;
 		let activitySource = Object(__WEBPACK_IMPORTED_MODULE_0__app_js__["getActivityById"])(sourceID);
 		let activityTarget = Object(__WEBPACK_IMPORTED_MODULE_0__app_js__["getActivityById"])(targetID);
-		activitySource.nextActivity = activityTarget.name;
+		if (link.get("source").port === "nextActivity")
+			activitySource.nextActivity = activityTarget.name;
+		if (link.get("source").port === "cancelNextActivityName")
+			activitySource.cancelNextActivityName = activityTarget.name;
+		if (link.get("source").port === "defaultNextActivity")
+			activitySource.defaultNextActivity = activityTarget.name;
 	});
 }
 
@@ -12282,8 +12444,8 @@ const onSayAdded = say => {
 	renderSay(say);
 };
 
-const onFormAdded = say => {
-	renderSay(say);
+const onFormAdded = form => {
+	renderForm(form);
 };
 
 const onServiceCallAdded = serviceCall => {
@@ -12294,11 +12456,41 @@ const onControlManagerAdded = controlManager => {
 	renderSay(controlManager); //only for test purpose
 };
 
+const onDecisionAdded = decision => {
+	renderDecision(decision); //only for test purpose
+};
+
+const onQuestionAdded = question => {
+	renderSay(question); //only for test purpose
+};
+
+const onMemoryAdded = memory => {
+	renderSay(memory); //only for test purpose
+};
+
+const onCustomCodeAdded = custom => {
+	renderSay(custom); //only for test purpose
+};
+
+const onDisconnectAdded = disconnect => {
+	renderSay(disconnect); //only for test purpose
+};
+
+const onEscalateAdded = escalate => {
+	renderSay(escalate);
+};
+
 Object(__WEBPACK_IMPORTED_MODULE_1__event_js__["b" /* subscribe */])("onflowcreated", onFlowCreated);
 Object(__WEBPACK_IMPORTED_MODULE_1__event_js__["b" /* subscribe */])("onsayadded", onSayAdded);
 Object(__WEBPACK_IMPORTED_MODULE_1__event_js__["b" /* subscribe */])("onformadded", onFormAdded);
 Object(__WEBPACK_IMPORTED_MODULE_1__event_js__["b" /* subscribe */])("onservicecalladded", onServiceCallAdded);
 Object(__WEBPACK_IMPORTED_MODULE_1__event_js__["b" /* subscribe */])("oncontrolmanageradded", onControlManagerAdded);
+Object(__WEBPACK_IMPORTED_MODULE_1__event_js__["b" /* subscribe */])("ondecisionadded", onDecisionAdded);
+Object(__WEBPACK_IMPORTED_MODULE_1__event_js__["b" /* subscribe */])("onquestionadded", onQuestionAdded);
+Object(__WEBPACK_IMPORTED_MODULE_1__event_js__["b" /* subscribe */])("onmemoryadded", onMemoryAdded);
+Object(__WEBPACK_IMPORTED_MODULE_1__event_js__["b" /* subscribe */])("oncustomcodeadded", onCustomCodeAdded);
+Object(__WEBPACK_IMPORTED_MODULE_1__event_js__["b" /* subscribe */])("ondisconnectadded", onDisconnectAdded);
+Object(__WEBPACK_IMPORTED_MODULE_1__event_js__["b" /* subscribe */])("onescalateadded", onEscalateAdded);
 
 
 
@@ -50829,7 +51021,7 @@ module.exports = '1.0.7';
 /* 27 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var _ = __webpack_require__(2),
+var _ = __webpack_require__(4),
     Graph = __webpack_require__(9);
 
 module.exports = {
@@ -50920,7 +51112,7 @@ module.exports = {
 /* 29 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var _ = __webpack_require__(2);
+var _ = __webpack_require__(4);
 
 module.exports = components;
 
@@ -50954,7 +51146,7 @@ function components(g) {
 /***/ (function(module, exports, __webpack_require__) {
 
 var dijkstra = __webpack_require__(12),
-    _ = __webpack_require__(2);
+    _ = __webpack_require__(4);
 
 module.exports = dijkstraAll;
 
@@ -50969,7 +51161,7 @@ function dijkstraAll(g, weightFunc, edgeFunc) {
 /* 31 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var _ = __webpack_require__(2),
+var _ = __webpack_require__(4),
     tarjan = __webpack_require__(14);
 
 module.exports = findCycles;
@@ -50985,7 +51177,7 @@ function findCycles(g) {
 /* 32 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var _ = __webpack_require__(2);
+var _ = __webpack_require__(4);
 
 module.exports = floydWarshall;
 
@@ -51088,7 +51280,7 @@ function preorder(g, vs) {
 /* 36 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var _ = __webpack_require__(2),
+var _ = __webpack_require__(4),
     Graph = __webpack_require__(9),
     PriorityQueue = __webpack_require__(13);
 
@@ -51169,7 +51361,7 @@ THE SOFTWARE.
 */
 
 module.exports = {
-  graphlib: __webpack_require__(3),
+  graphlib: __webpack_require__(5),
 
   layout: __webpack_require__(38),
   debug: __webpack_require__(61),
@@ -51201,7 +51393,7 @@ var _ = __webpack_require__(0),
     order = __webpack_require__(50),
     position = __webpack_require__(59),
     util = __webpack_require__(1),
-    Graph = __webpack_require__(3).Graph;
+    Graph = __webpack_require__(5).Graph;
 
 module.exports = layout;
 
@@ -64018,7 +64210,7 @@ function undo(g) {
 /***/ (function(module, exports, __webpack_require__) {
 
 var _ = __webpack_require__(0),
-    Graph = __webpack_require__(3).Graph,
+    Graph = __webpack_require__(5).Graph,
     List = __webpack_require__(42);
 
 /*
@@ -64362,8 +64554,8 @@ var _ = __webpack_require__(0),
     feasibleTree = __webpack_require__(17),
     slack = __webpack_require__(7).slack,
     initRank = __webpack_require__(7).longestPath,
-    preorder = __webpack_require__(3).alg.preorder,
-    postorder = __webpack_require__(3).alg.postorder,
+    preorder = __webpack_require__(5).alg.preorder,
+    postorder = __webpack_require__(5).alg.postorder,
     simplify = __webpack_require__(1).simplify;
 
 module.exports = networkSimplex;
@@ -64958,7 +65150,7 @@ var _ = __webpack_require__(0),
     sortSubgraph = __webpack_require__(53),
     buildLayerGraph = __webpack_require__(57),
     addSubgraphConstraints = __webpack_require__(58),
-    Graph = __webpack_require__(3).Graph,
+    Graph = __webpack_require__(5).Graph,
     util = __webpack_require__(1);
 
 module.exports = order;
@@ -65467,7 +65659,7 @@ function compareWithBias(bias) {
 /***/ (function(module, exports, __webpack_require__) {
 
 var _ = __webpack_require__(0),
-    Graph = __webpack_require__(3).Graph;
+    Graph = __webpack_require__(5).Graph;
 
 module.exports = buildLayerGraph;
 
@@ -65645,7 +65837,7 @@ function positionY(g) {
 
 
 var _ = __webpack_require__(0),
-    Graph = __webpack_require__(3).Graph,
+    Graph = __webpack_require__(5).Graph,
     util = __webpack_require__(1);
 
 /*
@@ -66048,7 +66240,7 @@ function width(g, v) {
 
 var _ = __webpack_require__(0),
     util = __webpack_require__(1),
-    Graph = __webpack_require__(3).Graph;
+    Graph = __webpack_require__(5).Graph;
 
 module.exports = {
   debugOrdering: debugOrdering
@@ -66095,8 +66287,8 @@ module.exports = "0.7.4";
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return say; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__app_js__ = __webpack_require__(4);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__event_js__ = __webpack_require__(5);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__app_js__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__event_js__ = __webpack_require__(3);
 
 
 
@@ -66206,9 +66398,74 @@ function end() {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return decision; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__app_js__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__event_js__ = __webpack_require__(3);
+
+
+
+class Decision {
+	constructor() {
+		this.name = Object(__WEBPACK_IMPORTED_MODULE_0__app_js__["makeName"])("DECISION_");
+		this.type = "DecisionSwitch";
+		this.defaultNextActivity = "";
+		this.rules = [];
+	}
+
+	addRule(rule) {
+		this.rules.push(rule);
+	}
+
+	addYesRule() {
+		this.rules.push({
+			rule: 'api.getMemory("UTTERANCE.CURRENT").equals("SIM")',
+			nextActivity: "",
+			utterance: ""
+		});
+	}
+
+	addNoRule() {
+		this.rules.push({
+			rule: 'api.getMemory("UTTERANCE.CURRENT").equals("NAO")',
+			nextActivity: "",
+			utterance: ""
+		});
+	}
+}
+
+function decision() {
+	return new Decision();
+}
+
+const configureNewDecisionBehavior = () => {
+	let vinterBtnCreateDecision = document.getElementById(
+		"vinter-btn-create-decision"
+	);
+	vinterBtnCreateDecision.onclick = () => {
+		if (Object(__WEBPACK_IMPORTED_MODULE_0__app_js__["isFlowInitialized"])()) {
+			Object(__WEBPACK_IMPORTED_MODULE_1__event_js__["a" /* publish */])("oncreatedecision", {});
+		} else {
+			alert("Fluxo ainda não ativo!");
+		}
+	};
+};
+
+function init() {
+	configureNewDecisionBehavior();
+}
+
+init();
+
+
+
+/***/ }),
+/* 67 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return serviceCall; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__app_js__ = __webpack_require__(4);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__event_js__ = __webpack_require__(5);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__app_js__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__event_js__ = __webpack_require__(3);
 
 
 
@@ -66262,13 +66519,290 @@ init();
 
 
 /***/ }),
-/* 67 */
+/* 68 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return question; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__app_js__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__event_js__ = __webpack_require__(3);
+
+
+
+class Question {
+	constructor() {
+		this.name = Object(__WEBPACK_IMPORTED_MODULE_0__app_js__["makeName"])("QuestionAnswer_");
+		this.type = "QuestionAnswer";
+		this.utterance = "Loren...";
+		this.nextActivity = "";
+		this.validator = {
+			maxAttemptExcededWorkFlowAction: "CANCEL",
+			maxAttemptExcededUtterance:
+				"Número máximo de tentativas excedido. Posso ajudar em algo mais?",
+			maxAttempt: 10,
+			items: [
+				{
+					name: "SimpleValidator",
+					rule: "",
+					validateTrueUtterance: "",
+					validateFalseUtterance:
+						"Por favor, escolha uma das opções acima.",
+					validateExceptionUtterance:
+						"Houve um erro ao processar sua solicitação! Por favor tente mais tarde!",
+					validateFalseWorkFlowAction: "WAIT",
+					validateExceptionWorkFlowAction: "TERMINATE"
+				}
+			]
+		};
+	}
+}
+
+function question() {
+	return new Question();
+}
+
+const configureNewQuestionBehavior = () => {
+	let vinterBtnCreateQuestion = document.getElementById(
+		"vinter-btn-create-question"
+	);
+	vinterBtnCreateQuestion.onclick = () => {
+		if (Object(__WEBPACK_IMPORTED_MODULE_0__app_js__["isFlowInitialized"])()) {
+			Object(__WEBPACK_IMPORTED_MODULE_1__event_js__["a" /* publish */])("oncreatequestion", {});
+		} else {
+			alert("Fluxo ainda não ativo!");
+		}
+	};
+};
+
+function init() {
+	configureNewQuestionBehavior();
+}
+
+init();
+
+
+
+/***/ }),
+/* 69 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return memory; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__app_js__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__event_js__ = __webpack_require__(3);
+
+
+
+class Memory {
+	constructor() {
+		this.type = "SetMemory";
+		this.name = Object(__WEBPACK_IMPORTED_MODULE_0__app_js__["makeName"])("MEMORY_");
+		this.values = [];
+		this.nextActivity = "";
+	}
+	addValue(value) {
+		this.values.push(value);
+	}
+}
+
+function memory() {
+	return new Memory();
+}
+
+const configureNewMemoryBehavior = () => {
+	let vinterBtnCreateMemory = document.getElementById(
+		"vinter-btn-create-memory"
+	);
+	vinterBtnCreateMemory.onclick = () => {
+		if (Object(__WEBPACK_IMPORTED_MODULE_0__app_js__["isFlowInitialized"])()) {
+			Object(__WEBPACK_IMPORTED_MODULE_1__event_js__["a" /* publish */])("oncreatememory", {});
+		} else {
+			alert("Fluxo ainda não ativo!");
+		}
+	};
+};
+
+function init() {
+	configureNewMemoryBehavior();
+}
+
+init();
+
+
+
+
+/***/ }),
+/* 70 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return custom; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__app_js__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__event_js__ = __webpack_require__(3);
+
+
+
+let editor = null;
+
+class CustomCode {
+	constructor() {
+		this.name = Object(__WEBPACK_IMPORTED_MODULE_0__app_js__["makeName"])("CUSTOMCODE_");
+		this.type = "CustomCode";
+		this.nextActivity = "";
+		this.script = "";
+	}
+}
+
+function custom() {
+	return new CustomCode();
+}
+
+const configureNewCustomCodeBehavior = () => {
+	let vinterBtnCreateCustomCode = document.getElementById(
+		"vinter-btn-create-custom-code"
+	);
+	vinterBtnCreateCustomCode.onclick = () => {
+		if (Object(__WEBPACK_IMPORTED_MODULE_0__app_js__["isFlowInitialized"])()) {
+			Object(__WEBPACK_IMPORTED_MODULE_1__event_js__["a" /* publish */])("oncreatecustomcode", {});
+		} else {
+			alert("Fluxo ainda não ativo!");
+		}
+	};
+};
+
+function init() {
+	configureNewCustomCodeBehavior();
+}
+
+Object(__WEBPACK_IMPORTED_MODULE_1__event_js__["b" /* subscribe */])("oneditcustomcode", ccode => {
+	let myCCode = document.getElementById("ccode");
+	editor = CodeMirror(
+		elt => {
+			myCCode.parentNode.replaceChild(elt, myCCode);
+		},
+		{
+			value: myCCode.innerHTML,
+			mode: "groovy",
+			lineNumbers: true,
+			styleActiveLine: true,
+			matchBrackets: true
+		}
+	);
+	editor.setOption("theme", "base16-dark");
+	let btnEditCCode = document.getElementById("vinter-btn-confirm-edit-ccode");
+	btnEditCCode.onclick = () => {
+		console.log(editor.getValue());
+	};
+	Object(__WEBPACK_IMPORTED_MODULE_0__app_js__["changeElementDisplay"])("vinter-modal-edit-ccode", "block");
+});
+
+init();
+
+
+
+
+/***/ }),
+/* 71 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return disconnect; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__app_js__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__event_js__ = __webpack_require__(3);
+
+
+
+class Disconnect {
+	constructor() {
+		this.name = Object(__WEBPACK_IMPORTED_MODULE_0__app_js__["makeName"])("DISCONNECT_");
+		this.type = "Disconnect";
+		this.disconnectType = "3";
+		this.utterance = "Tchau";
+		this.nextActivity = "";
+	}
+}
+
+function disconnect() {
+	return new Disconnect();
+}
+
+const configureNewDisconnectBehavior = () => {
+	let vinterBtnCreateDisconnect = document.getElementById(
+		"vinter-btn-create-disconnect"
+	);
+	vinterBtnCreateDisconnect.onclick = () => {
+		if (Object(__WEBPACK_IMPORTED_MODULE_0__app_js__["isFlowInitialized"])()) {
+			Object(__WEBPACK_IMPORTED_MODULE_1__event_js__["a" /* publish */])("oncreatedisconnect", {});
+		} else {
+			alert("Fluxo ainda não ativo!");
+		}
+	};
+};
+
+function init() {
+	configureNewDisconnectBehavior();
+}
+
+init();
+
+
+
+
+/***/ }),
+/* 72 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return escalate; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__app_js__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__event_js__ = __webpack_require__(3);
+
+
+
+class Escalate {
+	constructor() {
+		this.name = Object(__WEBPACK_IMPORTED_MODULE_0__app_js__["makeName"])("ESCALATE_");
+		this.type = "Escalate";
+		this.utterance = "Going to the human!";
+		this.sleep = "3000";
+		this.nextActivity = "";
+	}
+}
+
+function escalate() {
+	return new Escalate();
+}
+
+const configureNewEscalateBehavior = () => {
+	let vinterBtnCreateEscalate = document.getElementById(
+		"vinter-btn-create-escalate"
+	);
+	vinterBtnCreateEscalate.onclick = () => {
+		if (Object(__WEBPACK_IMPORTED_MODULE_0__app_js__["isFlowInitialized"])()) {
+			Object(__WEBPACK_IMPORTED_MODULE_1__event_js__["a" /* publish */])("oncreateescalate", {});
+		} else {
+			alert("Fluxo ainda não ativo!");
+		}
+	};
+};
+
+function init() {
+	configureNewEscalateBehavior();
+}
+
+init();
+
+
+
+
+/***/ }),
+/* 73 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return controlManager; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__app_js__ = __webpack_require__(4);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__event_js__ = __webpack_require__(5);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__app_js__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__event_js__ = __webpack_require__(3);
 
 
 
@@ -66319,15 +66853,18 @@ init();
 
 
 /***/ }),
-/* 68 */
+/* 74 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return form; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__app_js__ = __webpack_require__(4);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__event_js__ = __webpack_require__(5);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__app_js__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__event_js__ = __webpack_require__(3);
 
 
+
+let max_fields = 10;
+let current_field = 1;
 
 class Form {
 	constructor() {
@@ -66383,11 +66920,66 @@ const configureNewFormBehavior = () => {
 	};
 };
 
+const addFieldSet = () => {
+	let wrapper = document.getElementById("dynamic-fields");
+	let add_button = document.getElementById("vinter-btn-add-field");
+
+	add_button.onclick = e => {
+		console.log("Dynamic Form");
+		e.preventDefault();
+		let div = document.createElement("div");
+		div.setAttribute("class", "vinter-form-field");
+		let txtField = document.createElement("input");
+		txtField.placeholder = "Field name";
+		div.appendChild(txtField);
+		wrapper.appendChild(div);
+	};
+};
+
 function init() {
 	configureNewFormBehavior();
+	addFieldSet();
 }
 
 init();
+
+const onEditForm = form => {
+	let wrapper = document.getElementById("dynamic-fields");
+	let vinterCloseEditForm = document.getElementById("close-edit-form");
+	vinterCloseEditForm.onclick = () => {
+		Object(__WEBPACK_IMPORTED_MODULE_0__app_js__["changeElementDisplay"])("vinter-modal-edit-form", "none");
+	};
+	let txtUtterance = document.getElementById("edit-form-utterance");
+	txtUtterance.value = form.utterance;
+	let btnEditForm = document.getElementById("vinter-btn-confirm-edit-form");
+	btnEditForm.onclick = () => {
+		form.utterance = txtUtterance.value;
+		wrapper.childNodes.forEach(node => {
+			node.childNodes.forEach(input => {
+				if (input.value) {
+					form.addField({
+						nome: input.value,
+						label: input.value,
+						type: "Text",
+						size: 50,
+						value: "",
+						maxLength: 20,
+						mask: ""
+					});
+				}
+			});
+		});
+		//removendo os elementos(fields) adcionados
+		while (wrapper.firstChild) {
+			wrapper.removeChild(wrapper.firstChild);
+		}
+		Object(__WEBPACK_IMPORTED_MODULE_0__app_js__["changeElementDisplay"])("vinter-modal-edit-form", "none");
+		txtUtterance.value = "";
+	};
+	Object(__WEBPACK_IMPORTED_MODULE_0__app_js__["changeElementDisplay"])("vinter-modal-edit-form", "block");
+};
+
+Object(__WEBPACK_IMPORTED_MODULE_1__event_js__["b" /* subscribe */])("oneditform", onEditForm);
 
 
 

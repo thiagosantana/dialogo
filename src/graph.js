@@ -89,6 +89,8 @@ window.p = paper;
 paper.on("cell:pointerclick", cellView => {
 	let activity = getActivityById(cellView.model.id);
 	if (activity.type === "Say") publish("oneditsay", activity);
+	if (activity.type === "Form") publish("oneditform", activity);
+	if (activity.type === "CustomCode") publish("oneditcustomcode", activity);
 });
 
 paper.on("cell:pointerup", (cellView, evt, x, y) => {
@@ -107,7 +109,7 @@ function load(json) {
 function renderBegin() {
 	let begin = getBeginActivity();
 	let model = new joint.shapes.devs.Model({
-		position: { x: 30, y: 30 },
+		position: { x: 300, y: 30 },
 		size: { width: 25, height: 25 },
 		outPorts: ["nextActivity"],
 		ports: {
@@ -146,7 +148,7 @@ function renderBegin() {
 function renderEnd() {
 	let end = getEndActivity();
 	let model = new joint.shapes.devs.Model({
-		position: { x: 80, y: 80 },
+		position: { x: 300, y: 500 },
 		size: { width: 25, height: 25 },
 		inPorts: [""],
 		ports: {
@@ -224,7 +226,7 @@ function renderSay(say) {
 function renderForm(form) {
 	let model = new joint.shapes.devs.Model({
 		position: { x: 150, y: 150 },
-		size: { width: 50, height: 50 },
+		size: { width: 65, height: 65 },
 		inPorts: [""],
 		outPorts: ["nextActivity", "cancelNextActivityName"],
 		ports: {
@@ -253,7 +255,7 @@ function renderForm(form) {
 				"text-transform": "capitalize",
 				"font-size": 13
 			},
-			rect: { fill: "black", "stroke-width": 5, stroke: "gray" }
+			rect: { fill: "blue", "stroke-width": 2, stroke: "black" }
 		}
 	});
 	graph.addCell(model);

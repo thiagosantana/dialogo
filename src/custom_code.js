@@ -1,6 +1,8 @@
 import { makeName, isFlowInitialized, changeElementDisplay } from "./app.js";
 import { subscribe, publish } from "./event.js";
 
+let editor = null;
+
 class CustomCode {
 	constructor() {
 		this.name = makeName("CUSTOMCODE_");
@@ -30,6 +32,28 @@ const configureNewCustomCodeBehavior = () => {
 function init() {
 	configureNewCustomCodeBehavior();
 }
+
+subscribe("oneditcustomcode", ccode => {
+	let myCCode = document.getElementById("ccode");
+	editor = CodeMirror(
+		elt => {
+			myCCode.parentNode.replaceChild(elt, myCCode);
+		},
+		{
+			value: myCCode.innerHTML,
+			mode: "groovy",
+			lineNumbers: true,
+			styleActiveLine: true,
+			matchBrackets: true
+		}
+	);
+	editor.setOption("theme", "base16-dark");
+	let btnEditCCode = document.getElementById("vinter-btn-confirm-edit-ccode");
+	btnEditCCode.onclick = () => {
+		console.log(editor.getValue());
+	};
+	changeElementDisplay("vinter-modal-edit-ccode", "block");
+});
 
 init();
 

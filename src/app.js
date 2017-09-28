@@ -14,7 +14,6 @@ import { controlManager } from "./control_manager.js";
 import { form } from "./form.js";
 
 let vinter_flow = {};
-window.vinter_flow = vinter_flow;
 
 var initialized = false;
 
@@ -62,7 +61,7 @@ const configureOpenJSON = () => {
 	};
 	vinterBtnShowJson.onclick = () => {
 		document.getElementById("json-content").innerHTML = JSON.stringify(
-			vinter_flow.workflows[0],
+			vinter_flow,
 			null,
 			4
 		);
@@ -74,8 +73,8 @@ function setupFlow() {
 	vinter_flow.workflows = [];
 	vinter_flow.workflows[0] = {
 		name: "",
-		version: 2.0,
-		engineVersion: 3.0,
+		version: "2.0",
+		engineVersion: "3.0",
 		idAvi: -1,
 		activities: []
 	};
