@@ -34,6 +34,10 @@ function init() {
 }
 
 subscribe("oneditcustomcode", ccode => {
+	let btnClose = document.getElementById("close-edit-ccode");
+	btnClose.onclick = () => {
+		changeElementDisplay("vinter-modal-edit-ccode", "none");
+	};
 	let myCCode = document.getElementById("ccode");
 	editor = CodeMirror(
 		elt => {

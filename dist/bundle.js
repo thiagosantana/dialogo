@@ -66675,6 +66675,10 @@ function init() {
 }
 
 Object(__WEBPACK_IMPORTED_MODULE_1__event_js__["b" /* subscribe */])("oneditcustomcode", ccode => {
+	let btnClose = document.getElementById("close-edit-ccode");
+	btnClose.onclick = () => {
+		Object(__WEBPACK_IMPORTED_MODULE_0__app_js__["changeElementDisplay"])("vinter-modal-edit-ccode", "none");
+	};
 	let myCCode = document.getElementById("ccode");
 	editor = CodeMirror(
 		elt => {
