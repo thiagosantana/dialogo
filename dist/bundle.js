@@ -12202,6 +12202,7 @@ paper.on("cell:pointerclick", cellView => {
 	if (activity.type === "Say") Object(__WEBPACK_IMPORTED_MODULE_1__event_js__["a" /* publish */])("oneditsay", activity);
 	if (activity.type === "Form") Object(__WEBPACK_IMPORTED_MODULE_1__event_js__["a" /* publish */])("oneditform", activity);
 	if (activity.type === "CustomCode") Object(__WEBPACK_IMPORTED_MODULE_1__event_js__["a" /* publish */])("oneditcustomcode", activity);
+	if (activity.type === "QuestionAnswer") Object(__WEBPACK_IMPORTED_MODULE_1__event_js__["a" /* publish */])("oneditquestion", activity);
 });
 
 paper.on("cell:pointerup", (cellView, evt, x, y) => {
@@ -66579,6 +66580,25 @@ function init() {
 }
 
 init();
+
+function showEditDialog() {
+	changeElementDisplay("vinter-modal-edit-question", "block");
+}
+
+function configureCloseBtn() {
+	let vinterBtnCloseEditQuestionDialog = document.getElementById(
+		"close-edit-question"
+	);
+	vinterBtnCloseEditQuestionDialog.onclick = () => {
+		changeElementDisplay("vinter-modal-edit-say", "none");
+	};
+}
+const onEditQuestion = () => {
+	configureCloseBtn();
+	showEditDialog();
+};
+
+Object(__WEBPACK_IMPORTED_MODULE_1__event_js__["b" /* subscribe */])("oneditquestion", onEditQuestion);
 
 
 
