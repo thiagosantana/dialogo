@@ -51,4 +51,23 @@ function init() {
 }
 
 init();
+
+function showEditDialog() {
+	changeElementDisplay("vinter-modal-edit-question", "block");
+}
+
+function configureCloseBtn() {
+	let vinterBtnCloseEditQuestionDialog = document.getElementById(
+		"close-edit-question"
+	);
+	vinterBtnCloseEditQuestionDialog.onclick = () => {
+		changeElementDisplay("vinter-modal-edit-say", "none");
+	};
+}
+const onEditQuestion = () => {
+	configureCloseBtn();
+	showEditDialog();
+};
+
+subscribe("oneditquestion", onEditQuestion);
 export { question };

@@ -91,6 +91,7 @@ paper.on("cell:pointerclick", cellView => {
 	if (activity.type === "Say") publish("oneditsay", activity);
 	if (activity.type === "Form") publish("oneditform", activity);
 	if (activity.type === "CustomCode") publish("oneditcustomcode", activity);
+	if (activity.type === "QuestionAnswer") publish("oneditquestion", activity);
 });
 
 paper.on("cell:pointerup", (cellView, evt, x, y) => {
