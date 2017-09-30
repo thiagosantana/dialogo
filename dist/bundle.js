@@ -66582,7 +66582,7 @@ function init() {
 init();
 
 function showEditDialog() {
-	changeElementDisplay("vinter-modal-edit-question", "block");
+	Object(__WEBPACK_IMPORTED_MODULE_0__app_js__["changeElementDisplay"])("vinter-modal-edit-question", "block");
 }
 
 function configureCloseBtn() {
@@ -66590,7 +66590,7 @@ function configureCloseBtn() {
 		"close-edit-question"
 	);
 	vinterBtnCloseEditQuestionDialog.onclick = () => {
-		changeElementDisplay("vinter-modal-edit-say", "none");
+		Object(__WEBPACK_IMPORTED_MODULE_0__app_js__["changeElementDisplay"])("vinter-modal-edit-say", "none");
 	};
 }
 const onEditQuestion = () => {

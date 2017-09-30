@@ -1,4 +1,4 @@
-import { makeName, isFlowInitialized } from "./app.js";
+import { makeName, isFlowInitialized, changeElementDisplay } from "./app.js";
 import { subscribe, publish } from "./event.js";
 
 class Question {
