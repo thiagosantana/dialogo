@@ -66590,7 +66590,7 @@ function configureCloseBtn() {
 		"close-edit-question"
 	);
 	vinterBtnCloseEditQuestionDialog.onclick = () => {
-		Object(__WEBPACK_IMPORTED_MODULE_0__app_js__["changeElementDisplay"])("vinter-modal-edit-say", "none");
+		Object(__WEBPACK_IMPORTED_MODULE_0__app_js__["changeElementDisplay"])("vinter-modal-edit-question", "none");
 	};
 }
 const onEditQuestion = () => {

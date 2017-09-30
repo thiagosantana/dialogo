@@ -61,7 +61,7 @@ function configureCloseBtn() {
 		"close-edit-question"
 	);
 	vinterBtnCloseEditQuestionDialog.onclick = () => {
-		changeElementDisplay("vinter-modal-edit-say", "none");
+		changeElementDisplay("vinter-modal-edit-question", "none");
 	};
 }
 const onEditQuestion = () => {
