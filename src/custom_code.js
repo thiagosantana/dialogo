@@ -29,22 +29,14 @@ const configureNewCustomCodeBehavior = () => {
 	};
 };
 
-function init() {
-	configureNewCustomCodeBehavior();
-}
-
-subscribe("oneditcustomcode", ccode => {
-	let btnClose = document.getElementById("close-edit-ccode");
-	btnClose.onclick = () => {
-		changeElementDisplay("vinter-modal-edit-ccode", "none");
-	};
+const configureCodemirror = () => {
 	let myCCode = document.getElementById("ccode");
 	editor = CodeMirror(
 		elt => {
 			myCCode.parentNode.replaceChild(elt, myCCode);
 		},
 		{
-			value: myCCode.innerHTML,
+			value: "",
 			mode: "groovy",
 			lineNumbers: true,
 			styleActiveLine: true,
@@ -52,6 +44,18 @@ subscribe("oneditcustomcode", ccode => {
 		}
 	);
 	editor.setOption("theme", "base16-dark");
+};
+
+function init() {
+	configureNewCustomCodeBehavior();
+	configureCodemirror();
+}
+
+subscribe("oneditcustomcode", ccode => {
+	let btnClose = document.getElementById("close-edit-ccode");
+	btnClose.onclick = () => {
+		changeElementDisplay("vinter-modal-edit-ccode", "none");
+	};
 	let btnEditCCode = document.getElementById("vinter-btn-confirm-edit-ccode");
 	btnEditCCode.onclick = () => {
 		console.log(editor.getValue());

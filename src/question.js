@@ -64,6 +64,9 @@ function configureCloseBtn() {
 		changeElementDisplay("vinter-modal-edit-question", "none");
 	};
 }
+
+function configureEditQuestionBehavior() {}
+
 const onEditQuestion = () => {
 	configureCloseBtn();
 	showEditDialog();

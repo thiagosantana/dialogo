@@ -66593,6 +66593,9 @@ function configureCloseBtn() {
 		Object(__WEBPACK_IMPORTED_MODULE_0__app_js__["changeElementDisplay"])("vinter-modal-edit-question", "none");
 	};
 }
+
+function configureEditQuestionBehavior() {}
+
 const onEditQuestion = () => {
 	configureCloseBtn();
 	showEditDialog();
@@ -66690,22 +66693,14 @@ const configureNewCustomCodeBehavior = () => {
 	};
 };
 
-function init() {
-	configureNewCustomCodeBehavior();
-}
-
-Object(__WEBPACK_IMPORTED_MODULE_1__event_js__["b" /* subscribe */])("oneditcustomcode", ccode => {
-	let btnClose = document.getElementById("close-edit-ccode");
-	btnClose.onclick = () => {
-		Object(__WEBPACK_IMPORTED_MODULE_0__app_js__["changeElementDisplay"])("vinter-modal-edit-ccode", "none");
-	};
+const configureCodemirror = () => {
 	let myCCode = document.getElementById("ccode");
 	editor = CodeMirror(
 		elt => {
 			myCCode.parentNode.replaceChild(elt, myCCode);
 		},
 		{
-			value: myCCode.innerHTML,
+			value: "",
 			mode: "groovy",
 			lineNumbers: true,
 			styleActiveLine: true,
@@ -66713,6 +66708,18 @@ Object(__WEBPACK_IMPORTED_MODULE_1__event_js__["b" /* subscribe */])("oneditcust
 		}
 	);
 	editor.setOption("theme", "base16-dark");
+};
+
+function init() {
+	configureNewCustomCodeBehavior();
+	configureCodemirror();
+}
+
+Object(__WEBPACK_IMPORTED_MODULE_1__event_js__["b" /* subscribe */])("oneditcustomcode", ccode => {
+	let btnClose = document.getElementById("close-edit-ccode");
+	btnClose.onclick = () => {
+		Object(__WEBPACK_IMPORTED_MODULE_0__app_js__["changeElementDisplay"])("vinter-modal-edit-ccode", "none");
+	};
 	let btnEditCCode = document.getElementById("vinter-btn-confirm-edit-ccode");
 	btnEditCCode.onclick = () => {
 		console.log(editor.getValue());
