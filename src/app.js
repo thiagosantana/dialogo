@@ -14,6 +14,10 @@ import { controlManager } from "./control_manager.js";
 import { form } from "./form.js";
 
 let vinter_flow = {};
+window.flow = vinter_flow;
+window.mustache = require("mustache");
+
+hljs.initHighlightingOnLoad();
 
 var initialized = false;
 

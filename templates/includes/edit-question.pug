@@ -1,4 +1,10 @@
 div(class="modal", id="vinter-modal-edit-question")
     div(class="modal-content")
         span(class="close", id="close-edit-question") &times;
-        h2 Question Answer Editor
+        h2 Question Answer Edit
+        div
+            label(for="utterance") Utterance:
+            input(type="text", id="edit-question-utterance")
+        button(type="button", id="vinter-btn-add-option") ADD OPTION
+        div(class="question-option", id="vinter-div-question-option")
+        button(type="button", id="vinter-btn-edit-question") EDIT

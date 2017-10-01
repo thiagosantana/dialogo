@@ -38,7 +38,7 @@ body {
 	cursor: pointer;
 }
 
-.json {
+.vinter-json {
 	overflow-y: scroll;
 	height: 350px;
 }
@@ -55,4 +55,8 @@ body {
 
 .joint-highlight-stroke {
 	stroke: green !important;
+}
+
+.question-option {
+	background: #ddf9c1;
 }

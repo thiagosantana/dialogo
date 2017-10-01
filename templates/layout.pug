@@ -7,6 +7,7 @@ html(lang="en")
         link(href="https://cdnjs.cloudflare.com/ajax/libs/jointjs/1.1.0/joint.css", rel="stylesheet")
         link(href="https://cdn.jsdelivr.net/npm/codemirror@5.30.0/lib/codemirror.css", rel="stylesheet")
         link(href="https://cdn.jsdelivr.net/npm/codemirror@5.30.0/theme/base16-dark.css", rel="stylesheet")
+        link(href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/dark.min.css", rel="stylesheet")
     body
         h1 Editor de Fluxo
         div(id="cmd-bar")
@@ -18,6 +19,8 @@ html(lang="en")
         include includes/edit-form.pug
         include includes/edit-ccode.pug
         include includes/edit-question.pug
+        script(src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js")
+        script(src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/json.min.js")
         script(src="https://cdn.jsdelivr.net/npm/codemirror@5.30.0/lib/codemirror.min.js")
         script(src="https://cdn.jsdelivr.net/npm/codemirror@5.30.0/mode/groovy/groovy.js")
         script(src="./bundle.js")

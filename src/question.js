@@ -27,6 +27,29 @@ class Question {
 			]
 		};
 	}
+	addOption(label) {
+		let obj = {
+			opt: label
+		};
+		let snippet = mustache.render(
+			'&lt;a onclick="AVI.API.Ask(&#39;{{opt}}&#39;)"&gt;{{opt}}&lt;/a&gt;',
+			obj
+		);
+		this.utterance += snippet;
+	}
+	addRuleValidation() {}
+}
+
+function createOptionEntry() {
+	$("#vinter-div-question-option").append(
+		"<div><label>Opção</label><input/></div>"
+	);
+}
+
+function createRuleEntry() {
+	$("#vinter-div-question-option").append(
+		"<select><option value='vl1'>vl1</option><option value='vl1'>vl1</option></select>"
+	);
 }
 
 function question() {
@@ -65,11 +88,34 @@ function configureCloseBtn() {
 	};
 }
 
-function configureEditQuestionBehavior() {}
+function configureEditQuestionBehavior(question) {
+	let btnAddOption = document.getElementById("vinter-btn-add-option");
+	btnAddOption.onclick = () => {
+		createOptionEntry();
+	};
+	let btnEdit = document.getElementById("vinter-btn-edit-question");
+	let txtUtterance = document.getElementById("edit-question-utterance");
+	txtUtterance.value = question.utterance;
+	btnEdit.onclick = () => {
+		if (txtUtterance.value) {
+			question.utterance = txtUtterance.value;
+			let options = document.querySelectorAll(
+				"#vinter-div-question-option div input"
+			);
+			options.forEach(opt => {
+				question.addOption(opt.value);
+			});
+			changeElementDisplay("vinter-modal-edit-question", "none");
+		} else {
+			alert("Vc precisa definir uma uterrance!");
+		}
+	};
+}
 
-const onEditQuestion = () => {
+const onEditQuestion = question => {
 	configureCloseBtn();
 	showEditDialog();
+	configureEditQuestionBehavior(question);
 };
 
 subscribe("oneditquestion", onEditQuestion);
