@@ -47,8 +47,29 @@ function createOptionEntry() {
 }
 
 function createRuleEntry() {
-	$("#vinter-div-question-option").append(
-		"<select><option value='vl1'>vl1</option><option value='vl1'>vl1</option></select>"
+	$("#vinter-div-question-rule").append(
+		"<div>" +
+			"<select>" +
+			"<option value='api.getMemory'>api.getMemory</option>" +
+			"<option value='api.getDialogMemory'>api.getDialogMemory</option>" +
+			"</select>" +
+			"<input/>" +
+			"<select>" +
+			"<option value='nope'> </option>" +
+			"<option value='not'>!</option>" +
+			"</select>" +
+			"<select>" +
+			"<option value='equals'>equals</option>" +
+			"<option value='contains'>contains</option>" +
+			"<option value='equalsIgnoreCase'>equalsIgnoreCase</option>" +
+			"</select>" +
+			"<input/>" +
+			"<select>" +
+			"<option value='nope'> </option>" +
+			"<option value='or'>||</option>" +
+			"<option value='and'>&&</option>" +
+			"</select>" +
+			"</div>"
 	);
 }
 
@@ -90,8 +111,12 @@ function configureCloseBtn() {
 
 function configureEditQuestionBehavior(question) {
 	let btnAddOption = document.getElementById("vinter-btn-add-option");
+	let btnAddRule = document.getElementById("vinter-btn-add-rule");
 	btnAddOption.onclick = () => {
 		createOptionEntry();
+	};
+	btnAddRule.onclick = () => {
+		createRuleEntry();
 	};
 	let btnEdit = document.getElementById("vinter-btn-edit-question");
 	let txtUtterance = document.getElementById("edit-question-utterance");
