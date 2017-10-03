@@ -66616,7 +66616,7 @@ function extractRuleDefinition(div) {
 			ruleDefinition = "!";
 		}
 		if (index === 1) {
-			ruleDefinition = element.value + '("#VAR")';
+			ruleDefinition += element.value + '("#VAR")';
 		}
 		if (index === 2) {
 			ruleDefinition = ruleDefinition.replace("#VAR", element.value);
