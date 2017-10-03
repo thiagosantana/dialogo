@@ -37,6 +37,9 @@ class Question {
 		);
 		this.utterance += snippet;
 	}
+	addRule(rule) {
+		this.validator.items[0].rule += rule;
+	}
 	addRuleValidation() {}
 }
 
@@ -50,14 +53,14 @@ function createRuleEntry() {
 	$("#vinter-div-question-rule").append(
 		"<div>" +
 			"<select>" +
+			"<option value='nope'> </option>" +
+			"<option value='not'>!</option>" +
+			"</select>" +
+			"<select>" +
 			"<option value='api.getMemory'>api.getMemory</option>" +
 			"<option value='api.getDialogMemory'>api.getDialogMemory</option>" +
 			"</select>" +
 			"<input/>" +
-			"<select>" +
-			"<option value='nope'> </option>" +
-			"<option value='not'>!</option>" +
-			"</select>" +
 			"<select>" +
 			"<option value='equals'>equals</option>" +
 			"<option value='contains'>contains</option>" +
@@ -66,11 +69,36 @@ function createRuleEntry() {
 			"<input/>" +
 			"<select>" +
 			"<option value='nope'> </option>" +
-			"<option value='or'>||</option>" +
-			"<option value='and'>&&</option>" +
+			"<option value='||'>||</option>" +
+			"<option value='&&'>&&</option>" +
 			"</select>" +
 			"</div>"
 	);
+}
+
+function extractRuleDefinition(div) {
+	let ruleDefinition = "";
+	div.childNodes.forEach((element, index) => {
+		if (index === 0 && element.value === "not") {
+			ruleDefinition = "!";
+		}
+		if (index === 1) {
+			ruleDefinition = element.value + '("#VAR")';
+		}
+		if (index === 2) {
+			ruleDefinition = ruleDefinition.replace("#VAR", element.value);
+		}
+		if (index === 3) {
+			ruleDefinition += "." + element.value + '("#VALUE") ';
+		}
+		if (index === 4) {
+			ruleDefinition = ruleDefinition.replace("#VALUE", element.value);
+		}
+		if (index === 5 && element.value !== "nope") {
+			ruleDefinition += element.value + " ";
+		}
+	});
+	return ruleDefinition;
 }
 
 function question() {
@@ -129,6 +157,12 @@ function configureEditQuestionBehavior(question) {
 			);
 			options.forEach(opt => {
 				question.addOption(opt.value);
+			});
+			let rules = document.querySelectorAll(
+				"#vinter-div-question-rule div"
+			);
+			rules.forEach(div => {
+				question.addRule(extractRuleDefinition(div));
 			});
 			changeElementDisplay("vinter-modal-edit-question", "none");
 		} else {
