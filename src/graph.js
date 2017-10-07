@@ -95,7 +95,10 @@ paper.on("cell:pointerclick", cellView => {
 });
 
 paper.on("cell:pointerup", (cellView, evt, x, y) => {
-	removeIlegalLinksWhenTargetPointsNull();
+	if (!cellView.targetView) {
+		console.log("open menu");
+		publish("onshowmenu", {});
+	}
 });
 
 paper.on("link:connect", (link, evt, target) => {
@@ -370,6 +373,10 @@ const onEscalateAdded = escalate => {
 	renderSay(escalate);
 };
 
+const onMenuActivityClose = () => {
+	removeIlegalLinksWhenTargetPointsNull();
+};
+
 subscribe("onflowcreated", onFlowCreated);
 subscribe("onsayadded", onSayAdded);
 subscribe("onformadded", onFormAdded);
@@ -381,5 +388,6 @@ subscribe("onmemoryadded", onMemoryAdded);
 subscribe("oncustomcodeadded", onCustomCodeAdded);
 subscribe("ondisconnectadded", onDisconnectAdded);
 subscribe("onescalateadded", onEscalateAdded);
+subscribe("onmenuactivityclose", onMenuActivityClose);
 
 export { load };

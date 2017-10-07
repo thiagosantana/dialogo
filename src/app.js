@@ -12,6 +12,7 @@ import { disconnect } from "./disconnect.js";
 import { escalate } from "./escalate.js";
 import { controlManager } from "./control_manager.js";
 import { form } from "./form.js";
+import { openMenu } from "./menu.js";
 
 let vinter_flow = {};
 window.flow = vinter_flow;
@@ -259,6 +260,11 @@ subscribe("oncreatedisconnect", () => {
 subscribe("oncreateescalate", () => {
 	console.log("oncreateescalate");
 	addEscalateActivity();
+});
+
+subscribe("onshowmenu", () => {
+	console.log("onshowmenu");
+	openMenu();
 });
 
 init();

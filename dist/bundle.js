@@ -353,6 +353,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__escalate_js__ = __webpack_require__(72);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__control_manager_js__ = __webpack_require__(73);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__form_js__ = __webpack_require__(74);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_14__menu_js__ = __webpack_require__(75);
+
 
 
 
@@ -370,7 +372,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 let vinter_flow = {};
 window.flow = vinter_flow;
-window.mustache = __webpack_require__(75);
+window.mustache = __webpack_require__(76);
 
 hljs.initHighlightingOnLoad();
 
@@ -614,6 +616,11 @@ Object(__WEBPACK_IMPORTED_MODULE_0__event_js__["b" /* subscribe */])("oncreatedi
 Object(__WEBPACK_IMPORTED_MODULE_0__event_js__["b" /* subscribe */])("oncreateescalate", () => {
 	console.log("oncreateescalate");
 	addEscalateActivity();
+});
+
+Object(__WEBPACK_IMPORTED_MODULE_0__event_js__["b" /* subscribe */])("onshowmenu", () => {
+	console.log("onshowmenu");
+	Object(__WEBPACK_IMPORTED_MODULE_14__menu_js__["a" /* openMenu */])();
 });
 
 init();
@@ -12210,7 +12217,10 @@ paper.on("cell:pointerclick", cellView => {
 });
 
 paper.on("cell:pointerup", (cellView, evt, x, y) => {
-	removeIlegalLinksWhenTargetPointsNull();
+	if (!cellView.targetView) {
+		console.log("open menu");
+		Object(__WEBPACK_IMPORTED_MODULE_1__event_js__["a" /* publish */])("onshowmenu", {});
+	}
 });
 
 paper.on("link:connect", (link, evt, target) => {
@@ -12485,6 +12495,10 @@ const onEscalateAdded = escalate => {
 	renderSay(escalate);
 };
 
+const onMenuActivityClose = () => {
+	removeIlegalLinksWhenTargetPointsNull();
+};
+
 Object(__WEBPACK_IMPORTED_MODULE_1__event_js__["b" /* subscribe */])("onflowcreated", onFlowCreated);
 Object(__WEBPACK_IMPORTED_MODULE_1__event_js__["b" /* subscribe */])("onsayadded", onSayAdded);
 Object(__WEBPACK_IMPORTED_MODULE_1__event_js__["b" /* subscribe */])("onformadded", onFormAdded);
@@ -12496,6 +12510,7 @@ Object(__WEBPACK_IMPORTED_MODULE_1__event_js__["b" /* subscribe */])("onmemoryad
 Object(__WEBPACK_IMPORTED_MODULE_1__event_js__["b" /* subscribe */])("oncustomcodeadded", onCustomCodeAdded);
 Object(__WEBPACK_IMPORTED_MODULE_1__event_js__["b" /* subscribe */])("ondisconnectadded", onDisconnectAdded);
 Object(__WEBPACK_IMPORTED_MODULE_1__event_js__["b" /* subscribe */])("onescalateadded", onEscalateAdded);
+Object(__WEBPACK_IMPORTED_MODULE_1__event_js__["b" /* subscribe */])("onmenuactivityclose", onMenuActivityClose);
 
 
 
@@ -67126,6 +67141,29 @@ Object(__WEBPACK_IMPORTED_MODULE_1__event_js__["b" /* subscribe */])("oneditform
 
 /***/ }),
 /* 75 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return openMenu; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__app_js__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__event_js__ = __webpack_require__(3);
+
+
+
+function openMenu() {
+	Object(__WEBPACK_IMPORTED_MODULE_0__app_js__["changeElementDisplay"])("menu-activities", "block");
+	let btnClose = document.getElementById("close-menu");
+	btnClose.onclick = () => {
+		Object(__WEBPACK_IMPORTED_MODULE_0__app_js__["changeElementDisplay"])("menu-activities", "none");
+		Object(__WEBPACK_IMPORTED_MODULE_1__event_js__["a" /* publish */])("onmenuactivityclose", {});
+	};
+}
+
+
+
+
+/***/ }),
+/* 76 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
