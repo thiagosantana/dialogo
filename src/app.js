@@ -28,6 +28,19 @@ const changeElementDisplay = (elementId, newDisplay) => {
 	element.style.display = newDisplay;
 };
 
+const configureUndoRedoKeyboard = () => {
+	console.log("Keyboard ok");
+	document.addEventListener("keydown", event => {
+		const keyName = event.key;
+		if (keyName === "ArrowLeft") {
+			undo();
+		}
+		if (keyName === "ArrowRight") {
+			redo();
+		}
+	});
+};
+
 const configureLoadBehavior = () => {
 	console.log("..");
 	let btnLoadFlow = document.getElementById("vinter-btn-load-flow");
@@ -262,6 +275,7 @@ function loadActivity(activity) {
 }
 
 function init() {
+	configureUndoRedoKeyboard();
 	configureNewFlowBehavior();
 	configureLoadBehavior();
 	configureOpenJSON();

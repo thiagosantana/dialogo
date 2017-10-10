@@ -357,7 +357,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__form_js__ = __webpack_require__(74);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_14__menu_js__ = __webpack_require__(75);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_15__undo_redo_js__ = __webpack_require__(76);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_15__undo_redo_js___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_15__undo_redo_js__);
 
 
 
@@ -386,6 +385,19 @@ var initialized = false;
 const changeElementDisplay = (elementId, newDisplay) => {
 	let element = document.getElementById(elementId);
 	element.style.display = newDisplay;
+};
+
+const configureUndoRedoKeyboard = () => {
+	console.log("Keyboard ok");
+	document.addEventListener("keydown", event => {
+		const keyName = event.key;
+		if (keyName === "ArrowLeft") {
+			Object(__WEBPACK_IMPORTED_MODULE_15__undo_redo_js__["b" /* undo */])();
+		}
+		if (keyName === "ArrowRight") {
+			Object(__WEBPACK_IMPORTED_MODULE_15__undo_redo_js__["a" /* redo */])();
+		}
+	});
 };
 
 const configureLoadBehavior = () => {
@@ -622,6 +634,7 @@ function loadActivity(activity) {
 }
 
 function init() {
+	configureUndoRedoKeyboard();
 	configureNewFlowBehavior();
 	configureLoadBehavior();
 	configureOpenJSON();
@@ -67275,9 +67288,29 @@ function openMenu() {
 
 /***/ }),
 /* 76 */
-/***/ (function(module, exports) {
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return undo; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return redo; });
 const MAX_UNDO_REDO = 10;
+let currentUndo = 0;
+function undo() {
+	if (currentUndo < MAX_UNDO_REDO) {
+		console.log("UNDO");
+		currentUndo++;
+	} else {
+		alert("Max Undo Limit");
+	}
+}
+function redo() {
+	if (currentUndo >= 0) {
+		console.log("REDO");
+		currentUndo--;
+	}
+}
+
+
 
 
 /***/ }),
