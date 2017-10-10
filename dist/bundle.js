@@ -336,9 +336,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getBeginActivity", function() { return getBeginActivity; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getEndActivity", function() { return getEndActivity; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getActivityById", function() { return getActivityById; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getActivityByName", function() { return getActivityByName; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "makeName", function() { return makeName; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "isFlowInitialized", function() { return isFlowInitialized; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "changeElementDisplay", function() { return changeElementDisplay; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "loadActivity", function() { return loadActivity; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__event_js__ = __webpack_require__(3);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__graph_js__ = __webpack_require__(18);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__say_js__ = __webpack_require__(63);
@@ -354,6 +356,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__control_manager_js__ = __webpack_require__(73);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__form_js__ = __webpack_require__(74);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_14__menu_js__ = __webpack_require__(75);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_15__undo_redo_js__ = __webpack_require__(76);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_15__undo_redo_js___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_15__undo_redo_js__);
+
 
 
 
@@ -372,7 +377,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 let vinter_flow = {};
 window.flow = vinter_flow;
-window.mustache = __webpack_require__(76);
+window.mustache = __webpack_require__(77);
 
 hljs.initHighlightingOnLoad();
 
@@ -381,6 +386,24 @@ var initialized = false;
 const changeElementDisplay = (elementId, newDisplay) => {
 	let element = document.getElementById(elementId);
 	element.style.display = newDisplay;
+};
+
+const configureLoadBehavior = () => {
+	console.log("..");
+	let btnLoadFlow = document.getElementById("vinter-btn-load-flow");
+	let btnCloseLoad = document.getElementById("close-load");
+	let btnLoad = document.getElementById("vinter-btn-load-json");
+	let txtLoadJson = document.getElementById("the-json");
+	btnLoadFlow.onclick = () => {
+		changeElementDisplay("vinter-load-json", "block");
+	};
+	btnCloseLoad.onclick = () => {
+		changeElementDisplay("vinter-load-json", "none");
+	};
+	btnLoad.onclick = () => {
+		Object(__WEBPACK_IMPORTED_MODULE_1__graph_js__["a" /* load */])(txtLoadJson.value);
+		initialized = true;
+	};
 };
 
 const configureNewFlowBehavior = () => {
@@ -446,18 +469,31 @@ function initNewFlow(newFlowName, newFlowId) {
 	vinter_flow.workflows[0].idAvi = newFlowId;
 }
 
-function addBeginActivity() {
-	vinter_flow.workflows[0].activities.push(Object(__WEBPACK_IMPORTED_MODULE_3__begin_js__["a" /* begin */])());
+function addBeginActivity(activity) {
+	if (activity) {
+		vinter_flow.workflows[0].activities.push(activity);
+	} else {
+		vinter_flow.workflows[0].activities.push(Object(__WEBPACK_IMPORTED_MODULE_3__begin_js__["a" /* begin */])());
+	}
 }
 
-function addEndActivity() {
-	vinter_flow.workflows[0].activities.push(Object(__WEBPACK_IMPORTED_MODULE_4__end_js__["a" /* end */])());
+function addEndActivity(activity) {
+	if (activity) {
+		vinter_flow.workflows[0].activities.push(activity);
+	} else {
+		vinter_flow.workflows[0].activities.push(Object(__WEBPACK_IMPORTED_MODULE_4__end_js__["a" /* end */])());
+	}
 }
 
-function addSayActivity() {
-	let theNewSay = Object(__WEBPACK_IMPORTED_MODULE_2__say_js__["a" /* say */])();
-	vinter_flow.workflows[0].activities.push(theNewSay);
-	Object(__WEBPACK_IMPORTED_MODULE_0__event_js__["a" /* publish */])("onsayadded", theNewSay);
+function addSayActivity(activity) {
+	if (activity) {
+		vinter_flow.workflows[0].activities.push(activity);
+		Object(__WEBPACK_IMPORTED_MODULE_0__event_js__["a" /* publish */])("onsayadded", activity);
+	} else {
+		let theNewSay = Object(__WEBPACK_IMPORTED_MODULE_2__say_js__["a" /* say */])();
+		vinter_flow.workflows[0].activities.push(theNewSay);
+		Object(__WEBPACK_IMPORTED_MODULE_0__event_js__["a" /* publish */])("onsayadded", theNewSay);
+	}
 }
 
 function addServiceCallActivity() {
@@ -472,10 +508,15 @@ function addControlManagerActivity() {
 	Object(__WEBPACK_IMPORTED_MODULE_0__event_js__["a" /* publish */])("oncontrolmanageradded", theNewControlManager);
 }
 
-function addFormActivity() {
-	let theForm = Object(__WEBPACK_IMPORTED_MODULE_13__form_js__["a" /* form */])();
-	vinter_flow.workflows[0].activities.push(theForm);
-	Object(__WEBPACK_IMPORTED_MODULE_0__event_js__["a" /* publish */])("onformadded", theForm);
+function addFormActivity(activity) {
+	if (activity) {
+		vinter_flow.workflows[0].activities.push(activity);
+		Object(__WEBPACK_IMPORTED_MODULE_0__event_js__["a" /* publish */])("onformadded", activity);
+	} else {
+		let theForm = Object(__WEBPACK_IMPORTED_MODULE_13__form_js__["a" /* form */])();
+		vinter_flow.workflows[0].activities.push(theForm);
+		Object(__WEBPACK_IMPORTED_MODULE_0__event_js__["a" /* publish */])("onformadded", theForm);
+	}
 }
 
 function addDecisionActivity() {
@@ -536,6 +577,17 @@ function getActivityById(id) {
 	}
 }
 
+function getActivityByName(name) {
+	let activity = vinter_flow.workflows[0].activities.filter(
+		activity => activity.name === name
+	);
+	if (activity.length > 0) {
+		return activity[0];
+	} else {
+		return undefined;
+	}
+}
+
 function getEndActivity() {
 	let end = vinter_flow.workflows[0].activities.filter(
 		activity => activity.type === "End"
@@ -562,8 +614,16 @@ function isFlowInitialized() {
 	return initialized;
 }
 
+function loadActivity(activity) {
+	if (activity.type === "Root") addBeginActivity(activity);
+	if (activity.type === "End") addEndActivity(activity);
+	if (activity.type === "Say") addSayActivity(activity);
+	if (activity.type === "Form") addFormActivity(activity);
+}
+
 function init() {
 	configureNewFlowBehavior();
+	configureLoadBehavior();
 	configureOpenJSON();
 	setupFlow();
 }
@@ -12117,7 +12177,7 @@ function shiftRanks(t, g, delta) {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* unused harmony export load */
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return load; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__app_js__ = __webpack_require__(2);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__event_js__ = __webpack_require__(3);
 
@@ -12210,6 +12270,8 @@ window.p = paper;
 
 paper.on("cell:pointerclick", cellView => {
 	let activity = Object(__WEBPACK_IMPORTED_MODULE_0__app_js__["getActivityById"])(cellView.model.id);
+	console.log(cellView.model.id);
+	console.log(activity);
 	if (activity.type === "Say") Object(__WEBPACK_IMPORTED_MODULE_1__event_js__["a" /* publish */])("oneditsay", activity);
 	if (activity.type === "Form") Object(__WEBPACK_IMPORTED_MODULE_1__event_js__["a" /* publish */])("oneditform", activity);
 	if (activity.type === "CustomCode") Object(__WEBPACK_IMPORTED_MODULE_1__event_js__["a" /* publish */])("oneditcustomcode", activity);
@@ -12218,8 +12280,15 @@ paper.on("cell:pointerclick", cellView => {
 
 paper.on("cell:pointerup", (cellView, evt, x, y) => {
 	if (!cellView.targetView) {
-		console.log("open menu");
-		Object(__WEBPACK_IMPORTED_MODULE_1__event_js__["a" /* publish */])("onshowmenu", {});
+		//publish("onshowmenu", {});
+	}
+});
+
+graph.on("change:source change:target", function(link) {
+	if (link.attributes.target.hasOwnProperty("id")) {
+		console.log("ok");
+	} else {
+		console.log("nok");
 	}
 });
 
@@ -12228,8 +12297,50 @@ paper.on("link:connect", (link, evt, target) => {
 });
 
 function load(json) {
-	console.log("TODO");
-	console.log("TODO");
+	try {
+		let loadedJSON = JSON.parse(json);
+		renderJSON(loadedJSON);
+	} catch (e) {
+		alert("JSON com problemas");
+		console.log(e);
+	}
+}
+
+function renderJSON(json) {
+	json.workflows[0].activities.forEach(activity => {
+		Object(__WEBPACK_IMPORTED_MODULE_0__app_js__["loadActivity"])(activity);
+		if (activity.type === "Root") {
+			renderBegin();
+		} else if (activity.type === "End") {
+			renderEnd();
+		}
+	});
+
+	json.workflows[0].activities.forEach(activity => {
+		if (activity.nextActivity) {
+			renderLink(
+				activity.id,
+				Object(__WEBPACK_IMPORTED_MODULE_0__app_js__["getActivityByName"])(activity.nextActivity).id
+			);
+		}
+	});
+}
+
+function renderLink(sourceID, targetID) {
+	let link = new joint.dia.Link({
+		source: { id: sourceID },
+		target: { id: targetID },
+		attrs: {
+			".marker-target": {
+				d: "M 10 0 L 0 5 L 10 10 z",
+				fill: "#7C90A0"
+			},
+			".connection": { "stroke-width": 3, stroke: "black" }
+		},
+		router: { name: "manhattan" },
+		connector: { name: "rounded" }
+	});
+	graph.addCell(link);
 }
 
 function renderBegin() {
@@ -67164,6 +67275,13 @@ function openMenu() {
 
 /***/ }),
 /* 76 */
+/***/ (function(module, exports) {
+
+const MAX_UNDO_REDO = 10;
+
+
+/***/ }),
+/* 77 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!

@@ -1,4 +1,10 @@
-import { getBeginActivity, getEndActivity, getActivityById } from "./app.js";
+import {
+	getBeginActivity,
+	getEndActivity,
+	getActivityById,
+	getActivityByName,
+	loadActivity
+} from "./app.js";
 import { subscribe, publish } from "./event.js";
 
 window.$ = require("jquery");
@@ -88,6 +94,8 @@ window.p = paper;
 
 paper.on("cell:pointerclick", cellView => {
 	let activity = getActivityById(cellView.model.id);
+	console.log(cellView.model.id);
+	console.log(activity);
 	if (activity.type === "Say") publish("oneditsay", activity);
 	if (activity.type === "Form") publish("oneditform", activity);
 	if (activity.type === "CustomCode") publish("oneditcustomcode", activity);
@@ -96,8 +104,15 @@ paper.on("cell:pointerclick", cellView => {
 
 paper.on("cell:pointerup", (cellView, evt, x, y) => {
 	if (!cellView.targetView) {
-		console.log("open menu");
-		publish("onshowmenu", {});
+		//publish("onshowmenu", {});
+	}
+});
+
+graph.on("change:source change:target", function(link) {
+	if (link.attributes.target.hasOwnProperty("id")) {
+		console.log("ok");
+	} else {
+		console.log("nok");
 	}
 });
 
@@ -106,8 +121,50 @@ paper.on("link:connect", (link, evt, target) => {
 });
 
 function load(json) {
-	console.log("TODO");
-	console.log("TODO");
+	try {
+		let loadedJSON = JSON.parse(json);
+		renderJSON(loadedJSON);
+	} catch (e) {
+		alert("JSON com problemas");
+		console.log(e);
+	}
+}
+
+function renderJSON(json) {
+	json.workflows[0].activities.forEach(activity => {
+		loadActivity(activity);
+		if (activity.type === "Root") {
+			renderBegin();
+		} else if (activity.type === "End") {
+			renderEnd();
+		}
+	});
+
+	json.workflows[0].activities.forEach(activity => {
+		if (activity.nextActivity) {
+			renderLink(
+				activity.id,
+				getActivityByName(activity.nextActivity).id
+			);
+		}
+	});
+}
+
+function renderLink(sourceID, targetID) {
+	let link = new joint.dia.Link({
+		source: { id: sourceID },
+		target: { id: targetID },
+		attrs: {
+			".marker-target": {
+				d: "M 10 0 L 0 5 L 10 10 z",
+				fill: "#7C90A0"
+			},
+			".connection": { "stroke-width": 3, stroke: "black" }
+		},
+		router: { name: "manhattan" },
+		connector: { name: "rounded" }
+	});
+	graph.addCell(link);
 }
 
 function renderBegin() {

@@ -1,13 +1,11 @@
 div(class="modal", id="vinter-modal-edit-say")
     div(class="modal-content")
         span(class="close", id="close-edit-say") &times;
-        form(id="edit-say")
-        h2 Edit Say
-        div
-            label(for="utterance") Utterance:
-            input(type="text", id="edit-say-utterance")
-        div
-            label(for="sleep") Sleep:
-            input(type="text", id="edit-say-sleep")
-        div(class="vinter-btn-confirm")
-            button(type="button", id="vinter-btn-confirm-edit-say") EDIT
+        form
+            fieldset(class="editor-field")
+                label(for="utterance") Utterance:
+                input(type="text", id="edit-say-utterance")
+                label(for="sleep") Sleep:
+                input(type="text", id="edit-say-sleep")
+            fieldset(class="vinter-btn-confirm")
+                button(type="button", id="vinter-btn-confirm-edit-say") EDIT

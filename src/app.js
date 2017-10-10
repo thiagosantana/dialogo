@@ -13,6 +13,7 @@ import { escalate } from "./escalate.js";
 import { controlManager } from "./control_manager.js";
 import { form } from "./form.js";
 import { openMenu } from "./menu.js";
+import { undo, redo } from "./undo_redo.js";
 
 let vinter_flow = {};
 window.flow = vinter_flow;
@@ -25,6 +26,24 @@ var initialized = false;
 const changeElementDisplay = (elementId, newDisplay) => {
 	let element = document.getElementById(elementId);
 	element.style.display = newDisplay;
+};
+
+const configureLoadBehavior = () => {
+	console.log("..");
+	let btnLoadFlow = document.getElementById("vinter-btn-load-flow");
+	let btnCloseLoad = document.getElementById("close-load");
+	let btnLoad = document.getElementById("vinter-btn-load-json");
+	let txtLoadJson = document.getElementById("the-json");
+	btnLoadFlow.onclick = () => {
+		changeElementDisplay("vinter-load-json", "block");
+	};
+	btnCloseLoad.onclick = () => {
+		changeElementDisplay("vinter-load-json", "none");
+	};
+	btnLoad.onclick = () => {
+		load(txtLoadJson.value);
+		initialized = true;
+	};
 };
 
 const configureNewFlowBehavior = () => {
@@ -90,18 +109,31 @@ function initNewFlow(newFlowName, newFlowId) {
 	vinter_flow.workflows[0].idAvi = newFlowId;
 }
 
-function addBeginActivity() {
-	vinter_flow.workflows[0].activities.push(begin());
+function addBeginActivity(activity) {
+	if (activity) {
+		vinter_flow.workflows[0].activities.push(activity);
+	} else {
+		vinter_flow.workflows[0].activities.push(begin());
+	}
 }
 
-function addEndActivity() {
-	vinter_flow.workflows[0].activities.push(end());
+function addEndActivity(activity) {
+	if (activity) {
+		vinter_flow.workflows[0].activities.push(activity);
+	} else {
+		vinter_flow.workflows[0].activities.push(end());
+	}
 }
 
-function addSayActivity() {
-	let theNewSay = say();
-	vinter_flow.workflows[0].activities.push(theNewSay);
-	publish("onsayadded", theNewSay);
+function addSayActivity(activity) {
+	if (activity) {
+		vinter_flow.workflows[0].activities.push(activity);
+		publish("onsayadded", activity);
+	} else {
+		let theNewSay = say();
+		vinter_flow.workflows[0].activities.push(theNewSay);
+		publish("onsayadded", theNewSay);
+	}
 }
 
 function addServiceCallActivity() {
@@ -116,10 +148,15 @@ function addControlManagerActivity() {
 	publish("oncontrolmanageradded", theNewControlManager);
 }
 
-function addFormActivity() {
-	let theForm = form();
-	vinter_flow.workflows[0].activities.push(theForm);
-	publish("onformadded", theForm);
+function addFormActivity(activity) {
+	if (activity) {
+		vinter_flow.workflows[0].activities.push(activity);
+		publish("onformadded", activity);
+	} else {
+		let theForm = form();
+		vinter_flow.workflows[0].activities.push(theForm);
+		publish("onformadded", theForm);
+	}
 }
 
 function addDecisionActivity() {
@@ -180,6 +217,17 @@ function getActivityById(id) {
 	}
 }
 
+function getActivityByName(name) {
+	let activity = vinter_flow.workflows[0].activities.filter(
+		activity => activity.name === name
+	);
+	if (activity.length > 0) {
+		return activity[0];
+	} else {
+		return undefined;
+	}
+}
+
 function getEndActivity() {
 	let end = vinter_flow.workflows[0].activities.filter(
 		activity => activity.type === "End"
@@ -206,8 +254,16 @@ function isFlowInitialized() {
 	return initialized;
 }
 
+function loadActivity(activity) {
+	if (activity.type === "Root") addBeginActivity(activity);
+	if (activity.type === "End") addEndActivity(activity);
+	if (activity.type === "Say") addSayActivity(activity);
+	if (activity.type === "Form") addFormActivity(activity);
+}
+
 function init() {
 	configureNewFlowBehavior();
+	configureLoadBehavior();
 	configureOpenJSON();
 	setupFlow();
 }
@@ -273,7 +329,9 @@ export {
 	getBeginActivity,
 	getEndActivity,
 	getActivityById,
+	getActivityByName,
 	makeName,
 	isFlowInitialized,
-	changeElementDisplay
+	changeElementDisplay,
+	loadActivity
 };
