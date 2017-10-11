@@ -180,14 +180,16 @@ function renderBegin() {
 						".port-body": {
 							fill: "#16A085"
 						}
-					}
+					},
+					position: "top"
 				},
 				out: {
 					attrs: {
 						".port-body": {
 							fill: "#B9B7A7"
 						}
-					}
+					},
+					position: "bottom"
 				}
 			}
 		},
@@ -219,7 +221,8 @@ function renderEnd() {
 						".port-body": {
 							fill: "#16A085"
 						}
-					}
+					},
+					position: "top"
 				},
 				out: {
 					attrs: {
@@ -258,14 +261,16 @@ function renderSay(say) {
 						".port-body": {
 							fill: "#16A085"
 						}
-					}
+					},
+					position: "top"
 				},
 				out: {
 					attrs: {
 						".port-body": {
 							fill: "#B9B7A7"
 						}
-					}
+					},
+					position: "bottom"
 				}
 			}
 		},
@@ -297,14 +302,16 @@ function renderForm(form) {
 						".port-body": {
 							fill: "#16A085"
 						}
-					}
+					},
+					position: "top"
 				},
 				out: {
 					attrs: {
 						".port-body": {
 							fill: "#B9B7A7"
 						}
-					}
+					},
+					position: "bottom"
 				}
 			}
 		},
@@ -336,14 +343,16 @@ function renderDecision(decision) {
 						".port-body": {
 							fill: "#16A085"
 						}
-					}
+					},
+					position: "top"
 				},
 				out: {
 					attrs: {
 						".port-body": {
 							fill: "#B9B7A7"
 						}
-					}
+					},
+					position: "bottom"
 				}
 			}
 		},
