@@ -380,6 +380,18 @@ window.mustache = __webpack_require__(77);
 
 hljs.initHighlightingOnLoad();
 
+/*
+var targetElement = $("#vinter-graph")[0];
+var panzoom = svgPanZoom("#v-2", {
+	viewportSelector: document.querySelector("svg"),
+	fit: false,
+	zoomScaleSensitivity: 0.1,
+	center: true,
+	dblClickZoomEnabled: false,
+	panEnabled: true
+});
+*/
+
 var initialized = false;
 
 const changeElementDisplay = (elementId, newDisplay) => {
@@ -12290,6 +12302,7 @@ paper.on("cell:pointerclick", cellView => {
 	if (activity.type === "CustomCode") Object(__WEBPACK_IMPORTED_MODULE_1__event_js__["a" /* publish */])("oneditcustomcode", activity);
 	if (activity.type === "QuestionAnswer") Object(__WEBPACK_IMPORTED_MODULE_1__event_js__["a" /* publish */])("oneditquestion", activity);
 	if (activity.type === "DecisionSwitch") Object(__WEBPACK_IMPORTED_MODULE_1__event_js__["a" /* publish */])("oneditdecision", activity);
+	if (activity.type === "SetMemory") Object(__WEBPACK_IMPORTED_MODULE_1__event_js__["a" /* publish */])("oneditmemory", activity);
 });
 
 paper.on("cell:pointerup", (cellView, evt, x, y) => {
@@ -66974,6 +66987,55 @@ function init() {
 }
 
 init();
+
+function showMemoryModal() {
+	Object(__WEBPACK_IMPORTED_MODULE_0__app_js__["changeElementDisplay"])("vinter-modal-edit-memory", "block");
+}
+
+function configureCloseBtn() {
+	let closeBtn = document.getElementById("close-edit-memory");
+	closeBtn.onclick = () => {
+		Object(__WEBPACK_IMPORTED_MODULE_0__app_js__["changeElementDisplay"])("vinter-modal-edit-memory", "none");
+	};
+}
+
+function createMemoryEntry() {
+	$("#vinter-memory-fields").append(
+		"<div><label>Nome:</label><input/><label>Valor:</label><input/></div>"
+	);
+}
+
+function configureBtnAddMemoryEntry() {
+	let addMemoryBtn = document.getElementById("vinter-btn-add-memory");
+	addMemoryBtn.onclick = () => {
+		createMemoryEntry();
+	};
+}
+
+function configureBtnEditMemory(memory) {
+	let editMemoryBtn = document.getElementById("vinter-btn-edit-memory");
+	editMemoryBtn.onclick = () => {
+		document.querySelectorAll("#vinter-memory-fields div").forEach(div => {
+			let name = div.querySelectorAll("input")[0].value;
+			let value = div.querySelectorAll("input")[1].value;
+			memory.addValue({
+				name: name,
+				value: value,
+				scope: "DIALOG"
+			});
+			Object(__WEBPACK_IMPORTED_MODULE_0__app_js__["changeElementDisplay"])("vinter-modal-edit-memory", "none");
+		});
+	};
+}
+
+const onEditMemory = memory => {
+	showMemoryModal();
+	configureCloseBtn();
+	configureBtnAddMemoryEntry();
+	configureBtnEditMemory(memory);
+};
+
+Object(__WEBPACK_IMPORTED_MODULE_1__event_js__["b" /* subscribe */])("oneditmemory", onEditMemory);
 
 
 

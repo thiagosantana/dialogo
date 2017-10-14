@@ -36,4 +36,53 @@ function init() {
 
 init();
 
+function showMemoryModal() {
+	changeElementDisplay("vinter-modal-edit-memory", "block");
+}
+
+function configureCloseBtn() {
+	let closeBtn = document.getElementById("close-edit-memory");
+	closeBtn.onclick = () => {
+		changeElementDisplay("vinter-modal-edit-memory", "none");
+	};
+}
+
+function createMemoryEntry() {
+	$("#vinter-memory-fields").append(
+		"<div><label>Nome:</label><input/><label>Valor:</label><input/></div>"
+	);
+}
+
+function configureBtnAddMemoryEntry() {
+	let addMemoryBtn = document.getElementById("vinter-btn-add-memory");
+	addMemoryBtn.onclick = () => {
+		createMemoryEntry();
+	};
+}
+
+function configureBtnEditMemory(memory) {
+	let editMemoryBtn = document.getElementById("vinter-btn-edit-memory");
+	editMemoryBtn.onclick = () => {
+		document.querySelectorAll("#vinter-memory-fields div").forEach(div => {
+			let name = div.querySelectorAll("input")[0].value;
+			let value = div.querySelectorAll("input")[1].value;
+			memory.addValue({
+				name: name,
+				value: value,
+				scope: "DIALOG"
+			});
+			changeElementDisplay("vinter-modal-edit-memory", "none");
+		});
+	};
+}
+
+const onEditMemory = memory => {
+	showMemoryModal();
+	configureCloseBtn();
+	configureBtnAddMemoryEntry();
+	configureBtnEditMemory(memory);
+};
+
+subscribe("oneditmemory", onEditMemory);
+
 export { memory };

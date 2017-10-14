@@ -21,6 +21,18 @@ window.mustache = require("mustache");
 
 hljs.initHighlightingOnLoad();
 
+/*
+var targetElement = $("#vinter-graph")[0];
+var panzoom = svgPanZoom("#v-2", {
+	viewportSelector: document.querySelector("svg"),
+	fit: false,
+	zoomScaleSensitivity: 0.1,
+	center: true,
+	dblClickZoomEnabled: false,
+	panEnabled: true
+});
+*/
+
 var initialized = false;
 
 const changeElementDisplay = (elementId, newDisplay) => {
