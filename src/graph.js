@@ -28,7 +28,7 @@ let paper = new joint.dia.Paper({
 		}
 	},
 	width: window.innerWidth - 15,
-	height: window.innerHeight * 0.85,
+	height: window.innerHeight * 1.25,
 	model: graph,
 	gridSize: 10,
 	defaultLink: new joint.dia.Link({
@@ -94,18 +94,17 @@ window.p = paper;
 
 paper.on("cell:pointerclick", cellView => {
 	let activity = getActivityById(cellView.model.id);
-	console.log(cellView.model.id);
-	console.log(activity);
+	//console.log(cellView.model.id);
+	//console.log(activity);
 	if (activity.type === "Say") publish("oneditsay", activity);
 	if (activity.type === "Form") publish("oneditform", activity);
 	if (activity.type === "CustomCode") publish("oneditcustomcode", activity);
 	if (activity.type === "QuestionAnswer") publish("oneditquestion", activity);
+	if (activity.type === "DecisionSwitch") publish("oneditdecision", activity);
 });
 
 paper.on("cell:pointerup", (cellView, evt, x, y) => {
-	if (!cellView.targetView) {
-		//publish("onshowmenu", {});
-	}
+	removeIlegalLinksWhenTargetPointsNull();
 });
 
 graph.on("change:source change:target", function(link) {

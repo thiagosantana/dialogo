@@ -58,7 +58,8 @@ subscribe("oneditcustomcode", ccode => {
 	};
 	let btnEditCCode = document.getElementById("vinter-btn-confirm-edit-ccode");
 	btnEditCCode.onclick = () => {
-		console.log(editor.getValue());
+		ccode.script = editor.getValue();
+		changeElementDisplay("vinter-modal-edit-ccode", "none");
 	};
 	changeElementDisplay("vinter-modal-edit-ccode", "block");
 });

@@ -28,6 +28,7 @@ input {
 
 .editor-field {
 	padding: 20px 20px 0 20px;
+	width: 100%;
 }
 
 .editor-field label {
@@ -51,6 +52,7 @@ input {
 	background: #f0f0f2;
 	border-top: 1px solid #c6c7cc;
 	padding: 20px;
+	width: 100%;
 }
 
 .vinter-btn-confirm button {
@@ -109,6 +111,7 @@ body {
 #vinter-graph {
 	overflow-y: scroll;
 	height: 600px;
+	border: 1px solid gray;
 }
 
 .highlighted rect {

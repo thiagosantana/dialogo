@@ -12217,7 +12217,7 @@ let paper = new joint.dia.Paper({
 		}
 	},
 	width: window.innerWidth - 15,
-	height: window.innerHeight * 0.85,
+	height: window.innerHeight * 1.25,
 	model: graph,
 	gridSize: 10,
 	defaultLink: new joint.dia.Link({
@@ -12283,18 +12283,17 @@ window.p = paper;
 
 paper.on("cell:pointerclick", cellView => {
 	let activity = Object(__WEBPACK_IMPORTED_MODULE_0__app_js__["getActivityById"])(cellView.model.id);
-	console.log(cellView.model.id);
-	console.log(activity);
+	//console.log(cellView.model.id);
+	//console.log(activity);
 	if (activity.type === "Say") Object(__WEBPACK_IMPORTED_MODULE_1__event_js__["a" /* publish */])("oneditsay", activity);
 	if (activity.type === "Form") Object(__WEBPACK_IMPORTED_MODULE_1__event_js__["a" /* publish */])("oneditform", activity);
 	if (activity.type === "CustomCode") Object(__WEBPACK_IMPORTED_MODULE_1__event_js__["a" /* publish */])("oneditcustomcode", activity);
 	if (activity.type === "QuestionAnswer") Object(__WEBPACK_IMPORTED_MODULE_1__event_js__["a" /* publish */])("oneditquestion", activity);
+	if (activity.type === "DecisionSwitch") Object(__WEBPACK_IMPORTED_MODULE_1__event_js__["a" /* publish */])("oneditdecision", activity);
 });
 
 paper.on("cell:pointerup", (cellView, evt, x, y) => {
-	if (!cellView.targetView) {
-		//publish("onshowmenu", {});
-	}
+	removeIlegalLinksWhenTargetPointsNull();
 });
 
 graph.on("change:source change:target", function(link) {
@@ -66566,7 +66565,11 @@ class Decision {
 	}
 
 	addRule(rule) {
-		this.rules.push(rule);
+		this.rules.push({
+			rule: rule,
+			nextActivity: "",
+			utterance: ""
+		});
 	}
 
 	addYesRule() {
@@ -66603,8 +66606,72 @@ const configureNewDecisionBehavior = () => {
 	};
 };
 
+const onEditDecision = decision => {
+	Object(__WEBPACK_IMPORTED_MODULE_0__app_js__["changeElementDisplay"])("vinter-modal-edit-decision", "block");
+	let btnCloseModal = document.getElementById("close-edit-decision");
+	let btnAddRule = document.getElementById("vinter-btn-add-decision-rule");
+	let btnEdit = document.getElementById("vinter-btn-edit-decision");
+	btnCloseModal.onclick = () => {
+		Object(__WEBPACK_IMPORTED_MODULE_0__app_js__["changeElementDisplay"])("vinter-modal-edit-decision", "none");
+	};
+	btnAddRule.onclick = createRuleEntry;
+	btnEdit.onclick = () => {
+		let rules = document.querySelectorAll("#vinter-div-decision-rule div");
+		rules.forEach(div => {
+			decision.addRule(extractRuleDefinition(div));
+		});
+		Object(__WEBPACK_IMPORTED_MODULE_0__app_js__["changeElementDisplay"])("vinter-modal-edit-decision", "none");
+	};
+};
+
+Object(__WEBPACK_IMPORTED_MODULE_1__event_js__["b" /* subscribe */])("oneditdecision", onEditDecision);
+
 function init() {
 	configureNewDecisionBehavior();
+}
+
+function createRuleEntry() {
+	$("#vinter-div-decision-rule").append(
+		"<div>" +
+			"<select>" +
+			"<option value='nope'> </option>" +
+			"<option value='not'>!</option>" +
+			"</select>" +
+			"<select>" +
+			"<option value='api.getMemory'>api.getMemory</option>" +
+			"<option value='api.getDialogMemory'>api.getDialogMemory</option>" +
+			"</select>" +
+			"<input/>" +
+			"<select>" +
+			"<option value='equals'>equals</option>" +
+			"<option value='contains'>contains</option>" +
+			"<option value='equalsIgnoreCase'>equalsIgnoreCase</option>" +
+			"</select>" +
+			"<input/>" +
+			"</div>"
+	);
+}
+
+function extractRuleDefinition(div) {
+	let ruleDefinition = "";
+	div.childNodes.forEach((element, index) => {
+		if (index === 0 && element.value === "not") {
+			ruleDefinition = "!";
+		}
+		if (index === 1) {
+			ruleDefinition += element.value + '("#VAR")';
+		}
+		if (index === 2) {
+			ruleDefinition = ruleDefinition.replace("#VAR", element.value);
+		}
+		if (index === 3) {
+			ruleDefinition += "." + element.value + '("#VALUE") ';
+		}
+		if (index === 4) {
+			ruleDefinition = ruleDefinition.replace("#VALUE", element.value);
+		}
+	});
+	return ruleDefinition;
 }
 
 init();
@@ -66979,7 +67046,8 @@ Object(__WEBPACK_IMPORTED_MODULE_1__event_js__["b" /* subscribe */])("oneditcust
 	};
 	let btnEditCCode = document.getElementById("vinter-btn-confirm-edit-ccode");
 	btnEditCCode.onclick = () => {
-		console.log(editor.getValue());
+		ccode.script = editor.getValue();
+		Object(__WEBPACK_IMPORTED_MODULE_0__app_js__["changeElementDisplay"])("vinter-modal-edit-ccode", "none");
 	};
 	Object(__WEBPACK_IMPORTED_MODULE_0__app_js__["changeElementDisplay"])("vinter-modal-edit-ccode", "block");
 });
