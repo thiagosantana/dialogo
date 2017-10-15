@@ -1,0 +1,14 @@
+div(class="modal", id="vinter-modal-edit-disconnect")
+    div(class="modal-content")
+        span(class="close", id="close-edit-disconnect") &times;
+        form
+            fieldset(class="editor-field")
+                label(for="utterance") Utterance:
+                input(type="text", id="disconnect-utterance")
+                label(for="type") Type:
+                select(id="disconnect-type")
+                    option(value="1") 1
+                    option(value="2") 2
+                    option(value="3") 3
+            fieldset(class="vinter-btn-confirm")
+                button(type="button", id="vinter-btn-confirm-edit-disconnect") EDIT

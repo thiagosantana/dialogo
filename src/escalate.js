@@ -34,4 +34,36 @@ function init() {
 
 init();
 
+function showEscalateModal() {
+	changeElementDisplay("vinter-modal-edit-escalate", "block");
+}
+
+function configureCloseBtn() {
+	let btnClose = document.getElementById("close-edit-escalate");
+	btnClose.onclick = () => {
+		changeElementDisplay("vinter-modal-edit-escalate", "none");
+	};
+}
+
+function configureBtnEditEscalate(escalate) {
+	let btnEdit = document.getElementById("vinter-btn-confirm-edit-escalate");
+	let txtUtt = document.getElementById("edit-escalate-utterance");
+	txtUtt.value = escalate.utterance;
+	let txtSleep = document.getElementById("edit-escalate-sleep");
+	//selectType.value = disconnect.type;
+	btnEdit.onclick = () => {
+		escalate.utterance = txtUtt.value;
+		escalate.sleep = txtSleep.value;
+		changeElementDisplay("vinter-modal-edit-escalate", "none");
+	};
+}
+
+const onEditEscalate = escalate => {
+	showEscalateModal();
+	configureCloseBtn();
+	configureBtnEditEscalate(escalate);
+};
+
+subscribe("oneditescalate", onEditEscalate);
+
 export { escalate };

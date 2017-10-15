@@ -95,7 +95,7 @@ window.p = paper;
 paper.on("cell:pointerclick", cellView => {
 	let activity = getActivityById(cellView.model.id);
 	//console.log(cellView.model.id);
-	//console.log(activity);
+	console.log(activity);
 	if (activity.type === "Say") publish("oneditsay", activity);
 	if (activity.type === "Form") publish("oneditform", activity);
 	if (activity.type === "CustomCode") publish("oneditcustomcode", activity);
@@ -103,6 +103,8 @@ paper.on("cell:pointerclick", cellView => {
 	if (activity.type === "DecisionSwitch") publish("oneditdecision", activity);
 	if (activity.type === "SetMemory") publish("oneditmemory", activity);
 	if (activity.type === "ServiceCall") publish("oneditservice", activity);
+	if (activity.type === "Disconnect") publish("oneditdisconnect", activity);
+	if (activity.type === "Escalate") publish("oneditescalate", activity);
 });
 
 paper.on("cell:pointerup", (cellView, evt, x, y) => {

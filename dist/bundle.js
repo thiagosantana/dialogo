@@ -12296,7 +12296,7 @@ window.p = paper;
 paper.on("cell:pointerclick", cellView => {
 	let activity = Object(__WEBPACK_IMPORTED_MODULE_0__app_js__["getActivityById"])(cellView.model.id);
 	//console.log(cellView.model.id);
-	//console.log(activity);
+	console.log(activity);
 	if (activity.type === "Say") Object(__WEBPACK_IMPORTED_MODULE_1__event_js__["a" /* publish */])("oneditsay", activity);
 	if (activity.type === "Form") Object(__WEBPACK_IMPORTED_MODULE_1__event_js__["a" /* publish */])("oneditform", activity);
 	if (activity.type === "CustomCode") Object(__WEBPACK_IMPORTED_MODULE_1__event_js__["a" /* publish */])("oneditcustomcode", activity);
@@ -12304,6 +12304,8 @@ paper.on("cell:pointerclick", cellView => {
 	if (activity.type === "DecisionSwitch") Object(__WEBPACK_IMPORTED_MODULE_1__event_js__["a" /* publish */])("oneditdecision", activity);
 	if (activity.type === "SetMemory") Object(__WEBPACK_IMPORTED_MODULE_1__event_js__["a" /* publish */])("oneditmemory", activity);
 	if (activity.type === "ServiceCall") Object(__WEBPACK_IMPORTED_MODULE_1__event_js__["a" /* publish */])("oneditservice", activity);
+	if (activity.type === "Disconnect") Object(__WEBPACK_IMPORTED_MODULE_1__event_js__["a" /* publish */])("oneditdisconnect", activity);
+	if (activity.type === "Escalate") Object(__WEBPACK_IMPORTED_MODULE_1__event_js__["a" /* publish */])("oneditescalate", activity);
 });
 
 paper.on("cell:pointerup", (cellView, evt, x, y) => {
@@ -67233,6 +67235,38 @@ function init() {
 
 init();
 
+function showDisconnectModal() {
+	Object(__WEBPACK_IMPORTED_MODULE_0__app_js__["changeElementDisplay"])("vinter-modal-edit-disconnect", "block");
+}
+
+function configureCloseBtn() {
+	let btnClose = document.getElementById("close-edit-disconnect");
+	btnClose.onclick = () => {
+		Object(__WEBPACK_IMPORTED_MODULE_0__app_js__["changeElementDisplay"])("vinter-modal-edit-disconnect", "none");
+	};
+}
+
+function configureBtnEditService(disconnect) {
+	let btnEdit = document.getElementById("vinter-btn-confirm-edit-disconnect");
+	let txtUtt = document.getElementById("disconnect-utterance");
+	txtUtt.value = disconnect.utterance;
+	let selectType = document.getElementById("disconnect-type");
+	//selectType.value = disconnect.type;
+	btnEdit.onclick = () => {
+		disconnect.utterance = txtUtt.value;
+		disconnect.disconnectType = selectType.value;
+		Object(__WEBPACK_IMPORTED_MODULE_0__app_js__["changeElementDisplay"])("vinter-modal-edit-disconnect", "none");
+	};
+}
+
+const onEditDisconnect = disconnect => {
+	console.log("...");
+	showDisconnectModal();
+	configureCloseBtn();
+	configureBtnEditService(disconnect);
+};
+Object(__WEBPACK_IMPORTED_MODULE_1__event_js__["b" /* subscribe */])("oneditdisconnect", onEditDisconnect);
+
 
 
 
@@ -67279,6 +67313,38 @@ function init() {
 }
 
 init();
+
+function showEscalateModal() {
+	Object(__WEBPACK_IMPORTED_MODULE_0__app_js__["changeElementDisplay"])("vinter-modal-edit-escalate", "block");
+}
+
+function configureCloseBtn() {
+	let btnClose = document.getElementById("close-edit-escalate");
+	btnClose.onclick = () => {
+		Object(__WEBPACK_IMPORTED_MODULE_0__app_js__["changeElementDisplay"])("vinter-modal-edit-escalate", "none");
+	};
+}
+
+function configureBtnEditEscalate(escalate) {
+	let btnEdit = document.getElementById("vinter-btn-confirm-edit-escalate");
+	let txtUtt = document.getElementById("edit-escalate-utterance");
+	txtUtt.value = escalate.utterance;
+	let txtSleep = document.getElementById("edit-escalate-sleep");
+	//selectType.value = disconnect.type;
+	btnEdit.onclick = () => {
+		escalate.utterance = txtUtt.value;
+		escalate.sleep = txtSleep.value;
+		Object(__WEBPACK_IMPORTED_MODULE_0__app_js__["changeElementDisplay"])("vinter-modal-edit-escalate", "none");
+	};
+}
+
+const onEditEscalate = escalate => {
+	showEscalateModal();
+	configureCloseBtn();
+	configureBtnEditEscalate(escalate);
+};
+
+Object(__WEBPACK_IMPORTED_MODULE_1__event_js__["b" /* subscribe */])("oneditescalate", onEditEscalate);
 
 
 
