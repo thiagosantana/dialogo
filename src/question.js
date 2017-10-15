@@ -171,10 +171,21 @@ function configureEditQuestionBehavior(question) {
 	};
 }
 
+function configureDeleteQuestion(question) {
+	let btnDelete = document.getElementById(
+		"vinter-btn-confirm-delete-question"
+	);
+	btnDelete.onclick = () => {
+		changeElementDisplay("vinter-modal-edit-question", "none");
+		publish("ondeleteactivity", question.id);
+	};
+}
+
 const onEditQuestion = question => {
 	configureCloseBtn();
 	showEditDialog();
 	configureEditQuestionBehavior(question);
+	configureDeleteQuestion(question);
 };
 
 subscribe("oneditquestion", onEditQuestion);

@@ -115,6 +115,13 @@ const onEditForm = form => {
 		txtUtterance.value = "";
 	};
 	changeElementDisplay("vinter-modal-edit-form", "block");
+	let btnDeleteForm = document.getElementById(
+		"vinter-btn-confirm-delete-form"
+	);
+	btnDeleteForm.onclick = () => {
+		changeElementDisplay("vinter-modal-edit-form", "none");
+		publish("ondeleteactivity", form.id);
+	};
 };
 
 subscribe("oneditform", onEditForm);

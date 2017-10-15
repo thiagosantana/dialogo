@@ -104,12 +104,23 @@ function configureBtnEditService(memory) {
 	};
 }
 
+function configureBtnDeleteService(service) {
+	let btnDelete = document.getElementById(
+		"vinter-btn-confirm-delete-service"
+	);
+	btnDelete.onclick = () => {
+		changeElementDisplay("vinter-modal-edit-service", "none");
+		publish("ondeleteactivity", service.id);
+	};
+}
+
 const onEditService = service => {
 	showServiceModal();
 	configureCloseBtn();
 	configureBtnAddInputEntry();
 	configureBtnAddOutputEntry();
 	configureBtnEditService(service);
+	configureBtnDeleteService(service);
 };
 
 subscribe("oneditservice", onEditService);

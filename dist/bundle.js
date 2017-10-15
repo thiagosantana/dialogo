@@ -66682,6 +66682,13 @@ const onEditDecision = decision => {
 		});
 		Object(__WEBPACK_IMPORTED_MODULE_0__app_js__["changeElementDisplay"])("vinter-modal-edit-decision", "none");
 	};
+	let btnDeleteDecision = document.getElementById(
+		"vinter-btn-confirm-delete-decision"
+	);
+	btnDeleteDecision.onclick = () => {
+		Object(__WEBPACK_IMPORTED_MODULE_0__app_js__["changeElementDisplay"])("vinter-modal-edit-decision", "none");
+		Object(__WEBPACK_IMPORTED_MODULE_1__event_js__["a" /* publish */])("ondeleteactivity", decision.id);
+	};
 };
 
 Object(__WEBPACK_IMPORTED_MODULE_1__event_js__["b" /* subscribe */])("oneditdecision", onEditDecision);
@@ -66852,12 +66859,23 @@ function configureBtnEditService(memory) {
 	};
 }
 
+function configureBtnDeleteService(service) {
+	let btnDelete = document.getElementById(
+		"vinter-btn-confirm-delete-service"
+	);
+	btnDelete.onclick = () => {
+		Object(__WEBPACK_IMPORTED_MODULE_0__app_js__["changeElementDisplay"])("vinter-modal-edit-service", "none");
+		Object(__WEBPACK_IMPORTED_MODULE_1__event_js__["a" /* publish */])("ondeleteactivity", service.id);
+	};
+}
+
 const onEditService = service => {
 	showServiceModal();
 	configureCloseBtn();
 	configureBtnAddInputEntry();
 	configureBtnAddOutputEntry();
 	configureBtnEditService(service);
+	configureBtnDeleteService(service);
 };
 
 Object(__WEBPACK_IMPORTED_MODULE_1__event_js__["b" /* subscribe */])("oneditservice", onEditService);
@@ -67048,10 +67066,21 @@ function configureEditQuestionBehavior(question) {
 	};
 }
 
+function configureDeleteQuestion(question) {
+	let btnDelete = document.getElementById(
+		"vinter-btn-confirm-delete-question"
+	);
+	btnDelete.onclick = () => {
+		Object(__WEBPACK_IMPORTED_MODULE_0__app_js__["changeElementDisplay"])("vinter-modal-edit-question", "none");
+		Object(__WEBPACK_IMPORTED_MODULE_1__event_js__["a" /* publish */])("ondeleteactivity", question.id);
+	};
+}
+
 const onEditQuestion = question => {
 	configureCloseBtn();
 	showEditDialog();
 	configureEditQuestionBehavior(question);
+	configureDeleteQuestion(question);
 };
 
 Object(__WEBPACK_IMPORTED_MODULE_1__event_js__["b" /* subscribe */])("oneditquestion", onEditQuestion);
@@ -67144,11 +67173,20 @@ function configureBtnEditMemory(memory) {
 	};
 }
 
+function configureBtnDeleteMemory(memory) {
+	let btnDelete = document.getElementById("vinter-btn-confirm-delete-memory");
+	btnDelete.onclick = () => {
+		Object(__WEBPACK_IMPORTED_MODULE_0__app_js__["changeElementDisplay"])("vinter-modal-edit-memory", "none");
+		Object(__WEBPACK_IMPORTED_MODULE_1__event_js__["a" /* publish */])("ondeleteactivity", memory.id);
+	};
+}
+
 const onEditMemory = memory => {
 	showMemoryModal();
 	configureCloseBtn();
 	configureBtnAddMemoryEntry();
 	configureBtnEditMemory(memory);
+	configureBtnDeleteMemory(memory);
 };
 
 Object(__WEBPACK_IMPORTED_MODULE_1__event_js__["b" /* subscribe */])("oneditmemory", onEditMemory);
@@ -67228,6 +67266,11 @@ Object(__WEBPACK_IMPORTED_MODULE_1__event_js__["b" /* subscribe */])("oneditcust
 		Object(__WEBPACK_IMPORTED_MODULE_0__app_js__["changeElementDisplay"])("vinter-modal-edit-ccode", "none");
 	};
 	Object(__WEBPACK_IMPORTED_MODULE_0__app_js__["changeElementDisplay"])("vinter-modal-edit-ccode", "block");
+	let btnDelete = document.getElementById("vinter-btn-confirm-delete-ccode");
+	btnDelete.onclick = () => {
+		Object(__WEBPACK_IMPORTED_MODULE_0__app_js__["changeElementDisplay"])("vinter-modal-edit-ccode", "none");
+		Object(__WEBPACK_IMPORTED_MODULE_1__event_js__["a" /* publish */])("ondeleteactivity", ccode.id);
+	};
 });
 
 init();
@@ -67586,6 +67629,13 @@ const onEditForm = form => {
 		txtUtterance.value = "";
 	};
 	Object(__WEBPACK_IMPORTED_MODULE_0__app_js__["changeElementDisplay"])("vinter-modal-edit-form", "block");
+	let btnDeleteForm = document.getElementById(
+		"vinter-btn-confirm-delete-form"
+	);
+	btnDeleteForm.onclick = () => {
+		Object(__WEBPACK_IMPORTED_MODULE_0__app_js__["changeElementDisplay"])("vinter-modal-edit-form", "none");
+		Object(__WEBPACK_IMPORTED_MODULE_1__event_js__["a" /* publish */])("ondeleteactivity", form.id);
+	};
 };
 
 Object(__WEBPACK_IMPORTED_MODULE_1__event_js__["b" /* subscribe */])("oneditform", onEditForm);

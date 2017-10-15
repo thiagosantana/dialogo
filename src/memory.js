@@ -76,11 +76,20 @@ function configureBtnEditMemory(memory) {
 	};
 }
 
+function configureBtnDeleteMemory(memory) {
+	let btnDelete = document.getElementById("vinter-btn-confirm-delete-memory");
+	btnDelete.onclick = () => {
+		changeElementDisplay("vinter-modal-edit-memory", "none");
+		publish("ondeleteactivity", memory.id);
+	};
+}
+
 const onEditMemory = memory => {
 	showMemoryModal();
 	configureCloseBtn();
 	configureBtnAddMemoryEntry();
 	configureBtnEditMemory(memory);
+	configureBtnDeleteMemory(memory);
 };
 
 subscribe("oneditmemory", onEditMemory);

@@ -62,6 +62,11 @@ subscribe("oneditcustomcode", ccode => {
 		changeElementDisplay("vinter-modal-edit-ccode", "none");
 	};
 	changeElementDisplay("vinter-modal-edit-ccode", "block");
+	let btnDelete = document.getElementById("vinter-btn-confirm-delete-ccode");
+	btnDelete.onclick = () => {
+		changeElementDisplay("vinter-modal-edit-ccode", "none");
+		publish("ondeleteactivity", ccode.id);
+	};
 });
 
 init();

@@ -67,6 +67,13 @@ const onEditDecision = decision => {
 		});
 		changeElementDisplay("vinter-modal-edit-decision", "none");
 	};
+	let btnDeleteDecision = document.getElementById(
+		"vinter-btn-confirm-delete-decision"
+	);
+	btnDeleteDecision.onclick = () => {
+		changeElementDisplay("vinter-modal-edit-decision", "none");
+		publish("ondeleteactivity", decision.id);
+	};
 };
 
 subscribe("oneditdecision", onEditDecision);
