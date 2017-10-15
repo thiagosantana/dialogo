@@ -12303,6 +12303,7 @@ paper.on("cell:pointerclick", cellView => {
 	if (activity.type === "QuestionAnswer") Object(__WEBPACK_IMPORTED_MODULE_1__event_js__["a" /* publish */])("oneditquestion", activity);
 	if (activity.type === "DecisionSwitch") Object(__WEBPACK_IMPORTED_MODULE_1__event_js__["a" /* publish */])("oneditdecision", activity);
 	if (activity.type === "SetMemory") Object(__WEBPACK_IMPORTED_MODULE_1__event_js__["a" /* publish */])("oneditmemory", activity);
+	if (activity.type === "ServiceCall") Object(__WEBPACK_IMPORTED_MODULE_1__event_js__["a" /* publish */])("oneditservice", activity);
 });
 
 paper.on("cell:pointerup", (cellView, evt, x, y) => {
@@ -66745,6 +66746,75 @@ const configureNewServiceCallBehavior = () => {
 function init() {
 	configureNewServiceCallBehavior();
 }
+
+function showServiceModal() {
+	Object(__WEBPACK_IMPORTED_MODULE_0__app_js__["changeElementDisplay"])("vinter-modal-edit-service", "block");
+}
+
+function configureCloseBtn() {
+	let closeBtn = document.getElementById("close-edit-service");
+	closeBtn.onclick = () => {
+		Object(__WEBPACK_IMPORTED_MODULE_0__app_js__["changeElementDisplay"])("vinter-modal-edit-service", "none");
+	};
+}
+
+function createInputEntry() {
+	$("#service-input-fields").append(
+		"<div><label>Nome:</label><input/><label>Valor:</label><input/></div>"
+	);
+}
+
+function createOutputEntry() {
+	$("#service-output-fields").append(
+		"<div><label>Nome:</label><input/></div>"
+	);
+}
+
+function configureBtnAddInputEntry() {
+	let btnAddInput = document.getElementById("add-input");
+	btnAddInput.onclick = createInputEntry;
+}
+
+function configureBtnAddOutputEntry() {
+	let btnAddOutput = document.getElementById("add-output");
+	btnAddOutput.onclick = createOutputEntry;
+}
+
+function configureBtnEditService(memory) {
+	let btnEdit = document.getElementById("vinter-btn-confirm-edit-service");
+	btnEdit.onclick = () => {
+		let txt = document.getElementById("edit-servicename");
+		memory.serviceName = txt.value;
+		document.querySelectorAll("#service-input-fields div").forEach(div => {
+			let name = div.querySelectorAll("input")[0].value;
+			let value = div.querySelectorAll("input")[1].value;
+			memory.addInputParameter({
+				name: name,
+				value: value,
+				type: "String"
+			});
+		});
+		document.querySelectorAll("#service-output-fields div").forEach(div => {
+			let name = div.querySelectorAll("input")[0].value;
+			memory.addOutputParameter({
+				name: name,
+				value: "",
+				type: "String"
+			});
+		});
+		Object(__WEBPACK_IMPORTED_MODULE_0__app_js__["changeElementDisplay"])("vinter-modal-edit-service", "none");
+	};
+}
+
+const onEditService = service => {
+	showServiceModal();
+	configureCloseBtn();
+	configureBtnAddInputEntry();
+	configureBtnAddOutputEntry();
+	configureBtnEditService(service);
+};
+
+Object(__WEBPACK_IMPORTED_MODULE_1__event_js__["b" /* subscribe */])("oneditservice", onEditService);
 
 init();
 

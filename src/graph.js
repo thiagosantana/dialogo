@@ -102,6 +102,7 @@ paper.on("cell:pointerclick", cellView => {
 	if (activity.type === "QuestionAnswer") publish("oneditquestion", activity);
 	if (activity.type === "DecisionSwitch") publish("oneditdecision", activity);
 	if (activity.type === "SetMemory") publish("oneditmemory", activity);
+	if (activity.type === "ServiceCall") publish("oneditservice", activity);
 });
 
 paper.on("cell:pointerup", (cellView, evt, x, y) => {
