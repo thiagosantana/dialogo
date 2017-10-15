@@ -67436,10 +67436,21 @@ function configureBtnEditEscalate(escalate) {
 	};
 }
 
+function configureBtnDeleteEscalate(escalate) {
+	let btnDelete = document.getElementById(
+		"vinter-btn-confirm-delete-escalate"
+	);
+	btnDelete.onclick = () => {
+		Object(__WEBPACK_IMPORTED_MODULE_0__app_js__["changeElementDisplay"])("vinter-modal-edit-escalate", "none");
+		Object(__WEBPACK_IMPORTED_MODULE_1__event_js__["a" /* publish */])("ondeleteactivity", escalate.id);
+	};
+}
+
 const onEditEscalate = escalate => {
 	showEscalateModal();
 	configureCloseBtn();
 	configureBtnEditEscalate(escalate);
+	configureBtnDeleteEscalate(escalate);
 };
 
 Object(__WEBPACK_IMPORTED_MODULE_1__event_js__["b" /* subscribe */])("oneditescalate", onEditEscalate);

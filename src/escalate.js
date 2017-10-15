@@ -58,10 +58,21 @@ function configureBtnEditEscalate(escalate) {
 	};
 }
 
+function configureBtnDeleteEscalate(escalate) {
+	let btnDelete = document.getElementById(
+		"vinter-btn-confirm-delete-escalate"
+	);
+	btnDelete.onclick = () => {
+		changeElementDisplay("vinter-modal-edit-escalate", "none");
+		publish("ondeleteactivity", escalate.id);
+	};
+}
+
 const onEditEscalate = escalate => {
 	showEscalateModal();
 	configureCloseBtn();
 	configureBtnEditEscalate(escalate);
+	configureBtnDeleteEscalate(escalate);
 };
 
 subscribe("oneditescalate", onEditEscalate);
