@@ -231,6 +231,13 @@ function getBeginActivity() {
 	}
 }
 
+function removeAllChilds(id) {
+	let parentElement = document.getElementById(id);
+	while (parentElement.firstChild) {
+		parentElement.removeChild(parentElement.firstChild);
+	}
+}
+
 function getActivityById(id) {
 	let activity = vinter_flow.workflows[0].activities.filter(
 		activity => activity.id === id
@@ -371,5 +378,6 @@ export {
 	makeName,
 	isFlowInitialized,
 	changeElementDisplay,
-	loadActivity
+	loadActivity,
+	removeAllChilds
 };

@@ -1,4 +1,9 @@
-import { makeName, isFlowInitialized, changeElementDisplay } from "./app.js";
+import {
+	makeName,
+	isFlowInitialized,
+	changeElementDisplay,
+	removeAllChilds
+} from "./app.js";
 import { subscribe, publish } from "./event.js";
 
 class Decision {
@@ -67,6 +72,7 @@ const onEditDecision = decision => {
 			decision.addRule(extractRuleDefinition(div));
 			publish("updatedecisiongraph", extractRuleDefinition(div).label);
 		});
+		removeAllChilds("vinter-div-decision-rule");
 		changeElementDisplay("vinter-modal-edit-decision", "none");
 	};
 	let btnDeleteDecision = document.getElementById(

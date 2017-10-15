@@ -341,6 +341,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "isFlowInitialized", function() { return isFlowInitialized; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "changeElementDisplay", function() { return changeElementDisplay; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "loadActivity", function() { return loadActivity; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "removeAllChilds", function() { return removeAllChilds; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__event_js__ = __webpack_require__(3);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__graph_js__ = __webpack_require__(18);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__say_js__ = __webpack_require__(63);
@@ -587,6 +588,13 @@ function getBeginActivity() {
 		return begin[0];
 	} else {
 		return undefined;
+	}
+}
+
+function removeAllChilds(id) {
+	let parentElement = document.getElementById(id);
+	while (parentElement.firstChild) {
+		parentElement.removeChild(parentElement.firstChild);
 	}
 }
 
@@ -66977,6 +66985,7 @@ const onEditDecision = decision => {
 			decision.addRule(extractRuleDefinition(div));
 			Object(__WEBPACK_IMPORTED_MODULE_1__event_js__["a" /* publish */])("updatedecisiongraph", extractRuleDefinition(div).label);
 		});
+		Object(__WEBPACK_IMPORTED_MODULE_0__app_js__["removeAllChilds"])("vinter-div-decision-rule");
 		Object(__WEBPACK_IMPORTED_MODULE_0__app_js__["changeElementDisplay"])("vinter-modal-edit-decision", "none");
 	};
 	let btnDeleteDecision = document.getElementById(
