@@ -1,13 +1,11 @@
 div(class="modal", id="vinter-modal-new-flow")
     div(class="modal-content")
         span(class="close", id="close-new-flow") &times;
-        form(id="new-flow")
         h2 New Flow
+        label(for="name") Name:
+        input(type="text", id="new-flow-name", class="flow-field")
+        label(for="id") ID:
+        input(type="text", id="new-flow-id", class="flow-field")
         div
-            label(for="name") Name:
-            input(type="text", id="new-flow-name")
-        div
-            label(for="id") ID:
-            input(type="text", id="new-flow-id")
-        div(class="vinter-btn-confirm")
-            button(type="button", id="vinter-btn-confirm-create-flow") CREATE
+            button(type="button", id="vinter-btn-confirm-create-flow", class="btn-create") CREATE
+        span(class="flow-error", id="new-flow-error") Ops! Por favor preencha os 2 campos!

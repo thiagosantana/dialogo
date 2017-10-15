@@ -14,6 +14,7 @@ import { controlManager } from "./control_manager.js";
 import { form } from "./form.js";
 import { openMenu } from "./menu.js";
 import { undo, redo } from "./undo_redo.js";
+import { xpto } from "./timer.js";
 
 let vinter_flow = {};
 window.flow = vinter_flow;
@@ -98,6 +99,8 @@ const configureNewFlowBehavior = () => {
 			changeElementDisplay("vinter-modal-new-flow", "none");
 			publish("onflowcreated", {});
 			initialized = true;
+		} else {
+			changeElementDisplay("new-flow-error", "block");
 		}
 	};
 };

@@ -66,8 +66,8 @@ const addFieldSet = () => {
 		console.log("Dynamic Form");
 		e.preventDefault();
 		let div = document.createElement("div");
-		div.setAttribute("class", "vinter-form-field");
 		let txtField = document.createElement("input");
+		txtField.setAttribute("class", "flow-field");
 		txtField.placeholder = "Field name";
 		div.appendChild(txtField);
 		wrapper.appendChild(div);
@@ -86,6 +86,7 @@ const onEditForm = form => {
 	let vinterCloseEditForm = document.getElementById("close-edit-form");
 	vinterCloseEditForm.onclick = () => {
 		changeElementDisplay("vinter-modal-edit-form", "none");
+		removeAllChilds("dynamic-fields");
 	};
 	let txtUtterance = document.getElementById("edit-form-utterance");
 	txtUtterance.value = form.utterance;

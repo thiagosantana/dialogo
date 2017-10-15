@@ -2,12 +2,11 @@ div(class="modal", id="vinter-modal-edit-form")
     div(class="modal-content")
         span(class="close", id="close-edit-form") &times;
         h2 Edit Form
-        form(id="edit-form")
-            div
-                label(for="utterance") Utterance:
-                input(type="text", id="edit-form-utterance")
-            button(type="button", id="vinter-btn-add-field") ADD FIELD
-            div(id="dynamic-fields")
-            div(class="vinter-btn-confirm")
-                button(type="button", id="vinter-btn-confirm-edit-form") EDIT
-                button(type="button", id="vinter-btn-confirm-delete-form", class="btn-delete") DELETE
+        div
+            label(for="utterance") Utterance:
+            input(type="text", id="edit-form-utterance", class="flow-field utt")
+        button(type="button", id="vinter-btn-add-field", class="btn-form-field") ADD FIELD
+        div(id="dynamic-fields")
+        div(class="vinter-btn-confirm")
+            button(type="button", id="vinter-btn-confirm-edit-form", class="btn-create") EDIT
+            button(type="button", id="vinter-btn-confirm-delete-form", class="btn-delete") DELETE

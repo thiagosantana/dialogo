@@ -64,6 +64,7 @@ const onEditDecision = decision => {
 	let btnEdit = document.getElementById("vinter-btn-edit-decision");
 	btnCloseModal.onclick = () => {
 		changeElementDisplay("vinter-modal-edit-decision", "none");
+		removeAllChilds("vinter-div-decision-rule");
 	};
 	btnAddRule.onclick = createRuleEntry;
 	btnEdit.onclick = () => {
@@ -93,7 +94,7 @@ function init() {
 function createRuleEntry() {
 	$("#vinter-div-decision-rule").append(
 		"<div>" +
-			"<label>Label:</label><input/>" +
+			"<label>Label:</label><input class='rule-field' placeholder='ID no gráfico'/>" +
 			"<select>" +
 			"<option value='nope'> </option>" +
 			"<option value='not'>!</option>" +
@@ -102,13 +103,13 @@ function createRuleEntry() {
 			"<option value='api.getMemory'>api.getMemory</option>" +
 			"<option value='api.getDialogMemory'>api.getDialogMemory</option>" +
 			"</select>" +
-			"<input/>" +
+			"<input class='rule-field'/>" +
 			"<select>" +
 			"<option value='equals'>equals</option>" +
 			"<option value='contains'>contains</option>" +
 			"<option value='equalsIgnoreCase'>equalsIgnoreCase</option>" +
 			"</select>" +
-			"<input/>" +
+			"<input class='rule-field'/>" +
 			"</div>"
 	);
 }
