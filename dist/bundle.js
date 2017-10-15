@@ -12497,12 +12497,299 @@ function renderSay(say) {
 		attrs: {
 			text: {
 				text: say.type,
+				fill: "black",
+				"font-weight": "",
+				"text-transform": "capitalize",
+				"font-size": 12
+			},
+			rect: { fill: "#FCBFB7", "stroke-width": 2, stroke: "gray" }
+		}
+	});
+	graph.addCell(model);
+	say.id = model.id;
+}
+
+function renderEscalate(say) {
+	let model = new joint.shapes.devs.Model({
+		position: { x: 150, y: 150 },
+		size: { width: 44, height: 43 },
+		inPorts: [""],
+		outPorts: ["nextActivity"],
+		ports: {
+			groups: {
+				in: {
+					attrs: {
+						".port-body": {
+							fill: "#16A085"
+						}
+					},
+					position: "top"
+				},
+				out: {
+					attrs: {
+						".port-body": {
+							fill: "#B9B7A7"
+						}
+					},
+					position: "bottom"
+				}
+			}
+		},
+		attrs: {
+			text: {
+				text: say.type,
 				fill: "white",
 				"font-weight": "",
 				"text-transform": "capitalize",
 				"font-size": 12
 			},
-			rect: { fill: "black", "stroke-width": 2, stroke: "gray" }
+			rect: { fill: "#331E36", "stroke-width": 2, stroke: "black" }
+		}
+	});
+	graph.addCell(model);
+	say.id = model.id;
+}
+
+function renderCustom(say) {
+	let model = new joint.shapes.devs.Model({
+		position: { x: 150, y: 150 },
+		size: { width: 68, height: 43 },
+		inPorts: [""],
+		outPorts: ["nextActivity"],
+		ports: {
+			groups: {
+				in: {
+					attrs: {
+						".port-body": {
+							fill: "#16A085"
+						}
+					},
+					position: "top"
+				},
+				out: {
+					attrs: {
+						".port-body": {
+							fill: "#B9B7A7"
+						}
+					},
+					position: "bottom"
+				}
+			}
+		},
+		attrs: {
+			text: {
+				text: say.type,
+				fill: "black",
+				"font-weight": "",
+				"text-transform": "capitalize",
+				"font-size": 12
+			},
+			rect: { fill: "#F6E27F", "stroke-width": 2, stroke: "#A8B7AB" }
+		}
+	});
+	graph.addCell(model);
+	say.id = model.id;
+}
+
+function renderDisconnect(say) {
+	let model = new joint.shapes.devs.Model({
+		position: { x: 150, y: 150 },
+		size: { width: 59, height: 38 },
+		inPorts: [""],
+		outPorts: ["nextActivity"],
+		ports: {
+			groups: {
+				in: {
+					attrs: {
+						".port-body": {
+							fill: "#16A085"
+						}
+					},
+					position: "top"
+				},
+				out: {
+					attrs: {
+						".port-body": {
+							fill: "#B9B7A7"
+						}
+					},
+					position: "bottom"
+				}
+			}
+		},
+		attrs: {
+			text: {
+				text: say.type,
+				fill: "white",
+				"font-weight": "",
+				"text-transform": "capitalize",
+				"font-size": 12
+			},
+			rect: { fill: "#334E58", "stroke-width": 2, stroke: "gray" }
+		}
+	});
+	graph.addCell(model);
+	say.id = model.id;
+}
+
+function renderService(say) {
+	let model = new joint.shapes.devs.Model({
+		position: { x: 150, y: 150 },
+		size: { width: 70, height: 38 },
+		inPorts: [""],
+		outPorts: ["nextActivity"],
+		ports: {
+			groups: {
+				in: {
+					attrs: {
+						".port-body": {
+							fill: "#16A085"
+						}
+					},
+					position: "top"
+				},
+				out: {
+					attrs: {
+						".port-body": {
+							fill: "#B9B7A7"
+						}
+					},
+					position: "bottom"
+				}
+			}
+		},
+		attrs: {
+			text: {
+				text: say.type,
+				fill: "white",
+				"font-weight": "",
+				"text-transform": "capitalize",
+				"font-size": 12
+			},
+			rect: { fill: "#931621", "stroke-width": 2, stroke: "black" }
+		}
+	});
+	graph.addCell(model);
+	say.id = model.id;
+}
+
+function renderControl(say) {
+	let model = new joint.shapes.devs.Model({
+		position: { x: 150, y: 150 },
+		size: { width: 135, height: 38 },
+		inPorts: [""],
+		outPorts: ["nextActivity"],
+		ports: {
+			groups: {
+				in: {
+					attrs: {
+						".port-body": {
+							fill: "#16A085"
+						}
+					},
+					position: "top"
+				},
+				out: {
+					attrs: {
+						".port-body": {
+							fill: "#B9B7A7"
+						}
+					},
+					position: "bottom"
+				}
+			}
+		},
+		attrs: {
+			text: {
+				text: say.type,
+				fill: "black",
+				"font-weight": "",
+				"text-transform": "capitalize",
+				"font-size": 12
+			},
+			rect: { fill: "#88665D", "stroke-width": 2, stroke: "black" }
+		}
+	});
+	graph.addCell(model);
+	say.id = model.id;
+}
+
+function renderMemory(say) {
+	let model = new joint.shapes.devs.Model({
+		position: { x: 150, y: 150 },
+		size: { width: 100, height: 38 },
+		inPorts: [""],
+		outPorts: ["nextActivity"],
+		ports: {
+			groups: {
+				in: {
+					attrs: {
+						".port-body": {
+							fill: "#16A085"
+						}
+					},
+					position: "top"
+				},
+				out: {
+					attrs: {
+						".port-body": {
+							fill: "#B9B7A7"
+						}
+					},
+					position: "bottom"
+				}
+			}
+		},
+		attrs: {
+			text: {
+				text: say.type,
+				fill: "white",
+				"font-weight": "",
+				"text-transform": "capitalize",
+				"font-size": 12
+			},
+			rect: { fill: "#785589", "stroke-width": 2, stroke: "black" }
+		}
+	});
+	graph.addCell(model);
+	say.id = model.id;
+}
+
+function renderQuestion(say) {
+	let model = new joint.shapes.devs.Model({
+		position: { x: 150, y: 150 },
+		size: { width: 110, height: 38 },
+		inPorts: [""],
+		outPorts: ["nextActivity"],
+		ports: {
+			groups: {
+				in: {
+					attrs: {
+						".port-body": {
+							fill: "#16A085"
+						}
+					},
+					position: "top"
+				},
+				out: {
+					attrs: {
+						".port-body": {
+							fill: "#B9B7A7"
+						}
+					},
+					position: "bottom"
+				}
+			}
+		},
+		attrs: {
+			text: {
+				text: say.type,
+				fill: "#8E9AAF",
+				"font-weight": "",
+				"text-transform": "capitalize",
+				"font-size": 12
+			},
+			rect: { fill: "#AFFC41", "stroke-width": 2, stroke: "black" }
 		}
 	});
 	graph.addCell(model);
@@ -12537,12 +12824,12 @@ function renderForm(form) {
 		attrs: {
 			text: {
 				text: form.type,
-				fill: "white",
+				fill: "black",
 				"font-weight": "",
 				"text-transform": "capitalize",
 				"font-size": 13
 			},
-			rect: { fill: "blue", "stroke-width": 2, stroke: "black" }
+			rect: { fill: "#C6D2ED", "stroke-width": 2, stroke: "black" }
 		}
 	});
 	graph.addCell(model);
@@ -12637,11 +12924,11 @@ const onFormAdded = form => {
 };
 
 const onServiceCallAdded = serviceCall => {
-	renderSay(serviceCall); //only for test purpose
+	renderService(serviceCall); //only for test purpose
 };
 
 const onControlManagerAdded = controlManager => {
-	renderSay(controlManager); //only for test purpose
+	renderControl(controlManager); //only for test purpose
 };
 
 const onDecisionAdded = decision => {
@@ -12649,23 +12936,23 @@ const onDecisionAdded = decision => {
 };
 
 const onQuestionAdded = question => {
-	renderSay(question); //only for test purpose
+	renderQuestion(question); //only for test purpose
 };
 
 const onMemoryAdded = memory => {
-	renderSay(memory); //only for test purpose
+	renderMemory(memory); //only for test purpose
 };
 
 const onCustomCodeAdded = custom => {
-	renderSay(custom); //only for test purpose
+	renderCustom(custom); //only for test purpose
 };
 
 const onDisconnectAdded = disconnect => {
-	renderSay(disconnect); //only for test purpose
+	renderDisconnect(disconnect); //only for test purpose
 };
 
 const onEscalateAdded = escalate => {
-	renderSay(escalate);
+	renderEscalate(escalate);
 };
 
 const onMenuActivityClose = () => {
