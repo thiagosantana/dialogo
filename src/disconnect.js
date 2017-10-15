@@ -45,7 +45,7 @@ function configureCloseBtn() {
 	};
 }
 
-function configureBtnEditService(disconnect) {
+function configureBtnEditDisconnect(disconnect) {
 	let btnEdit = document.getElementById("vinter-btn-confirm-edit-disconnect");
 	let txtUtt = document.getElementById("disconnect-utterance");
 	txtUtt.value = disconnect.utterance;
@@ -58,11 +58,22 @@ function configureBtnEditService(disconnect) {
 	};
 }
 
+function configureBtnDeleteDisconnect(disconnect) {
+	let btnDeleteDisconnect = document.getElementById(
+		"vinter-btn-confirm-delete-disconnect"
+	);
+	btnDeleteDisconnect.onclick = () => {
+		changeElementDisplay("vinter-modal-edit-disconnect", "none");
+		publish("ondeleteactivity", disconnect.id);
+	};
+}
+
 const onEditDisconnect = disconnect => {
 	console.log("...");
 	showDisconnectModal();
 	configureCloseBtn();
-	configureBtnEditService(disconnect);
+	configureBtnEditDisconnect(disconnect);
+	configureBtnDeleteDisconnect(disconnect);
 };
 subscribe("oneditdisconnect", onEditDisconnect);
 

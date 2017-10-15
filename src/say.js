@@ -52,6 +52,11 @@ const onEditSay = say => {
 		textUtterance.value = "";
 		textSleep.value = "";
 	};
+	let btnDelete = document.getElementById("vinter-btn-confirm-delete-say");
+	btnDelete.onclick = () => {
+		changeElementDisplay("vinter-modal-edit-say", "none");
+		publish("ondeleteactivity", say.id);
+	};
 };
 
 subscribe("oneditsay", onEditSay);

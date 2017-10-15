@@ -653,6 +653,14 @@ function init() {
 	setupFlow();
 }
 
+function removeFromActivityArray(activityID) {
+	for (var i in vinter_flow.workflows[0].activities) {
+		if (vinter_flow.workflows[0].activities[i].id === activityID) {
+			vinter_flow.workflows[0].activities.splice(i, 1);
+		}
+	}
+}
+
 Object(__WEBPACK_IMPORTED_MODULE_0__event_js__["b" /* subscribe */])("oncreatesay", () => {
 	console.log("oncreatesay");
 	addSayActivity();
@@ -706,6 +714,10 @@ Object(__WEBPACK_IMPORTED_MODULE_0__event_js__["b" /* subscribe */])("oncreatees
 Object(__WEBPACK_IMPORTED_MODULE_0__event_js__["b" /* subscribe */])("onshowmenu", () => {
 	console.log("onshowmenu");
 	Object(__WEBPACK_IMPORTED_MODULE_14__menu_js__["a" /* openMenu */])();
+});
+
+Object(__WEBPACK_IMPORTED_MODULE_0__event_js__["b" /* subscribe */])("ondeleteactivity", id => {
+	removeFromActivityArray(id);
 });
 
 init();
@@ -12211,6 +12223,8 @@ function shiftRanks(t, g, delta) {
 window.$ = __webpack_require__(10);
 window.joint = __webpack_require__(19);
 
+let cellViewForDelete = null;
+
 let graph = new joint.dia.Graph();
 let paper = new joint.dia.Paper({
 	el: $("#vinter-graph"),
@@ -12306,6 +12320,8 @@ paper.on("cell:pointerclick", cellView => {
 	if (activity.type === "ServiceCall") Object(__WEBPACK_IMPORTED_MODULE_1__event_js__["a" /* publish */])("oneditservice", activity);
 	if (activity.type === "Disconnect") Object(__WEBPACK_IMPORTED_MODULE_1__event_js__["a" /* publish */])("oneditdisconnect", activity);
 	if (activity.type === "Escalate") Object(__WEBPACK_IMPORTED_MODULE_1__event_js__["a" /* publish */])("oneditescalate", activity);
+
+	cellViewForDelete = cellView;
 });
 
 paper.on("cell:pointerup", (cellView, evt, x, y) => {
@@ -12322,6 +12338,12 @@ graph.on("change:source change:target", function(link) {
 
 paper.on("link:connect", (link, evt, target) => {
 	updateWorkflowConnections();
+});
+
+graph.on("remove", function(cell, collection, opt) {
+	if (cell.isLink()) {
+		console.log("link removed", cell);
+	}
 });
 
 function load(json) {
@@ -12659,6 +12681,23 @@ Object(__WEBPACK_IMPORTED_MODULE_1__event_js__["b" /* subscribe */])("oncustomco
 Object(__WEBPACK_IMPORTED_MODULE_1__event_js__["b" /* subscribe */])("ondisconnectadded", onDisconnectAdded);
 Object(__WEBPACK_IMPORTED_MODULE_1__event_js__["b" /* subscribe */])("onescalateadded", onEscalateAdded);
 Object(__WEBPACK_IMPORTED_MODULE_1__event_js__["b" /* subscribe */])("onmenuactivityclose", onMenuActivityClose);
+
+Object(__WEBPACK_IMPORTED_MODULE_1__event_js__["b" /* subscribe */])("ondeleteactivity", id => {
+	removeConnectedLinks(id);
+	cellViewForDelete.remove();
+	cellViewForDelete = null;
+});
+
+function removeConnectedLinks(id) {
+	graph.getLinks().forEach(link => {
+		if (link.getTargetElement().id === id) {
+			link.remove();
+		}
+		if (link.attributes.source.id === id) {
+			link.remove();
+		}
+	});
+}
 
 
 
@@ -66511,6 +66550,11 @@ const onEditSay = say => {
 		textUtterance.value = "";
 		textSleep.value = "";
 	};
+	let btnDelete = document.getElementById("vinter-btn-confirm-delete-say");
+	btnDelete.onclick = () => {
+		Object(__WEBPACK_IMPORTED_MODULE_0__app_js__["changeElementDisplay"])("vinter-modal-edit-say", "none");
+		Object(__WEBPACK_IMPORTED_MODULE_1__event_js__["a" /* publish */])("ondeleteactivity", say.id);
+	};
 };
 
 Object(__WEBPACK_IMPORTED_MODULE_1__event_js__["b" /* subscribe */])("oneditsay", onEditSay);
@@ -67246,7 +67290,7 @@ function configureCloseBtn() {
 	};
 }
 
-function configureBtnEditService(disconnect) {
+function configureBtnEditDisconnect(disconnect) {
 	let btnEdit = document.getElementById("vinter-btn-confirm-edit-disconnect");
 	let txtUtt = document.getElementById("disconnect-utterance");
 	txtUtt.value = disconnect.utterance;
@@ -67259,11 +67303,22 @@ function configureBtnEditService(disconnect) {
 	};
 }
 
+function configureBtnDeleteDisconnect(disconnect) {
+	let btnDeleteDisconnect = document.getElementById(
+		"vinter-btn-confirm-delete-disconnect"
+	);
+	btnDeleteDisconnect.onclick = () => {
+		Object(__WEBPACK_IMPORTED_MODULE_0__app_js__["changeElementDisplay"])("vinter-modal-edit-disconnect", "none");
+		Object(__WEBPACK_IMPORTED_MODULE_1__event_js__["a" /* publish */])("ondeleteactivity", disconnect.id);
+	};
+}
+
 const onEditDisconnect = disconnect => {
 	console.log("...");
 	showDisconnectModal();
 	configureCloseBtn();
-	configureBtnEditService(disconnect);
+	configureBtnEditDisconnect(disconnect);
+	configureBtnDeleteDisconnect(disconnect);
 };
 Object(__WEBPACK_IMPORTED_MODULE_1__event_js__["b" /* subscribe */])("oneditdisconnect", onEditDisconnect);
 

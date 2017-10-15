@@ -10,6 +10,8 @@ import { subscribe, publish } from "./event.js";
 window.$ = require("jquery");
 window.joint = require("jointjs");
 
+let cellViewForDelete = null;
+
 let graph = new joint.dia.Graph();
 let paper = new joint.dia.Paper({
 	el: $("#vinter-graph"),
@@ -105,6 +107,8 @@ paper.on("cell:pointerclick", cellView => {
 	if (activity.type === "ServiceCall") publish("oneditservice", activity);
 	if (activity.type === "Disconnect") publish("oneditdisconnect", activity);
 	if (activity.type === "Escalate") publish("oneditescalate", activity);
+
+	cellViewForDelete = cellView;
 });
 
 paper.on("cell:pointerup", (cellView, evt, x, y) => {
@@ -121,6 +125,12 @@ graph.on("change:source change:target", function(link) {
 
 paper.on("link:connect", (link, evt, target) => {
 	updateWorkflowConnections();
+});
+
+graph.on("remove", function(cell, collection, opt) {
+	if (cell.isLink()) {
+		console.log("link removed", cell);
+	}
 });
 
 function load(json) {
@@ -458,5 +468,22 @@ subscribe("oncustomcodeadded", onCustomCodeAdded);
 subscribe("ondisconnectadded", onDisconnectAdded);
 subscribe("onescalateadded", onEscalateAdded);
 subscribe("onmenuactivityclose", onMenuActivityClose);
+
+subscribe("ondeleteactivity", id => {
+	removeConnectedLinks(id);
+	cellViewForDelete.remove();
+	cellViewForDelete = null;
+});
+
+function removeConnectedLinks(id) {
+	graph.getLinks().forEach(link => {
+		if (link.getTargetElement().id === id) {
+			link.remove();
+		}
+		if (link.attributes.source.id === id) {
+			link.remove();
+		}
+	});
+}
 
 export { load };

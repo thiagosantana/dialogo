@@ -294,6 +294,14 @@ function init() {
 	setupFlow();
 }
 
+function removeFromActivityArray(activityID) {
+	for (var i in vinter_flow.workflows[0].activities) {
+		if (vinter_flow.workflows[0].activities[i].id === activityID) {
+			vinter_flow.workflows[0].activities.splice(i, 1);
+		}
+	}
+}
+
 subscribe("oncreatesay", () => {
 	console.log("oncreatesay");
 	addSayActivity();
@@ -347,6 +355,10 @@ subscribe("oncreateescalate", () => {
 subscribe("onshowmenu", () => {
 	console.log("onshowmenu");
 	openMenu();
+});
+
+subscribe("ondeleteactivity", id => {
+	removeFromActivityArray(id);
 });
 
 init();
