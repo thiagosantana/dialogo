@@ -12223,7 +12223,7 @@ function shiftRanks(t, g, delta) {
 window.$ = __webpack_require__(10);
 window.joint = __webpack_require__(19);
 
-let cellViewForDelete = null;
+let cellViewForEdit = null;
 
 let graph = new joint.dia.Graph();
 let paper = new joint.dia.Paper({
@@ -12321,23 +12321,17 @@ paper.on("cell:pointerclick", cellView => {
 	if (activity.type === "Disconnect") Object(__WEBPACK_IMPORTED_MODULE_1__event_js__["a" /* publish */])("oneditdisconnect", activity);
 	if (activity.type === "Escalate") Object(__WEBPACK_IMPORTED_MODULE_1__event_js__["a" /* publish */])("oneditescalate", activity);
 
-	cellViewForDelete = cellView;
+	cellViewForEdit = cellView;
 });
 
 paper.on("cell:pointerup", (cellView, evt, x, y) => {
 	removeIlegalLinksWhenTargetPointsNull();
 });
 
-graph.on("change:source change:target", function(link) {
-	if (link.attributes.target.hasOwnProperty("id")) {
-		console.log("ok");
-	} else {
-		console.log("nok");
-	}
-});
+graph.on("change:source change:target", function(link) {});
 
 paper.on("link:connect", (link, evt, target) => {
-	updateWorkflowConnections();
+	updateWorkflowConnections(link, evt, target);
 });
 
 graph.on("remove", function(cell, collection, opt) {
@@ -12396,8 +12390,8 @@ function renderLink(sourceID, targetID) {
 function renderBegin() {
 	let begin = Object(__WEBPACK_IMPORTED_MODULE_0__app_js__["getBeginActivity"])();
 	let model = new joint.shapes.devs.Model({
-		position: { x: 300, y: 30 },
-		size: { width: 25, height: 25 },
+		position: { x: 30, y: 30 },
+		size: { width: 27, height: 27 },
 		outPorts: ["nextActivity"],
 		ports: {
 			groups: {
@@ -12427,7 +12421,7 @@ function renderBegin() {
 				"text-transform": "capitalize",
 				"font-size": 16
 			},
-			rect: { fill: "green", "stroke-width": 1, stroke: "black" }
+			rect: { fill: "green", "stroke-width": 0, stroke: "black" }
 		}
 	});
 	graph.addCell(model);
@@ -12438,7 +12432,7 @@ function renderEnd() {
 	let end = Object(__WEBPACK_IMPORTED_MODULE_0__app_js__["getEndActivity"])();
 	let model = new joint.shapes.devs.Model({
 		position: { x: 300, y: 500 },
-		size: { width: 25, height: 25 },
+		size: { width: 27, height: 27 },
 		inPorts: [""],
 		ports: {
 			groups: {
@@ -12467,7 +12461,7 @@ function renderEnd() {
 				"text-transform": "capitalize",
 				"font-size": 16
 			},
-			rect: { fill: "red", "stroke-width": 2, stroke: "black" }
+			rect: { fill: "red", "stroke-width": 0, stroke: "black" }
 		}
 	});
 	graph.addCell(model);
@@ -12477,7 +12471,7 @@ function renderEnd() {
 function renderSay(say) {
 	let model = new joint.shapes.devs.Model({
 		position: { x: 150, y: 150 },
-		size: { width: 65, height: 65 },
+		size: { width: 44, height: 43 },
 		inPorts: [""],
 		outPorts: ["nextActivity"],
 		ports: {
@@ -12518,7 +12512,7 @@ function renderSay(say) {
 function renderForm(form) {
 	let model = new joint.shapes.devs.Model({
 		position: { x: 150, y: 150 },
-		size: { width: 65, height: 65 },
+		size: { width: 50, height: 45 },
 		inPorts: [""],
 		outPorts: ["nextActivity", "cancelNextActivityName"],
 		ports: {
@@ -12529,15 +12523,14 @@ function renderForm(form) {
 							fill: "#16A085"
 						}
 					},
-					position: "top"
+					position: "left"
 				},
 				out: {
 					attrs: {
 						".port-body": {
 							fill: "#B9B7A7"
 						}
-					},
-					position: "bottom"
+					}
 				}
 			}
 		},
@@ -12559,7 +12552,7 @@ function renderForm(form) {
 function renderDecision(decision) {
 	let model = new joint.shapes.devs.Model({
 		position: { x: 150, y: 150 },
-		size: { width: 65, height: 65 },
+		size: { width: 27, height: 120 },
 		inPorts: [""],
 		outPorts: ["defaultNextActivity"],
 		ports: {
@@ -12577,8 +12570,7 @@ function renderDecision(decision) {
 						".port-body": {
 							fill: "#B9B7A7"
 						}
-					},
-					position: "bottom"
+					}
 				}
 			}
 		},
@@ -12590,14 +12582,15 @@ function renderDecision(decision) {
 				"text-transform": "capitalize",
 				"font-size": 13
 			},
-			rect: { fill: "black", "stroke-width": 5, stroke: "gray" }
+			rect: { fill: "black", "stroke-width": 1, stroke: "gray" }
 		}
 	});
 	graph.addCell(model);
 	decision.id = model.id;
 }
 
-function updateWorkflowConnections() {
+function updateWorkflowConnections(currentLink, evt, target) {
+	console.log("Just Connected", currentLink.model.get("source").port);
 	graph.getLinks().forEach(link => {
 		let sourceID = link.attributes.source.id;
 		let targetID = link.attributes.target.id;
@@ -12609,6 +12602,16 @@ function updateWorkflowConnections() {
 			activitySource.cancelNextActivityName = activityTarget.name;
 		if (link.get("source").port === "defaultNextActivity")
 			activitySource.defaultNextActivity = activityTarget.name;
+		else {
+			let customPort = link.get("source").port;
+			if (activitySource.type === "DecisionSwitch") {
+				activitySource.rules.forEach(rule => {
+					if (rule.label === customPort) {
+						rule.nextActivity = activityTarget.name;
+					}
+				});
+			}
+		}
 	});
 }
 
@@ -12684,8 +12687,13 @@ Object(__WEBPACK_IMPORTED_MODULE_1__event_js__["b" /* subscribe */])("onmenuacti
 
 Object(__WEBPACK_IMPORTED_MODULE_1__event_js__["b" /* subscribe */])("ondeleteactivity", id => {
 	removeConnectedLinks(id);
-	cellViewForDelete.remove();
-	cellViewForDelete = null;
+	cellViewForEdit.remove();
+	cellViewForEdit = null;
+});
+
+Object(__WEBPACK_IMPORTED_MODULE_1__event_js__["b" /* subscribe */])("updatedecisiongraph", label => {
+	let portsArray = cellViewForEdit.model.get("outPorts");
+	cellViewForEdit.model.set("outPorts", portsArray.concat(label));
 });
 
 function removeConnectedLinks(id) {
@@ -66626,7 +66634,8 @@ class Decision {
 
 	addRule(rule) {
 		this.rules.push({
-			rule: rule,
+			rule: rule.ruleDefinition,
+			label: rule.label,
 			nextActivity: "",
 			utterance: ""
 		});
@@ -66679,6 +66688,7 @@ const onEditDecision = decision => {
 		let rules = document.querySelectorAll("#vinter-div-decision-rule div");
 		rules.forEach(div => {
 			decision.addRule(extractRuleDefinition(div));
+			Object(__WEBPACK_IMPORTED_MODULE_1__event_js__["a" /* publish */])("updatedecisiongraph", extractRuleDefinition(div).label);
 		});
 		Object(__WEBPACK_IMPORTED_MODULE_0__app_js__["changeElementDisplay"])("vinter-modal-edit-decision", "none");
 	};
@@ -66700,6 +66710,7 @@ function init() {
 function createRuleEntry() {
 	$("#vinter-div-decision-rule").append(
 		"<div>" +
+			"<label>Label:</label><input/>" +
 			"<select>" +
 			"<option value='nope'> </option>" +
 			"<option value='not'>!</option>" +
@@ -66721,24 +66732,28 @@ function createRuleEntry() {
 
 function extractRuleDefinition(div) {
 	let ruleDefinition = "";
+	let label = "";
 	div.childNodes.forEach((element, index) => {
-		if (index === 0 && element.value === "not") {
+		if (index === 1) {
+			label = element.value;
+		}
+		if (index === 2 && element.value === "not") {
 			ruleDefinition = "!";
 		}
-		if (index === 1) {
+		if (index === 3) {
 			ruleDefinition += element.value + '("#VAR")';
 		}
-		if (index === 2) {
+		if (index === 4) {
 			ruleDefinition = ruleDefinition.replace("#VAR", element.value);
 		}
-		if (index === 3) {
+		if (index === 5) {
 			ruleDefinition += "." + element.value + '("#VALUE") ';
 		}
-		if (index === 4) {
+		if (index === 6) {
 			ruleDefinition = ruleDefinition.replace("#VALUE", element.value);
 		}
 	});
-	return ruleDefinition;
+	return { ruleDefinition: ruleDefinition, label: label };
 }
 
 init();

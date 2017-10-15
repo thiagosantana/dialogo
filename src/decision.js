@@ -11,7 +11,8 @@ class Decision {
 
 	addRule(rule) {
 		this.rules.push({
-			rule: rule,
+			rule: rule.ruleDefinition,
+			label: rule.label,
 			nextActivity: "",
 			utterance: ""
 		});
@@ -64,6 +65,7 @@ const onEditDecision = decision => {
 		let rules = document.querySelectorAll("#vinter-div-decision-rule div");
 		rules.forEach(div => {
 			decision.addRule(extractRuleDefinition(div));
+			publish("updatedecisiongraph", extractRuleDefinition(div).label);
 		});
 		changeElementDisplay("vinter-modal-edit-decision", "none");
 	};
@@ -85,6 +87,7 @@ function init() {
 function createRuleEntry() {
 	$("#vinter-div-decision-rule").append(
 		"<div>" +
+			"<label>Label:</label><input/>" +
 			"<select>" +
 			"<option value='nope'> </option>" +
 			"<option value='not'>!</option>" +
@@ -106,24 +109,28 @@ function createRuleEntry() {
 
 function extractRuleDefinition(div) {
 	let ruleDefinition = "";
+	let label = "";
 	div.childNodes.forEach((element, index) => {
-		if (index === 0 && element.value === "not") {
+		if (index === 1) {
+			label = element.value;
+		}
+		if (index === 2 && element.value === "not") {
 			ruleDefinition = "!";
 		}
-		if (index === 1) {
+		if (index === 3) {
 			ruleDefinition += element.value + '("#VAR")';
 		}
-		if (index === 2) {
+		if (index === 4) {
 			ruleDefinition = ruleDefinition.replace("#VAR", element.value);
 		}
-		if (index === 3) {
+		if (index === 5) {
 			ruleDefinition += "." + element.value + '("#VALUE") ';
 		}
-		if (index === 4) {
+		if (index === 6) {
 			ruleDefinition = ruleDefinition.replace("#VALUE", element.value);
 		}
 	});
-	return ruleDefinition;
+	return { ruleDefinition: ruleDefinition, label: label };
 }
 
 init();
