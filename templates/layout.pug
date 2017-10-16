@@ -10,23 +10,24 @@ html(lang="en")
         link(href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/dark.min.css", rel="stylesheet")
     body
         h1 Editor de Fluxo
-        div(id="cmd-bar")
-            include includes/btn-commands.pug
-        div(id="vinter-graph")
-        include includes/new-flow.pug
-        include includes/edit-say.pug
-        include includes/show-json.pug
-        include includes/edit-form.pug
-        include includes/edit-ccode.pug
-        include includes/edit-decision.pug
-        include includes/menu-activities.pug
-        include includes/edit-question.pug
-        include includes/edit-memory.pug
-        include includes/edit-service.pug
-        include includes/edit-disconnect.pug
-        include includes/edit-escalate.pug
-        include includes/edit-control.pug
-        include includes/load-json.pug
+        div(class="container")
+            div(id="cmd-bar", class="commands")
+                include includes/btn-commands.pug
+            div(id="vinter-graph", class="graph")
+            include includes/new-flow.pug
+            include includes/edit-say.pug
+            include includes/show-json.pug
+            include includes/edit-form.pug
+            include includes/edit-ccode.pug
+            include includes/edit-decision.pug
+            include includes/menu-activities.pug
+            include includes/edit-question.pug
+            include includes/edit-memory.pug
+            include includes/edit-service.pug
+            include includes/edit-disconnect.pug
+            include includes/edit-escalate.pug
+            include includes/edit-control.pug
+            include includes/load-json.pug
         script(src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js")
         script(src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/json.min.js")
         script(src="https://cdn.jsdelivr.net/npm/codemirror@5.30.0/lib/codemirror.min.js")

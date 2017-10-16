@@ -30,7 +30,7 @@ let paper = new joint.dia.Paper({
 		}
 	},
 	width: window.innerWidth - 15,
-	height: window.innerHeight * 1.25,
+	height: window.innerHeight * 0.92,
 	model: graph,
 	gridSize: 10,
 	defaultLink: new joint.dia.Link({
