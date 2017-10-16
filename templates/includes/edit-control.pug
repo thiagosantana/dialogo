@@ -1,0 +1,12 @@
+div(class="modal", id="vinter-modal-edit-control")
+    div(class="modal-content")
+        span(class="close", id="close-edit-control") &times;
+        div(class="editor-field")
+            select(id="control-type")
+                option(value="InputMessageBox") InputMessageBox
+            select(id="control-property")
+                option(value="true") true
+                option(value="false") false
+        div(class="vinter-btn-confirm")
+            button(type="button", id="vinter-btn-confirm-edit-control", class="btn-create") EDIT
+            button(type="button", id="vinter-btn-confirm-delete-control", class="btn-delete") DELETE
