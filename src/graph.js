@@ -180,6 +180,8 @@ function renderJSON(json) {
 	});
 }
 
+function updatePosition() {}
+
 function renderLink(sourceID, targetID) {
 	let link = new joint.dia.Link({
 		source: { id: sourceID },
@@ -315,6 +317,11 @@ function renderSay(say) {
 			rect: { fill: "#FCBFB7", "stroke-width": 2, stroke: "gray" }
 		}
 	});
+	model.on("change:position", (element, position) => {
+		let activity = getActivityById(element.id);
+		activity.x = position.x;
+		activity.y = position.y;
+	});
 	graph.addCell(model);
 	say.id = model.id;
 }
@@ -355,6 +362,11 @@ function renderEscalate(say) {
 			},
 			rect: { fill: "#331E36", "stroke-width": 2, stroke: "black" }
 		}
+	});
+	model.on("change:position", (element, position) => {
+		let activity = getActivityById(element.id);
+		activity.x = position.x;
+		activity.y = position.y;
 	});
 	graph.addCell(model);
 	say.id = model.id;
@@ -397,6 +409,11 @@ function renderCustom(say) {
 			rect: { fill: "#F6E27F", "stroke-width": 2, stroke: "#A8B7AB" }
 		}
 	});
+	model.on("change:position", (element, position) => {
+		let activity = getActivityById(element.id);
+		activity.x = position.x;
+		activity.y = position.y;
+	});
 	graph.addCell(model);
 	say.id = model.id;
 }
@@ -437,6 +454,11 @@ function renderDisconnect(say) {
 			},
 			rect: { fill: "#334E58", "stroke-width": 2, stroke: "gray" }
 		}
+	});
+	model.on("change:position", (element, position) => {
+		let activity = getActivityById(element.id);
+		activity.x = position.x;
+		activity.y = position.y;
 	});
 	graph.addCell(model);
 	say.id = model.id;
@@ -479,6 +501,11 @@ function renderService(say) {
 			rect: { fill: "#931621", "stroke-width": 2, stroke: "black" }
 		}
 	});
+	model.on("change:position", (element, position) => {
+		let activity = getActivityById(element.id);
+		activity.x = position.x;
+		activity.y = position.y;
+	});
 	graph.addCell(model);
 	say.id = model.id;
 }
@@ -519,6 +546,11 @@ function renderControl(say) {
 			},
 			rect: { fill: "#88665D", "stroke-width": 2, stroke: "black" }
 		}
+	});
+	model.on("change:position", (element, position) => {
+		let activity = getActivityById(element.id);
+		activity.x = position.x;
+		activity.y = position.y;
 	});
 	graph.addCell(model);
 	say.id = model.id;
@@ -561,6 +593,11 @@ function renderMemory(say) {
 			rect: { fill: "#785589", "stroke-width": 2, stroke: "black" }
 		}
 	});
+	model.on("change:position", (element, position) => {
+		let activity = getActivityById(element.id);
+		activity.x = position.x;
+		activity.y = position.y;
+	});
 	graph.addCell(model);
 	say.id = model.id;
 }
@@ -602,6 +639,11 @@ function renderQuestion(say) {
 			rect: { fill: "#AFFC41", "stroke-width": 2, stroke: "black" }
 		}
 	});
+	model.on("change:position", (element, position) => {
+		let activity = getActivityById(element.id);
+		activity.x = position.x;
+		activity.y = position.y;
+	});
 	graph.addCell(model);
 	say.id = model.id;
 }
@@ -642,6 +684,11 @@ function renderForm(form) {
 			rect: { fill: "#C6D2ED", "stroke-width": 2, stroke: "black" }
 		}
 	});
+	model.on("change:position", (element, position) => {
+		let activity = getActivityById(element.id);
+		activity.x = position.x;
+		activity.y = position.y;
+	});
 	graph.addCell(model);
 	form.id = model.id;
 }
@@ -681,6 +728,11 @@ function renderDecision(decision) {
 			},
 			rect: { fill: "black", "stroke-width": 1, stroke: "gray" }
 		}
+	});
+	model.on("change:position", (element, position) => {
+		let activity = getActivityById(element.id);
+		activity.x = position.x;
+		activity.y = position.y;
 	});
 	graph.addCell(model);
 	decision.id = model.id;
