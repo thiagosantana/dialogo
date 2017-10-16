@@ -67218,6 +67218,7 @@ class Question {
 	constructor() {
 		this.name = Object(__WEBPACK_IMPORTED_MODULE_0__app_js__["makeName"])("QuestionAnswer_");
 		this.type = "QuestionAnswer";
+		this.question = "";
 		this.utterance = "Loren...";
 		this.nextActivity = "";
 		this.validator = {
@@ -67245,7 +67246,7 @@ class Question {
 			opt: label
 		};
 		let snippet = mustache.render(
-			'&lt;a onclick="AVI.API.Ask(&#39;{{opt}}&#39;)"&gt;{{opt}}&lt;/a&gt;',
+			'&lt;a class="vinter-btn" onclick="AVI.API.Ask(&#39;{{opt}}&#39;)"&gt;{{opt}}&lt;/a&gt;',
 			obj
 		);
 		this.utterance += snippet;
@@ -67361,10 +67362,11 @@ function configureEditQuestionBehavior(question) {
 	};
 	let btnEdit = document.getElementById("vinter-btn-edit-question");
 	let txtUtterance = document.getElementById("edit-question-utterance");
-	txtUtterance.value = question.utterance;
+	txtUtterance.value = question.question;
 	btnEdit.onclick = () => {
 		if (txtUtterance.value) {
 			question.utterance = txtUtterance.value;
+			question.question = txtUtterance.value;
 			let options = document.querySelectorAll(
 				"#vinter-div-question-option div input"
 			);
