@@ -14,7 +14,8 @@ import { controlManager } from "./control_manager.js";
 import { form } from "./form.js";
 import { openMenu } from "./menu.js";
 import { undo, redo } from "./undo_redo.js";
-import { xpto } from "./timer.js";
+import { startTimers } from "./timer.js";
+import { loadExistingFlow } from "./flow_storage.js";
 
 let vinter_flow = {};
 window.flow = vinter_flow;
@@ -35,6 +36,9 @@ var panzoom = svgPanZoom("#v-2", {
 */
 
 var initialized = false;
+
+loadExistingFlow();
+startTimers();
 
 const changeElementDisplay = (elementId, newDisplay) => {
 	let element = document.getElementById(elementId);
@@ -120,6 +124,11 @@ const configureOpenJSON = () => {
 		changeElementDisplay("vinter-modal-show-json", "block");
 	};
 };
+
+function updateAutomaticSaveStatus(time) {
+	let auto_save = document.getElementById("auto-save");
+	auto_save.innerHTML = "Fluxo atualizado as " + time;
+}
 
 function setupFlow() {
 	vinter_flow.workflows = [];
@@ -382,5 +391,6 @@ export {
 	isFlowInitialized,
 	changeElementDisplay,
 	loadActivity,
-	removeAllChilds
+	removeAllChilds,
+	updateAutomaticSaveStatus
 };

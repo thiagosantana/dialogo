@@ -1,5 +1,12 @@
-import { changeElementDisplay } from "./app.js";
+import { changeElementDisplay, updateAutomaticSaveStatus } from "./app.js";
 
-function xpto() {}
+function updateFlowTimer() {
+	localStorage.setItem("vinter-flow", JSON.stringify(flow));
+	updateAutomaticSaveStatus(new Date().toLocaleTimeString());
+}
 
-export { xpto };
+function startTimers() {
+	setInterval(updateFlowTimer, 30000);
+}
+
+export { startTimers };
