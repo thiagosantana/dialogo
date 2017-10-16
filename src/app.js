@@ -59,7 +59,6 @@ const configureUndoRedoKeyboard = () => {
 };
 
 const configureLoadBehavior = () => {
-	console.log("..");
 	let btnLoadFlow = document.getElementById("vinter-btn-load-flow");
 	let btnCloseLoad = document.getElementById("close-load");
 	let btnLoad = document.getElementById("vinter-btn-load-json");

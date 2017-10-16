@@ -81,6 +81,7 @@ let paper = new joint.dia.Paper({
 });
 
 let selected = false;
+let dragStartPosition = null;
 
 let highlighter = {
 	highlighter: {
@@ -94,10 +95,16 @@ let highlighter = {
 window.g = graph;
 window.p = paper;
 
+$("#vinter-graph").mousemove(event => {
+	if (dragStartPosition)
+		paper.setOrigin(
+			event.offsetX - dragStartPosition.x,
+			event.offsetY - dragStartPosition.y
+		);
+});
+
 paper.on("cell:pointerclick", cellView => {
 	let activity = getActivityById(cellView.model.id);
-	//console.log(cellView.model.id);
-	console.log(activity);
 	if (activity.type === "Say") publish("oneditsay", activity);
 	if (activity.type === "Form") publish("oneditform", activity);
 	if (activity.type === "CustomCode") publish("oneditcustomcode", activity);
@@ -127,6 +134,16 @@ graph.on("remove", function(cell, collection, opt) {
 	if (cell.isLink()) {
 		console.log("link removed", cell);
 	}
+});
+
+paper.on("blank:pointerdown", (event, x, y) => {
+	dragStartPosition = { x: x, y: y };
+	document.getElementById("app").style.cursor = "move";
+});
+
+paper.on("cell:pointerup blank:pointerup", function(cellView, x, y) {
+	dragStartPosition = null;
+	document.getElementById("app").style.cursor = "default";
 });
 
 function load(json) {

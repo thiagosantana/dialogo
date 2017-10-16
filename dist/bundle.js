@@ -179,7 +179,6 @@ const configureUndoRedoKeyboard = () => {
 };
 
 const configureLoadBehavior = () => {
-	console.log("..");
 	let btnLoadFlow = document.getElementById("vinter-btn-load-flow");
 	let btnCloseLoad = document.getElementById("close-load");
 	let btnLoad = document.getElementById("vinter-btn-load-json");
@@ -12317,6 +12316,7 @@ let paper = new joint.dia.Paper({
 });
 
 let selected = false;
+let dragStartPosition = null;
 
 let highlighter = {
 	highlighter: {
@@ -12330,10 +12330,16 @@ let highlighter = {
 window.g = graph;
 window.p = paper;
 
+$("#vinter-graph").mousemove(event => {
+	if (dragStartPosition)
+		paper.setOrigin(
+			event.offsetX - dragStartPosition.x,
+			event.offsetY - dragStartPosition.y
+		);
+});
+
 paper.on("cell:pointerclick", cellView => {
 	let activity = Object(__WEBPACK_IMPORTED_MODULE_0__app_js__["getActivityById"])(cellView.model.id);
-	//console.log(cellView.model.id);
-	console.log(activity);
 	if (activity.type === "Say") Object(__WEBPACK_IMPORTED_MODULE_1__event_js__["a" /* publish */])("oneditsay", activity);
 	if (activity.type === "Form") Object(__WEBPACK_IMPORTED_MODULE_1__event_js__["a" /* publish */])("oneditform", activity);
 	if (activity.type === "CustomCode") Object(__WEBPACK_IMPORTED_MODULE_1__event_js__["a" /* publish */])("oneditcustomcode", activity);
@@ -12363,6 +12369,16 @@ graph.on("remove", function(cell, collection, opt) {
 	if (cell.isLink()) {
 		console.log("link removed", cell);
 	}
+});
+
+paper.on("blank:pointerdown", (event, x, y) => {
+	dragStartPosition = { x: x, y: y };
+	document.getElementById("app").style.cursor = "move";
+});
+
+paper.on("cell:pointerup blank:pointerup", function(cellView, x, y) {
+	dragStartPosition = null;
+	document.getElementById("app").style.cursor = "default";
 });
 
 function load(json) {
