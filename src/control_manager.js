@@ -1,4 +1,4 @@
-import { makeName, isFlowInitialized } from "./app.js";
+import { makeName, isFlowInitialized, changeElementDisplay } from "./app.js";
 import { subscribe, publish } from "./event.js";
 
 class ControlManager {
@@ -35,13 +35,52 @@ const configureNewControlManagerBehavior = () => {
 
 function controlManager(canEnable) {
 	let controlManager = new ControlManager();
-	controlManager.addAction(canEnable);
+	//controlManager.addAction(canEnable);
 	return controlManager;
 }
 
 function init() {
 	configureNewControlManagerBehavior();
 }
+
+function openModal() {
+	changeElementDisplay("vinter-modal-edit-control", "block");
+}
+
+function configCloseBtn() {
+	let closeBtn = document.getElementById("close-edit-control");
+	closeBtn.onclick = () => {
+		changeElementDisplay("vinter-modal-edit-control", "none");
+	};
+}
+
+function configEditBtn(control) {
+	let editBtn = document.getElementById("vinter-btn-confirm-edit-control");
+	editBtn.onclick = () => {
+		let select = document.getElementById("control-property");
+		if (select.value) control.addAction(select.value);
+		changeElementDisplay("vinter-modal-edit-control", "none");
+	};
+}
+
+function configDeleteBtn(control) {
+	let deleteBtn = document.getElementById(
+		"vinter-btn-confirm-delete-control"
+	);
+	deleteBtn.onclick = () => {
+		changeElementDisplay("vinter-modal-edit-control", "none");
+		publish("ondeleteactivity", control.id);
+	};
+}
+
+const onEditControl = control => {
+	openModal();
+	configCloseBtn();
+	configEditBtn(control);
+	configDeleteBtn(control);
+};
+
+subscribe("oneditcontrolmgmt", onEditControl);
 
 export { controlManager };
 init();

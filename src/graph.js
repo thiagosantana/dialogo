@@ -107,6 +107,8 @@ paper.on("cell:pointerclick", cellView => {
 	if (activity.type === "ServiceCall") publish("oneditservice", activity);
 	if (activity.type === "Disconnect") publish("oneditdisconnect", activity);
 	if (activity.type === "Escalate") publish("oneditescalate", activity);
+	if (activity.type === "ClientControlManagement")
+		publish("oneditcontrolmgmt", activity);
 
 	cellViewForEdit = cellView;
 });

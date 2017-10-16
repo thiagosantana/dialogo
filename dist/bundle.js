@@ -12332,6 +12332,8 @@ paper.on("cell:pointerclick", cellView => {
 	if (activity.type === "ServiceCall") Object(__WEBPACK_IMPORTED_MODULE_1__event_js__["a" /* publish */])("oneditservice", activity);
 	if (activity.type === "Disconnect") Object(__WEBPACK_IMPORTED_MODULE_1__event_js__["a" /* publish */])("oneditdisconnect", activity);
 	if (activity.type === "Escalate") Object(__WEBPACK_IMPORTED_MODULE_1__event_js__["a" /* publish */])("oneditescalate", activity);
+	if (activity.type === "ClientControlManagement")
+		Object(__WEBPACK_IMPORTED_MODULE_1__event_js__["a" /* publish */])("oneditcontrolmgmt", activity);
 
 	cellViewForEdit = cellView;
 });
@@ -67819,13 +67821,52 @@ const configureNewControlManagerBehavior = () => {
 
 function controlManager(canEnable) {
 	let controlManager = new ControlManager();
-	controlManager.addAction(canEnable);
+	//controlManager.addAction(canEnable);
 	return controlManager;
 }
 
 function init() {
 	configureNewControlManagerBehavior();
 }
+
+function openModal() {
+	Object(__WEBPACK_IMPORTED_MODULE_0__app_js__["changeElementDisplay"])("vinter-modal-edit-control", "block");
+}
+
+function configCloseBtn() {
+	let closeBtn = document.getElementById("close-edit-control");
+	closeBtn.onclick = () => {
+		Object(__WEBPACK_IMPORTED_MODULE_0__app_js__["changeElementDisplay"])("vinter-modal-edit-control", "none");
+	};
+}
+
+function configEditBtn(control) {
+	let editBtn = document.getElementById("vinter-btn-confirm-edit-control");
+	editBtn.onclick = () => {
+		let select = document.getElementById("control-property");
+		if (select.value) control.addAction(select.value);
+		Object(__WEBPACK_IMPORTED_MODULE_0__app_js__["changeElementDisplay"])("vinter-modal-edit-control", "none");
+	};
+}
+
+function configDeleteBtn(control) {
+	let deleteBtn = document.getElementById(
+		"vinter-btn-confirm-delete-control"
+	);
+	deleteBtn.onclick = () => {
+		Object(__WEBPACK_IMPORTED_MODULE_0__app_js__["changeElementDisplay"])("vinter-modal-edit-control", "none");
+		Object(__WEBPACK_IMPORTED_MODULE_1__event_js__["a" /* publish */])("ondeleteactivity", control.id);
+	};
+}
+
+const onEditControl = control => {
+	openModal();
+	configCloseBtn();
+	configEditBtn(control);
+	configDeleteBtn(control);
+};
+
+Object(__WEBPACK_IMPORTED_MODULE_1__event_js__["b" /* subscribe */])("oneditcontrolmgmt", onEditControl);
 
 
 init();
