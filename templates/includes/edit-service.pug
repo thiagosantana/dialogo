@@ -1,14 +1,13 @@
 div(class="modal", id="vinter-modal-edit-service")
     div(class="modal-content")
         span(class="close", id="close-edit-service") &times;
-        form
-            fieldset(class="editor-field")
-                label(for="serviceName") ServiceName:
-                input(type="text", id="edit-servicename")
-            button(type="button", id="add-input") ADD INPUT
-            div(id="service-input-fields")
-            button(type="button", id="add-output") ADD OUTPUT
-            div(id="service-output-fields")
-            fieldset(class="vinter-btn-confirm")
-                button(type="button", id="vinter-btn-confirm-edit-service") EDIT
-                button(type="button", id="vinter-btn-confirm-delete-service", class="btn-delete") DELETE
+        div(class="editor-field")
+            label(for="serviceName") ServiceName:
+            input(type="text", id="edit-servicename", class="flow-field")
+        button(type="button", id="add-input", class="btn-form-field") ADD INPUT
+        div(id="service-input-fields")
+        button(type="button", id="add-output", class="btn-form-field") ADD OUTPUT
+        div(id="service-output-fields")
+        div(class="vinter-btn-confirm")
+            button(type="button", id="vinter-btn-confirm-edit-service", class="btn-create") EDIT
+            button(type="button", id="vinter-btn-confirm-delete-service", class="btn-delete") DELETE

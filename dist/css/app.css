@@ -19,6 +19,9 @@ fieldset {
 label {
   margin-bottom: 10px; }
 
+.load-json {
+  display: block; }
+
 .flow-error {
   display: none;
   color: red;
