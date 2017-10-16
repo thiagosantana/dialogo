@@ -96,11 +96,15 @@ window.g = graph;
 window.p = paper;
 
 $("#vinter-graph").mousemove(event => {
-	if (dragStartPosition)
+	if (dragStartPosition) {
+		let nextX = event.offsetX - dragStartPosition.x;
+		let nextY = event.offsetY - dragStartPosition.y;
+		console.log(nextX, nextY);
 		paper.setOrigin(
 			event.offsetX - dragStartPosition.x,
 			event.offsetY - dragStartPosition.y
 		);
+	}
 });
 
 paper.on("cell:pointerclick", cellView => {
