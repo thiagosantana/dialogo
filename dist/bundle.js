@@ -12317,6 +12317,8 @@ let paper = new joint.dia.Paper({
 
 let selected = false;
 let dragStartPosition = null;
+//let scale = 1;
+let scale = V(paper.viewport).scale();
 
 let highlighter = {
 	highlighter: {
@@ -12377,6 +12379,7 @@ graph.on("remove", function(cell, collection, opt) {
 
 paper.on("blank:pointerdown", (event, x, y) => {
 	dragStartPosition = { x: x, y: y };
+	//dragStartPosition = { x: x * scale.sx, y: y * scale.sy };
 	document.getElementById("app").style.cursor = "move";
 });
 

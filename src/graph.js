@@ -82,6 +82,8 @@ let paper = new joint.dia.Paper({
 
 let selected = false;
 let dragStartPosition = null;
+//let scale = 1;
+let scale = V(paper.viewport).scale();
 
 let highlighter = {
 	highlighter: {
@@ -142,6 +144,7 @@ graph.on("remove", function(cell, collection, opt) {
 
 paper.on("blank:pointerdown", (event, x, y) => {
 	dragStartPosition = { x: x, y: y };
+	//dragStartPosition = { x: x * scale.sx, y: y * scale.sy };
 	document.getElementById("app").style.cursor = "move";
 });
 
@@ -199,10 +202,19 @@ function renderLink(sourceID, targetID) {
 	graph.addCell(link);
 }
 
-function renderBegin() {
+function renderBegin(x, y) {
 	let begin = getBeginActivity();
+	let positionX = -1;
+	let positionY = -1;
+	if (x && y) {
+		positionX = x;
+		positionY = y;
+	} else {
+		positionX = 30;
+		positionY = 30;
+	}
 	let model = new joint.shapes.devs.Model({
-		position: { x: 30, y: 30 },
+		position: { x: positionX, y: positionY },
 		size: { width: 27, height: 27 },
 		outPorts: ["nextActivity"],
 		ports: {
@@ -240,10 +252,19 @@ function renderBegin() {
 	begin.id = model.id;
 }
 
-function renderEnd() {
+function renderEnd(x, y) {
 	let end = getEndActivity();
+	let positionX = -1;
+	let positionY = -1;
+	if (x && y) {
+		positionX = x;
+		positionY = y;
+	} else {
+		positionX = 300;
+		positionY = 300;
+	}
 	let model = new joint.shapes.devs.Model({
-		position: { x: 300, y: 500 },
+		position: { x: positionX, y: positionY },
 		size: { width: 27, height: 27 },
 		inPorts: [""],
 		ports: {
@@ -281,8 +302,17 @@ function renderEnd() {
 }
 
 function renderSay(say) {
+	let positionX = -1;
+	let positionY = -1;
+	if (say.x && say.y) {
+		positionX = say.x;
+		positionY = say.y;
+	} else {
+		positionX = 150;
+		positionY = 150;
+	}
 	let model = new joint.shapes.devs.Model({
-		position: { x: 150, y: 150 },
+		position: { x: positionX, y: positionY },
 		size: { width: 44, height: 43 },
 		inPorts: [""],
 		outPorts: ["nextActivity"],
