@@ -357,8 +357,17 @@ function renderSay(say) {
 }
 
 function renderEscalate(say) {
+	let positionX = -1;
+	let positionY = -1;
+	if (say.x && say.y) {
+		positionX = say.x;
+		positionY = say.y;
+	} else {
+		positionX = 150;
+		positionY = 150;
+	}
 	let model = new joint.shapes.devs.Model({
-		position: { x: 150, y: 150 },
+		position: { x: positionX, y: positionY },
 		size: { width: 44, height: 43 },
 		inPorts: [""],
 		outPorts: ["nextActivity"],
@@ -403,8 +412,17 @@ function renderEscalate(say) {
 }
 
 function renderCustom(say) {
+	let positionX = -1;
+	let positionY = -1;
+	if (say.x && say.y) {
+		positionX = say.x;
+		positionY = say.y;
+	} else {
+		positionX = 150;
+		positionY = 150;
+	}
 	let model = new joint.shapes.devs.Model({
-		position: { x: 150, y: 150 },
+		position: { x: positionX, y: positionY },
 		size: { width: 68, height: 43 },
 		inPorts: [""],
 		outPorts: ["nextActivity"],
@@ -449,8 +467,17 @@ function renderCustom(say) {
 }
 
 function renderDisconnect(say) {
+	let positionX = -1;
+	let positionY = -1;
+	if (say.x && say.y) {
+		positionX = say.x;
+		positionY = say.y;
+	} else {
+		positionX = 150;
+		positionY = 150;
+	}
 	let model = new joint.shapes.devs.Model({
-		position: { x: 150, y: 150 },
+		position: { x: positionX, y: positionY },
 		size: { width: 59, height: 38 },
 		inPorts: [""],
 		outPorts: ["nextActivity"],
@@ -495,8 +522,17 @@ function renderDisconnect(say) {
 }
 
 function renderService(say) {
+	let positionX = -1;
+	let positionY = -1;
+	if (say.x && say.y) {
+		positionX = say.x;
+		positionY = say.y;
+	} else {
+		positionX = 150;
+		positionY = 150;
+	}
 	let model = new joint.shapes.devs.Model({
-		position: { x: 150, y: 150 },
+		position: { x: positionX, y: positionY },
 		size: { width: 70, height: 38 },
 		inPorts: [""],
 		outPorts: ["nextActivity"],
@@ -541,8 +577,17 @@ function renderService(say) {
 }
 
 function renderControl(say) {
+	let positionX = -1;
+	let positionY = -1;
+	if (say.x && say.y) {
+		positionX = say.x;
+		positionY = say.y;
+	} else {
+		positionX = 150;
+		positionY = 150;
+	}
 	let model = new joint.shapes.devs.Model({
-		position: { x: 150, y: 150 },
+		position: { x: positionX, y: positionY },
 		size: { width: 135, height: 38 },
 		inPorts: [""],
 		outPorts: ["nextActivity"],
@@ -587,8 +632,17 @@ function renderControl(say) {
 }
 
 function renderMemory(say) {
+	let positionX = -1;
+	let positionY = -1;
+	if (say.x && say.y) {
+		positionX = say.x;
+		positionY = say.y;
+	} else {
+		positionX = 150;
+		positionY = 150;
+	}
 	let model = new joint.shapes.devs.Model({
-		position: { x: 150, y: 150 },
+		position: { x: positionX, y: positionY },
 		size: { width: 100, height: 38 },
 		inPorts: [""],
 		outPorts: ["nextActivity"],
@@ -633,8 +687,17 @@ function renderMemory(say) {
 }
 
 function renderQuestion(say) {
+	let positionX = -1;
+	let positionY = -1;
+	if (say.x && say.y) {
+		positionX = say.x;
+		positionY = say.y;
+	} else {
+		positionX = 150;
+		positionY = 150;
+	}
 	let model = new joint.shapes.devs.Model({
-		position: { x: 150, y: 150 },
+		position: { x: positionX, y: positionY },
 		size: { width: 110, height: 38 },
 		inPorts: [""],
 		outPorts: ["nextActivity"],
@@ -679,8 +742,17 @@ function renderQuestion(say) {
 }
 
 function renderForm(form) {
+	let positionX = -1;
+	let positionY = -1;
+	if (form.x && form.y) {
+		positionX = form.x;
+		positionY = form.y;
+	} else {
+		positionX = 150;
+		positionY = 150;
+	}
 	let model = new joint.shapes.devs.Model({
-		position: { x: 150, y: 150 },
+		position: { x: positionX, y: positionY },
 		size: { width: 50, height: 45 },
 		inPorts: [""],
 		outPorts: ["nextActivity", "cancelNextActivityName"],
@@ -724,8 +796,17 @@ function renderForm(form) {
 }
 
 function renderDecision(decision) {
+	let positionX = -1;
+	let positionY = -1;
+	if (decision.x && decision.y) {
+		positionX = decision.x;
+		positionY = decision.y;
+	} else {
+		positionX = 150;
+		positionY = 150;
+	}
 	let model = new joint.shapes.devs.Model({
-		position: { x: 150, y: 150 },
+		position: { x: positionX, y: positionY },
 		size: { width: 27, height: 120 },
 		inPorts: [""],
 		outPorts: ["defaultNextActivity"],
