@@ -153,15 +153,7 @@ paper.on("cell:pointerup blank:pointerup", function(cellView, x, y) {
 	document.getElementById("app").style.cursor = "default";
 });
 
-function load(json) {
-	try {
-		let loadedJSON = JSON.parse(json);
-		renderJSON(loadedJSON);
-	} catch (e) {
-		alert("JSON com problemas");
-		console.log(e);
-	}
-}
+function graphInfo(json) {}
 
 function renderJSON(json) {
 	json.workflows[0].activities.forEach(activity => {
@@ -202,13 +194,12 @@ function renderLink(sourceID, targetID) {
 	graph.addCell(link);
 }
 
-function renderBegin(x, y) {
-	let begin = getBeginActivity();
+function renderBegin(begin) {
 	let positionX = -1;
 	let positionY = -1;
-	if (x && y) {
-		positionX = x;
-		positionY = y;
+	if (begin.x && begin.y) {
+		positionX = begin.x;
+		positionY = begin.y;
 	} else {
 		positionX = 30;
 		positionY = 30;
@@ -248,17 +239,21 @@ function renderBegin(x, y) {
 			rect: { fill: "green", "stroke-width": 0, stroke: "black" }
 		}
 	});
+	model.on("change:position", (element, position) => {
+		let activity = getActivityById(element.id);
+		activity.x = position.x;
+		activity.y = position.y;
+	});
 	graph.addCell(model);
 	begin.id = model.id;
 }
 
-function renderEnd(x, y) {
-	let end = getEndActivity();
+function renderEnd(end) {
 	let positionX = -1;
 	let positionY = -1;
-	if (x && y) {
-		positionX = x;
-		positionY = y;
+	if (end.x && end.y) {
+		positionX = end.x;
+		positionY = end.y;
 	} else {
 		positionX = 300;
 		positionY = 300;
@@ -296,6 +291,11 @@ function renderEnd(x, y) {
 			},
 			rect: { fill: "red", "stroke-width": 0, stroke: "black" }
 		}
+	});
+	model.on("change:position", (element, position) => {
+		let activity = getActivityById(element.id);
+		activity.x = position.x;
+		activity.y = position.y;
 	});
 	graph.addCell(model);
 	end.id = model.id;
@@ -928,11 +928,21 @@ const onEscalateAdded = escalate => {
 	renderEscalate(escalate);
 };
 
+const onEndAdded = end => {
+	renderEnd(end);
+};
+
+const onBeginAdded = begin => {
+	renderBegin(begin);
+};
+
 const onMenuActivityClose = () => {
 	removeIlegalLinksWhenTargetPointsNull();
 };
 
-subscribe("onflowcreated", onFlowCreated);
+//subscribe("onflowcreated", onFlowCreated);
+subscribe("onbeginadded", onBeginAdded);
+subscribe("onendadded", onEndAdded);
 subscribe("onsayadded", onSayAdded);
 subscribe("onformadded", onFormAdded);
 subscribe("onservicecalladded", onServiceCallAdded);
@@ -967,4 +977,4 @@ function removeConnectedLinks(id) {
 	});
 }
 
-export { load };
+export { graphInfo };

@@ -1,5 +1,5 @@
 import { subscribe, publish } from "./event.js";
-import { load } from "./graph.js";
+import { graphInfo } from "./graph.js";
 import { say } from "./say.js";
 import { begin } from "./begin.js";
 import { end } from "./end.js";
@@ -23,27 +23,20 @@ window.mustache = require("mustache");
 
 hljs.initHighlightingOnLoad();
 
-/*
-var targetElement = $("#vinter-graph")[0];
-var panzoom = svgPanZoom("#v-2", {
-	viewportSelector: document.querySelector("svg"),
-	fit: false,
-	zoomScaleSensitivity: 0.1,
-	center: true,
-	dblClickZoomEnabled: false,
-	panEnabled: true
-});
-*/
-
 var initialized = false;
-
-loadExistingFlow();
-startTimers();
 
 const changeElementDisplay = (elementId, newDisplay) => {
 	let element = document.getElementById(elementId);
 	element.style.display = newDisplay;
 };
+
+subscribe("loadfromstorage", flow => {
+	console.log("load from storage");
+	openFromStorage(flow);
+});
+
+loadExistingFlow();
+startTimers();
 
 const configureUndoRedoKeyboard = () => {
 	console.log("Keyboard ok");
@@ -72,6 +65,7 @@ const configureLoadBehavior = () => {
 	btnLoad.onclick = () => {
 		load(txtLoadJson.value);
 		initialized = true;
+		changeElementDisplay("vinter-load-json", "none");
 	};
 };
 
@@ -100,7 +94,7 @@ const configureNewFlowBehavior = () => {
 			addBeginActivity();
 			addEndActivity();
 			changeElementDisplay("vinter-modal-new-flow", "none");
-			publish("onflowcreated", {});
+			//publish("onflowcreated", {});
 			initialized = true;
 		} else {
 			changeElementDisplay("new-flow-error", "block");
@@ -148,16 +142,22 @@ function initNewFlow(newFlowName, newFlowId) {
 function addBeginActivity(activity) {
 	if (activity) {
 		vinter_flow.workflows[0].activities.push(activity);
+		publish("onbeginadded", activity);
 	} else {
-		vinter_flow.workflows[0].activities.push(begin());
+		let theBegin = begin();
+		vinter_flow.workflows[0].activities.push(theBegin);
+		publish("onbeginadded", theBegin);
 	}
 }
 
 function addEndActivity(activity) {
 	if (activity) {
 		vinter_flow.workflows[0].activities.push(activity);
+		publish("onendadded", activity);
 	} else {
-		vinter_flow.workflows[0].activities.push(end());
+		let theEnd = end();
+		vinter_flow.workflows[0].activities.push(theEnd);
+		publish("onendadded", theEnd);
 	}
 }
 
@@ -172,16 +172,26 @@ function addSayActivity(activity) {
 	}
 }
 
-function addServiceCallActivity() {
-	let theNewServiceCall = serviceCall();
-	vinter_flow.workflows[0].activities.push(theNewServiceCall);
-	publish("onservicecalladded", theNewServiceCall);
+function addServiceCallActivity(activity) {
+	if (activity) {
+		vinter_flow.workflows[0].activities.push(activity);
+		publish("onservicecalladded", activity);
+	} else {
+		let theNewServiceCall = serviceCall();
+		vinter_flow.workflows[0].activities.push(theNewServiceCall);
+		publish("onservicecalladded", theNewServiceCall);
+	}
 }
 
-function addControlManagerActivity() {
-	let theNewControlManager = controlManager(false);
-	vinter_flow.workflows[0].activities.push(theNewControlManager);
-	publish("oncontrolmanageradded", theNewControlManager);
+function addControlManagerActivity(activity) {
+	if (activity) {
+		vinter_flow.workflows[0].activities.push(activity);
+		publish("oncontrolmanageradded", activity);
+	} else {
+		let theNewControlManager = controlManager(false);
+		vinter_flow.workflows[0].activities.push(theNewControlManager);
+		publish("oncontrolmanageradded", theNewControlManager);
+	}
 }
 
 function addFormActivity(activity) {
@@ -195,40 +205,70 @@ function addFormActivity(activity) {
 	}
 }
 
-function addDecisionActivity() {
-	let theDecision = decision();
-	vinter_flow.workflows[0].activities.push(theDecision);
-	publish("ondecisionadded", theDecision);
+function addDecisionActivity(activity) {
+	if (activity) {
+		vinter_flow.workflows[0].activities.push(activity);
+		publish("ondecisionadded", activity);
+	} else {
+		let theDecision = decision();
+		vinter_flow.workflows[0].activities.push(theDecision);
+		publish("ondecisionadded", theDecision);
+	}
 }
 
-function addQuestionActivity() {
-	let theQuestion = question();
-	vinter_flow.workflows[0].activities.push(theQuestion);
-	publish("onquestionadded", theQuestion);
+function addQuestionActivity(activity) {
+	if (activity) {
+		vinter_flow.workflows[0].activities.push(activity);
+		publish("onquestionadded", activity);
+	} else {
+		let theQuestion = question();
+		vinter_flow.workflows[0].activities.push(theQuestion);
+		publish("onquestionadded", theQuestion);
+	}
 }
 
-function addMemoryActivity() {
-	let theMemory = memory();
-	vinter_flow.workflows[0].activities.push(theMemory);
-	publish("onmemoryadded", theMemory);
+function addMemoryActivity(activity) {
+	if (activity) {
+		vinter_flow.workflows[0].activities.push(activity);
+		publish("onmemoryadded", activity);
+	} else {
+		let theMemory = memory();
+		vinter_flow.workflows[0].activities.push(theMemory);
+		publish("onmemoryadded", theMemory);
+	}
 }
 
-function addCustomCodeActivity() {
-	let theCustom = custom();
-	vinter_flow.workflows[0].activities.push(theCustom);
-	publish("oncustomcodeadded", theCustom);
+function addCustomCodeActivity(activity) {
+	if (activity) {
+		vinter_flow.workflows[0].activities.push(activity);
+		publish("oncustomcodeadded", activity);
+	} else {
+		let theCustom = custom();
+		vinter_flow.workflows[0].activities.push(theCustom);
+		publish("oncustomcodeadded", theCustom);
+	}
 }
 
-function addDisconnectActivity() {
-	let theDisconnect = disconnect();
-	vinter_flow.workflows[0].activities.push(theDisconnect);
-	publish("ondisconnectadded", theDisconnect);
+function addDisconnectActivity(activity) {
+	if (activity) {
+		vinter_flow.workflows[0].activities.push(activity);
+		publish("ondisconnectadded", activity);
+	} else {
+		let theDisconnect = disconnect();
+		vinter_flow.workflows[0].activities.push(theDisconnect);
+		publish("ondisconnectadded", theDisconnect);
+	}
 }
 
-function addEscalateActivity() {
-	let theEscalate = escalate();
-	vinter_flow.workflows[0].activities.push(theEscalate);
-	publish("onescalateadded", theEscalate);
+function addEscalateActivity(activity) {
+	if (activity) {
+		vinter_flow.workflows[0].activities.push(activity);
+		publish("onescalateadded", activity);
+	} else {
+		let theEscalate = escalate();
+		vinter_flow.workflows[0].activities.push(theEscalate);
+		publish("onescalateadded", theEscalate);
+	}
 }
 
 function getBeginActivity() {
@@ -320,6 +360,43 @@ function removeFromActivityArray(activityID) {
 	}
 }
 
+function load(strJson) {
+	let objJson = JSON.parse(strJson);
+	objJson.workflows[0].activities.forEach(activity => {
+		if (activity.type === "Root") addBeginActivity(activity);
+		if (activity.type === "End") addEndActivity(activity);
+		//publish("onflowcreated", {});
+		if (activity.type === "Say") addSayActivity(activity);
+		if (activity.type === "Form") addFormActivity(activity);
+		if (activity.type === "CustomCode") addCustomCodeActivity(activity);
+		if (activity.type === "QuestionAnswer") addQuestionActivity(activity);
+		if (activity.type === "DecisionSwitch") addDecisionActivity(activity);
+		if (activity.type === "SetMemory") addMemoryActivity(activity);
+		if (activity.type === "ServiceCall") addServiceCallActivity(activity);
+		if (activity.type === "Disconnect") addDisconnectActivity(activity);
+		if (activity.type === "Escalate") addEscalateActivity(activity);
+		if (activity.type === "ClientControlManagement")
+			addControlManagerActivity(activity);
+
+		initialized = true;
+	});
+	console.log(objJson);
+}
+
+function openFromStorage(flow) {
+	console.log("open from storage");
+	changeElementDisplay("vinter-modal-load-storage", "block");
+	let sim = document.getElementById("vinter-btn-sim");
+	let nao = document.getElementById("vinter-btn-nao");
+	sim.onclick = () => {
+		load(flow);
+		changeElementDisplay("vinter-modal-load-storage", "none");
+	};
+	nao.onclick = () => {
+		changeElementDisplay("vinter-modal-load-storage", "none");
+	};
+}
+
 subscribe("oncreatesay", () => {
 	console.log("oncreatesay");
 	addSayActivity();
@@ -391,5 +468,6 @@ export {
 	changeElementDisplay,
 	loadActivity,
 	removeAllChilds,
-	updateAutomaticSaveStatus
+	updateAutomaticSaveStatus,
+	load
 };

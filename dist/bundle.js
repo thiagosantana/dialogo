@@ -100,6 +100,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "loadActivity", function() { return loadActivity; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "removeAllChilds", function() { return removeAllChilds; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "updateAutomaticSaveStatus", function() { return updateAutomaticSaveStatus; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "load", function() { return load; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__event_js__ = __webpack_require__(2);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__graph_js__ = __webpack_require__(18);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__say_js__ = __webpack_require__(63);
@@ -143,27 +144,20 @@ window.mustache = __webpack_require__(79);
 
 hljs.initHighlightingOnLoad();
 
-/*
-var targetElement = $("#vinter-graph")[0];
-var panzoom = svgPanZoom("#v-2", {
-	viewportSelector: document.querySelector("svg"),
-	fit: false,
-	zoomScaleSensitivity: 0.1,
-	center: true,
-	dblClickZoomEnabled: false,
-	panEnabled: true
-});
-*/
-
 var initialized = false;
-
-Object(__WEBPACK_IMPORTED_MODULE_17__flow_storage_js__["a" /* loadExistingFlow */])();
-Object(__WEBPACK_IMPORTED_MODULE_16__timer_js__["a" /* startTimers */])();
 
 const changeElementDisplay = (elementId, newDisplay) => {
 	let element = document.getElementById(elementId);
 	element.style.display = newDisplay;
 };
+
+Object(__WEBPACK_IMPORTED_MODULE_0__event_js__["b" /* subscribe */])("loadfromstorage", flow => {
+	console.log("load from storage");
+	openFromStorage(flow);
+});
+
+Object(__WEBPACK_IMPORTED_MODULE_17__flow_storage_js__["a" /* loadExistingFlow */])();
+Object(__WEBPACK_IMPORTED_MODULE_16__timer_js__["a" /* startTimers */])();
 
 const configureUndoRedoKeyboard = () => {
 	console.log("Keyboard ok");
@@ -190,8 +184,9 @@ const configureLoadBehavior = () => {
 		changeElementDisplay("vinter-load-json", "none");
 	};
 	btnLoad.onclick = () => {
-		Object(__WEBPACK_IMPORTED_MODULE_1__graph_js__["a" /* load */])(txtLoadJson.value);
+		load(txtLoadJson.value);
 		initialized = true;
+		changeElementDisplay("vinter-load-json", "none");
 	};
 };
 
@@ -220,7 +215,7 @@ const configureNewFlowBehavior = () => {
 			addBeginActivity();
 			addEndActivity();
 			changeElementDisplay("vinter-modal-new-flow", "none");
-			Object(__WEBPACK_IMPORTED_MODULE_0__event_js__["a" /* publish */])("onflowcreated", {});
+			//publish("onflowcreated", {});
 			initialized = true;
 		} else {
 			changeElementDisplay("new-flow-error", "block");
@@ -268,16 +263,22 @@ function initNewFlow(newFlowName, newFlowId) {
 function addBeginActivity(activity) {
 	if (activity) {
 		vinter_flow.workflows[0].activities.push(activity);
+		Object(__WEBPACK_IMPORTED_MODULE_0__event_js__["a" /* publish */])("onbeginadded", activity);
 	} else {
-		vinter_flow.workflows[0].activities.push(Object(__WEBPACK_IMPORTED_MODULE_3__begin_js__["a" /* begin */])());
+		let theBegin = Object(__WEBPACK_IMPORTED_MODULE_3__begin_js__["a" /* begin */])();
+		vinter_flow.workflows[0].activities.push(theBegin);
+		Object(__WEBPACK_IMPORTED_MODULE_0__event_js__["a" /* publish */])("onbeginadded", theBegin);
 	}
 }
 
 function addEndActivity(activity) {
 	if (activity) {
 		vinter_flow.workflows[0].activities.push(activity);
+		Object(__WEBPACK_IMPORTED_MODULE_0__event_js__["a" /* publish */])("onendadded", activity);
 	} else {
-		vinter_flow.workflows[0].activities.push(Object(__WEBPACK_IMPORTED_MODULE_4__end_js__["a" /* end */])());
+		let theEnd = Object(__WEBPACK_IMPORTED_MODULE_4__end_js__["a" /* end */])();
+		vinter_flow.workflows[0].activities.push(theEnd);
+		Object(__WEBPACK_IMPORTED_MODULE_0__event_js__["a" /* publish */])("onendadded", theEnd);
 	}
 }
 
@@ -292,16 +293,26 @@ function addSayActivity(activity) {
 	}
 }
 
-function addServiceCallActivity() {
-	let theNewServiceCall = Object(__WEBPACK_IMPORTED_MODULE_6__service_js__["a" /* serviceCall */])();
-	vinter_flow.workflows[0].activities.push(theNewServiceCall);
-	Object(__WEBPACK_IMPORTED_MODULE_0__event_js__["a" /* publish */])("onservicecalladded", theNewServiceCall);
+function addServiceCallActivity(activity) {
+	if (activity) {
+		vinter_flow.workflows[0].activities.push(activity);
+		Object(__WEBPACK_IMPORTED_MODULE_0__event_js__["a" /* publish */])("onservicecalladded", activity);
+	} else {
+		let theNewServiceCall = Object(__WEBPACK_IMPORTED_MODULE_6__service_js__["a" /* serviceCall */])();
+		vinter_flow.workflows[0].activities.push(theNewServiceCall);
+		Object(__WEBPACK_IMPORTED_MODULE_0__event_js__["a" /* publish */])("onservicecalladded", theNewServiceCall);
+	}
 }
 
-function addControlManagerActivity() {
-	let theNewControlManager = Object(__WEBPACK_IMPORTED_MODULE_12__control_manager_js__["a" /* controlManager */])(false);
-	vinter_flow.workflows[0].activities.push(theNewControlManager);
-	Object(__WEBPACK_IMPORTED_MODULE_0__event_js__["a" /* publish */])("oncontrolmanageradded", theNewControlManager);
+function addControlManagerActivity(activity) {
+	if (activity) {
+		vinter_flow.workflows[0].activities.push(activity);
+		Object(__WEBPACK_IMPORTED_MODULE_0__event_js__["a" /* publish */])("oncontrolmanageradded", activity);
+	} else {
+		let theNewControlManager = Object(__WEBPACK_IMPORTED_MODULE_12__control_manager_js__["a" /* controlManager */])(false);
+		vinter_flow.workflows[0].activities.push(theNewControlManager);
+		Object(__WEBPACK_IMPORTED_MODULE_0__event_js__["a" /* publish */])("oncontrolmanageradded", theNewControlManager);
+	}
 }
 
 function addFormActivity(activity) {
@@ -315,40 +326,70 @@ function addFormActivity(activity) {
 	}
 }
 
-function addDecisionActivity() {
-	let theDecision = Object(__WEBPACK_IMPORTED_MODULE_5__decision_js__["a" /* decision */])();
-	vinter_flow.workflows[0].activities.push(theDecision);
-	Object(__WEBPACK_IMPORTED_MODULE_0__event_js__["a" /* publish */])("ondecisionadded", theDecision);
+function addDecisionActivity(activity) {
+	if (activity) {
+		vinter_flow.workflows[0].activities.push(activity);
+		Object(__WEBPACK_IMPORTED_MODULE_0__event_js__["a" /* publish */])("ondecisionadded", activity);
+	} else {
+		let theDecision = Object(__WEBPACK_IMPORTED_MODULE_5__decision_js__["a" /* decision */])();
+		vinter_flow.workflows[0].activities.push(theDecision);
+		Object(__WEBPACK_IMPORTED_MODULE_0__event_js__["a" /* publish */])("ondecisionadded", theDecision);
+	}
 }
 
-function addQuestionActivity() {
-	let theQuestion = Object(__WEBPACK_IMPORTED_MODULE_7__question_js__["a" /* question */])();
-	vinter_flow.workflows[0].activities.push(theQuestion);
-	Object(__WEBPACK_IMPORTED_MODULE_0__event_js__["a" /* publish */])("onquestionadded", theQuestion);
+function addQuestionActivity(activity) {
+	if (activity) {
+		vinter_flow.workflows[0].activities.push(activity);
+		Object(__WEBPACK_IMPORTED_MODULE_0__event_js__["a" /* publish */])("onquestionadded", activity);
+	} else {
+		let theQuestion = Object(__WEBPACK_IMPORTED_MODULE_7__question_js__["a" /* question */])();
+		vinter_flow.workflows[0].activities.push(theQuestion);
+		Object(__WEBPACK_IMPORTED_MODULE_0__event_js__["a" /* publish */])("onquestionadded", theQuestion);
+	}
 }
 
-function addMemoryActivity() {
-	let theMemory = Object(__WEBPACK_IMPORTED_MODULE_8__memory_js__["a" /* memory */])();
-	vinter_flow.workflows[0].activities.push(theMemory);
-	Object(__WEBPACK_IMPORTED_MODULE_0__event_js__["a" /* publish */])("onmemoryadded", theMemory);
+function addMemoryActivity(activity) {
+	if (activity) {
+		vinter_flow.workflows[0].activities.push(activity);
+		Object(__WEBPACK_IMPORTED_MODULE_0__event_js__["a" /* publish */])("onmemoryadded", activity);
+	} else {
+		let theMemory = Object(__WEBPACK_IMPORTED_MODULE_8__memory_js__["a" /* memory */])();
+		vinter_flow.workflows[0].activities.push(theMemory);
+		Object(__WEBPACK_IMPORTED_MODULE_0__event_js__["a" /* publish */])("onmemoryadded", theMemory);
+	}
 }
 
-function addCustomCodeActivity() {
-	let theCustom = Object(__WEBPACK_IMPORTED_MODULE_9__custom_code_js__["a" /* custom */])();
-	vinter_flow.workflows[0].activities.push(theCustom);
-	Object(__WEBPACK_IMPORTED_MODULE_0__event_js__["a" /* publish */])("oncustomcodeadded", theCustom);
+function addCustomCodeActivity(activity) {
+	if (activity) {
+		vinter_flow.workflows[0].activities.push(activity);
+		Object(__WEBPACK_IMPORTED_MODULE_0__event_js__["a" /* publish */])("oncustomcodeadded", activity);
+	} else {
+		let theCustom = Object(__WEBPACK_IMPORTED_MODULE_9__custom_code_js__["a" /* custom */])();
+		vinter_flow.workflows[0].activities.push(theCustom);
+		Object(__WEBPACK_IMPORTED_MODULE_0__event_js__["a" /* publish */])("oncustomcodeadded", theCustom);
+	}
 }
 
-function addDisconnectActivity() {
-	let theDisconnect = Object(__WEBPACK_IMPORTED_MODULE_10__disconnect_js__["a" /* disconnect */])();
-	vinter_flow.workflows[0].activities.push(theDisconnect);
-	Object(__WEBPACK_IMPORTED_MODULE_0__event_js__["a" /* publish */])("ondisconnectadded", theDisconnect);
+function addDisconnectActivity(activity) {
+	if (activity) {
+		vinter_flow.workflows[0].activities.push(activity);
+		Object(__WEBPACK_IMPORTED_MODULE_0__event_js__["a" /* publish */])("ondisconnectadded", activity);
+	} else {
+		let theDisconnect = Object(__WEBPACK_IMPORTED_MODULE_10__disconnect_js__["a" /* disconnect */])();
+		vinter_flow.workflows[0].activities.push(theDisconnect);
+		Object(__WEBPACK_IMPORTED_MODULE_0__event_js__["a" /* publish */])("ondisconnectadded", theDisconnect);
+	}
 }
 
-function addEscalateActivity() {
-	let theEscalate = Object(__WEBPACK_IMPORTED_MODULE_11__escalate_js__["a" /* escalate */])();
-	vinter_flow.workflows[0].activities.push(theEscalate);
-	Object(__WEBPACK_IMPORTED_MODULE_0__event_js__["a" /* publish */])("onescalateadded", theEscalate);
+function addEscalateActivity(activity) {
+	if (activity) {
+		vinter_flow.workflows[0].activities.push(activity);
+		Object(__WEBPACK_IMPORTED_MODULE_0__event_js__["a" /* publish */])("onescalateadded", activity);
+	} else {
+		let theEscalate = Object(__WEBPACK_IMPORTED_MODULE_11__escalate_js__["a" /* escalate */])();
+		vinter_flow.workflows[0].activities.push(theEscalate);
+		Object(__WEBPACK_IMPORTED_MODULE_0__event_js__["a" /* publish */])("onescalateadded", theEscalate);
+	}
 }
 
 function getBeginActivity() {
@@ -438,6 +479,43 @@ function removeFromActivityArray(activityID) {
 			vinter_flow.workflows[0].activities.splice(i, 1);
 		}
 	}
+}
+
+function load(strJson) {
+	let objJson = JSON.parse(strJson);
+	objJson.workflows[0].activities.forEach(activity => {
+		if (activity.type === "Root") addBeginActivity(activity);
+		if (activity.type === "End") addEndActivity(activity);
+		//publish("onflowcreated", {});
+		if (activity.type === "Say") addSayActivity(activity);
+		if (activity.type === "Form") addFormActivity(activity);
+		if (activity.type === "CustomCode") addCustomCodeActivity(activity);
+		if (activity.type === "QuestionAnswer") addQuestionActivity(activity);
+		if (activity.type === "DecisionSwitch") addDecisionActivity(activity);
+		if (activity.type === "SetMemory") addMemoryActivity(activity);
+		if (activity.type === "ServiceCall") addServiceCallActivity(activity);
+		if (activity.type === "Disconnect") addDisconnectActivity(activity);
+		if (activity.type === "Escalate") addEscalateActivity(activity);
+		if (activity.type === "ClientControlManagement")
+			addControlManagerActivity(activity);
+
+		initialized = true;
+	});
+	console.log(objJson);
+}
+
+function openFromStorage(flow) {
+	console.log("open from storage");
+	changeElementDisplay("vinter-modal-load-storage", "block");
+	let sim = document.getElementById("vinter-btn-sim");
+	let nao = document.getElementById("vinter-btn-nao");
+	sim.onclick = () => {
+		load(flow);
+		changeElementDisplay("vinter-modal-load-storage", "none");
+	};
+	nao.onclick = () => {
+		changeElementDisplay("vinter-modal-load-storage", "none");
+	};
 }
 
 Object(__WEBPACK_IMPORTED_MODULE_0__event_js__["b" /* subscribe */])("oncreatesay", () => {
@@ -12236,7 +12314,7 @@ function shiftRanks(t, g, delta) {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return load; });
+/* unused harmony export graphInfo */
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__app_js__ = __webpack_require__(1);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__event_js__ = __webpack_require__(2);
 
@@ -12388,15 +12466,7 @@ paper.on("cell:pointerup blank:pointerup", function(cellView, x, y) {
 	document.getElementById("app").style.cursor = "default";
 });
 
-function load(json) {
-	try {
-		let loadedJSON = JSON.parse(json);
-		renderJSON(loadedJSON);
-	} catch (e) {
-		alert("JSON com problemas");
-		console.log(e);
-	}
-}
+function graphInfo(json) {}
 
 function renderJSON(json) {
 	json.workflows[0].activities.forEach(activity => {
@@ -12437,13 +12507,12 @@ function renderLink(sourceID, targetID) {
 	graph.addCell(link);
 }
 
-function renderBegin(x, y) {
-	let begin = Object(__WEBPACK_IMPORTED_MODULE_0__app_js__["getBeginActivity"])();
+function renderBegin(begin) {
 	let positionX = -1;
 	let positionY = -1;
-	if (x && y) {
-		positionX = x;
-		positionY = y;
+	if (begin.x && begin.y) {
+		positionX = begin.x;
+		positionY = begin.y;
 	} else {
 		positionX = 30;
 		positionY = 30;
@@ -12483,17 +12552,21 @@ function renderBegin(x, y) {
 			rect: { fill: "green", "stroke-width": 0, stroke: "black" }
 		}
 	});
+	model.on("change:position", (element, position) => {
+		let activity = Object(__WEBPACK_IMPORTED_MODULE_0__app_js__["getActivityById"])(element.id);
+		activity.x = position.x;
+		activity.y = position.y;
+	});
 	graph.addCell(model);
 	begin.id = model.id;
 }
 
-function renderEnd(x, y) {
-	let end = Object(__WEBPACK_IMPORTED_MODULE_0__app_js__["getEndActivity"])();
+function renderEnd(end) {
 	let positionX = -1;
 	let positionY = -1;
-	if (x && y) {
-		positionX = x;
-		positionY = y;
+	if (end.x && end.y) {
+		positionX = end.x;
+		positionY = end.y;
 	} else {
 		positionX = 300;
 		positionY = 300;
@@ -12531,6 +12604,11 @@ function renderEnd(x, y) {
 			},
 			rect: { fill: "red", "stroke-width": 0, stroke: "black" }
 		}
+	});
+	model.on("change:position", (element, position) => {
+		let activity = Object(__WEBPACK_IMPORTED_MODULE_0__app_js__["getActivityById"])(element.id);
+		activity.x = position.x;
+		activity.y = position.y;
 	});
 	graph.addCell(model);
 	end.id = model.id;
@@ -13163,11 +13241,21 @@ const onEscalateAdded = escalate => {
 	renderEscalate(escalate);
 };
 
+const onEndAdded = end => {
+	renderEnd(end);
+};
+
+const onBeginAdded = begin => {
+	renderBegin(begin);
+};
+
 const onMenuActivityClose = () => {
 	removeIlegalLinksWhenTargetPointsNull();
 };
 
-Object(__WEBPACK_IMPORTED_MODULE_1__event_js__["b" /* subscribe */])("onflowcreated", onFlowCreated);
+//subscribe("onflowcreated", onFlowCreated);
+Object(__WEBPACK_IMPORTED_MODULE_1__event_js__["b" /* subscribe */])("onbeginadded", onBeginAdded);
+Object(__WEBPACK_IMPORTED_MODULE_1__event_js__["b" /* subscribe */])("onendadded", onEndAdded);
 Object(__WEBPACK_IMPORTED_MODULE_1__event_js__["b" /* subscribe */])("onsayadded", onSayAdded);
 Object(__WEBPACK_IMPORTED_MODULE_1__event_js__["b" /* subscribe */])("onformadded", onFormAdded);
 Object(__WEBPACK_IMPORTED_MODULE_1__event_js__["b" /* subscribe */])("onservicecalladded", onServiceCallAdded);
@@ -68285,19 +68373,21 @@ function startTimers() {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return loadExistingFlow; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__event_js__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__app_js__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__event_js__ = __webpack_require__(2);
+
 
 
 function loadExistingFlow() {
 	let vinter_flow = localStorage.getItem("vinter-flow");
+	console.log("try to load flow");
 	if (vinter_flow) {
-		console.log("TEM FLUXO");
-	} else {
-		console.log("NAO TEM FLUXO");
+		console.log("loading...");
+		Object(__WEBPACK_IMPORTED_MODULE_1__event_js__["a" /* publish */])("loadfromstorage", vinter_flow);
 	}
 }
 
-Object(__WEBPACK_IMPORTED_MODULE_0__event_js__["b" /* subscribe */])("onflowcreated", () => {
+Object(__WEBPACK_IMPORTED_MODULE_1__event_js__["b" /* subscribe */])("onflowcreated", () => {
 	localStorage.setItem("vinter-flow", JSON.stringify(flow));
 });
 
