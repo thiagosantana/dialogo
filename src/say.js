@@ -10,6 +10,7 @@ class Say {
 		this.nextActivity = "";
 		this.sleep = "3000";
 		this.utterance = "Lorem Ipsum";
+		this.utteranceLog = "";
 	}
 }
 function say() {
