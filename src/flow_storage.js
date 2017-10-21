@@ -10,8 +10,16 @@ function loadExistingFlow() {
 	}
 }
 
+function deleteExistingFlow() {
+	localStorage.removeItem("vinter-flow");
+}
+
+function updateExistingFlow() {
+	localStorage.setItem("vinter-flow", JSON.stringify(flow));
+}
+
 subscribe("onflowcreated", () => {
 	localStorage.setItem("vinter-flow", JSON.stringify(flow));
 });
 
-export { loadExistingFlow };
+export { loadExistingFlow, deleteExistingFlow, updateExistingFlow };

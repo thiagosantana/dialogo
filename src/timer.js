@@ -1,7 +1,8 @@
 import { changeElementDisplay, updateAutomaticSaveStatus } from "./app.js";
+import { updateExistingFlow } from "./flow_storage.js";
 
 function updateFlowTimer() {
-	localStorage.setItem("vinter-flow", JSON.stringify(flow));
+	updateExistingFlow();
 	updateAutomaticSaveStatus(new Date().toLocaleTimeString());
 }
 

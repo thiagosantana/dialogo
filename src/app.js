@@ -1,5 +1,5 @@
 import { subscribe, publish } from "./event.js";
-import { graphInfo } from "./graph.js";
+import { graphInfo, renderLink } from "./graph.js";
 import { say } from "./say.js";
 import { begin } from "./begin.js";
 import { end } from "./end.js";
@@ -15,7 +15,7 @@ import { form } from "./form.js";
 import { openMenu } from "./menu.js";
 import { undo, redo } from "./undo_redo.js";
 import { startTimers } from "./timer.js";
-import { loadExistingFlow } from "./flow_storage.js";
+import { loadExistingFlow, deleteExistingFlow } from "./flow_storage.js";
 
 let vinter_flow = {};
 window.flow = vinter_flow;
@@ -63,6 +63,7 @@ const configureLoadBehavior = () => {
 		changeElementDisplay("vinter-load-json", "none");
 	};
 	btnLoad.onclick = () => {
+		deleteExistingFlow();
 		load(txtLoadJson.value);
 		initialized = true;
 		changeElementDisplay("vinter-load-json", "none");
@@ -87,6 +88,7 @@ const configureNewFlowBehavior = () => {
 		"vinter-btn-confirm-create-flow"
 	);
 	vinterBtnConfirmCreateFlow.onclick = () => {
+		deleteExistingFlow();
 		let newFlowName = document.getElementById("new-flow-name");
 		let newFlowId = document.getElementById("new-flow-id");
 		if (newFlowId.value && newFlowName.value) {
@@ -379,6 +381,29 @@ function load(strJson) {
 			addControlManagerActivity(activity);
 
 		initialized = true;
+	});
+	objJson.workflows[0].activities.forEach(activity => {
+		if (activity.nextActivity) {
+			renderLink(
+				activity.id,
+				getActivityByName(activity.nextActivity).id,
+				"nextActivity"
+			);
+		}
+		if (activity.defaultNextActivity) {
+			renderLink(
+				activity.id,
+				getActivityByName(activity.defaultNextActivity).id,
+				"defaultNextActivity"
+			);
+		}
+		if (activity.cancelNextActivityName) {
+			renderLink(
+				activity.id,
+				getActivityByName(activity.defaultNextActivity).id,
+				"cancelNextActivityName"
+			);
+		}
 	});
 	console.log(objJson);
 }

@@ -6,6 +6,7 @@ import {
 	loadActivity
 } from "./app.js";
 import { subscribe, publish } from "./event.js";
+import { updateExistingFlow } from "./flow_storage.js";
 
 window.$ = require("jquery");
 window.joint = require("jointjs");
@@ -134,6 +135,7 @@ graph.on("change:source change:target", function(link) {});
 
 paper.on("link:connect", (link, evt, target) => {
 	updateWorkflowConnections(link, evt, target);
+	updateExistingFlow();
 });
 
 graph.on("remove", function(cell, collection, opt) {
@@ -177,8 +179,27 @@ function renderJSON(json) {
 
 function updatePosition() {}
 
-function renderLink(sourceID, targetID) {
-	let link = new joint.dia.Link({
+function renderLink(sourceID, targetID, label) {
+	let link = new joint.shapes.devs.Link({
+		source: { id: sourceID, port: label },
+		target: { id: targetID },
+		attrs: {
+			".marker-target": {
+				d: "M 10 0 L 0 5 L 10 10 z",
+				fill: "#7C90A0"
+			},
+			".connection": { "stroke-width": 3, stroke: "black" }
+		},
+		router: { name: "manhattan" },
+		connector: { name: "rounded" }
+	});
+	graph.addCell(link);
+}
+
+function renderRuleLink(sourceID, targetID, label) {
+	let decisionCell = getCell(sourceID);
+	decisionCell.get("ports").items.forEach();
+	let link = new joint.shapes.devs.Link({
 		source: { id: sourceID },
 		target: { id: targetID },
 		attrs: {
@@ -192,6 +213,16 @@ function renderLink(sourceID, targetID) {
 		connector: { name: "rounded" }
 	});
 	graph.addCell(link);
+}
+
+function getCell(id) {
+	let theCell = null;
+	graph.getCells().forEach(cell => {
+		if (cell.id === id) {
+			theCell = cell;
+		}
+	});
+	return theCell;
 }
 
 function renderBegin(begin) {
@@ -243,6 +274,7 @@ function renderBegin(begin) {
 		let activity = getActivityById(element.id);
 		activity.x = position.x;
 		activity.y = position.y;
+		updateExistingFlow();
 	});
 	graph.addCell(model);
 	begin.id = model.id;
@@ -296,6 +328,7 @@ function renderEnd(end) {
 		let activity = getActivityById(element.id);
 		activity.x = position.x;
 		activity.y = position.y;
+		updateExistingFlow();
 	});
 	graph.addCell(model);
 	end.id = model.id;
@@ -351,6 +384,7 @@ function renderSay(say) {
 		let activity = getActivityById(element.id);
 		activity.x = position.x;
 		activity.y = position.y;
+		updateExistingFlow();
 	});
 	graph.addCell(model);
 	say.id = model.id;
@@ -406,6 +440,7 @@ function renderEscalate(say) {
 		let activity = getActivityById(element.id);
 		activity.x = position.x;
 		activity.y = position.y;
+		updateExistingFlow();
 	});
 	graph.addCell(model);
 	say.id = model.id;
@@ -461,6 +496,7 @@ function renderCustom(say) {
 		let activity = getActivityById(element.id);
 		activity.x = position.x;
 		activity.y = position.y;
+		updateExistingFlow();
 	});
 	graph.addCell(model);
 	say.id = model.id;
@@ -516,6 +552,7 @@ function renderDisconnect(say) {
 		let activity = getActivityById(element.id);
 		activity.x = position.x;
 		activity.y = position.y;
+		updateExistingFlow();
 	});
 	graph.addCell(model);
 	say.id = model.id;
@@ -571,6 +608,7 @@ function renderService(say) {
 		let activity = getActivityById(element.id);
 		activity.x = position.x;
 		activity.y = position.y;
+		updateExistingFlow();
 	});
 	graph.addCell(model);
 	say.id = model.id;
@@ -626,6 +664,7 @@ function renderControl(say) {
 		let activity = getActivityById(element.id);
 		activity.x = position.x;
 		activity.y = position.y;
+		updateExistingFlow();
 	});
 	graph.addCell(model);
 	say.id = model.id;
@@ -681,6 +720,7 @@ function renderMemory(say) {
 		let activity = getActivityById(element.id);
 		activity.x = position.x;
 		activity.y = position.y;
+		updateExistingFlow();
 	});
 	graph.addCell(model);
 	say.id = model.id;
@@ -736,6 +776,7 @@ function renderQuestion(say) {
 		let activity = getActivityById(element.id);
 		activity.x = position.x;
 		activity.y = position.y;
+		updateExistingFlow();
 	});
 	graph.addCell(model);
 	say.id = model.id;
@@ -790,6 +831,7 @@ function renderForm(form) {
 		let activity = getActivityById(element.id);
 		activity.x = position.x;
 		activity.y = position.y;
+		updateExistingFlow();
 	});
 	graph.addCell(model);
 	form.id = model.id;
@@ -844,6 +886,7 @@ function renderDecision(decision) {
 		let activity = getActivityById(element.id);
 		activity.x = position.x;
 		activity.y = position.y;
+		updateExistingFlow();
 	});
 	graph.addCell(model);
 	decision.id = model.id;
@@ -977,4 +1020,4 @@ function removeConnectedLinks(id) {
 	});
 }
 
-export { graphInfo };
+export { graphInfo, renderLink };

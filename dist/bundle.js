@@ -156,7 +156,7 @@ Object(__WEBPACK_IMPORTED_MODULE_0__event_js__["b" /* subscribe */])("loadfromst
 	openFromStorage(flow);
 });
 
-Object(__WEBPACK_IMPORTED_MODULE_17__flow_storage_js__["a" /* loadExistingFlow */])();
+Object(__WEBPACK_IMPORTED_MODULE_17__flow_storage_js__["b" /* loadExistingFlow */])();
 Object(__WEBPACK_IMPORTED_MODULE_16__timer_js__["a" /* startTimers */])();
 
 const configureUndoRedoKeyboard = () => {
@@ -184,6 +184,7 @@ const configureLoadBehavior = () => {
 		changeElementDisplay("vinter-load-json", "none");
 	};
 	btnLoad.onclick = () => {
+		Object(__WEBPACK_IMPORTED_MODULE_17__flow_storage_js__["a" /* deleteExistingFlow */])();
 		load(txtLoadJson.value);
 		initialized = true;
 		changeElementDisplay("vinter-load-json", "none");
@@ -208,6 +209,7 @@ const configureNewFlowBehavior = () => {
 		"vinter-btn-confirm-create-flow"
 	);
 	vinterBtnConfirmCreateFlow.onclick = () => {
+		Object(__WEBPACK_IMPORTED_MODULE_17__flow_storage_js__["a" /* deleteExistingFlow */])();
 		let newFlowName = document.getElementById("new-flow-name");
 		let newFlowId = document.getElementById("new-flow-id");
 		if (newFlowId.value && newFlowName.value) {
@@ -500,6 +502,29 @@ function load(strJson) {
 			addControlManagerActivity(activity);
 
 		initialized = true;
+	});
+	objJson.workflows[0].activities.forEach(activity => {
+		if (activity.nextActivity) {
+			Object(__WEBPACK_IMPORTED_MODULE_1__graph_js__["a" /* renderLink */])(
+				activity.id,
+				getActivityByName(activity.nextActivity).id,
+				"nextActivity"
+			);
+		}
+		if (activity.defaultNextActivity) {
+			Object(__WEBPACK_IMPORTED_MODULE_1__graph_js__["a" /* renderLink */])(
+				activity.id,
+				getActivityByName(activity.defaultNextActivity).id,
+				"defaultNextActivity"
+			);
+		}
+		if (activity.cancelNextActivityName) {
+			Object(__WEBPACK_IMPORTED_MODULE_1__graph_js__["a" /* renderLink */])(
+				activity.id,
+				getActivityByName(activity.defaultNextActivity).id,
+				"cancelNextActivityName"
+			);
+		}
 	});
 	console.log(objJson);
 }
@@ -12315,8 +12340,11 @@ function shiftRanks(t, g, delta) {
 
 "use strict";
 /* unused harmony export graphInfo */
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return renderLink; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__app_js__ = __webpack_require__(1);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__event_js__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__flow_storage_js__ = __webpack_require__(78);
+
 
 
 
@@ -12447,6 +12475,7 @@ graph.on("change:source change:target", function(link) {});
 
 paper.on("link:connect", (link, evt, target) => {
 	updateWorkflowConnections(link, evt, target);
+	Object(__WEBPACK_IMPORTED_MODULE_2__flow_storage_js__["c" /* updateExistingFlow */])();
 });
 
 graph.on("remove", function(cell, collection, opt) {
@@ -12490,8 +12519,27 @@ function renderJSON(json) {
 
 function updatePosition() {}
 
-function renderLink(sourceID, targetID) {
-	let link = new joint.dia.Link({
+function renderLink(sourceID, targetID, label) {
+	let link = new joint.shapes.devs.Link({
+		source: { id: sourceID, port: label },
+		target: { id: targetID },
+		attrs: {
+			".marker-target": {
+				d: "M 10 0 L 0 5 L 10 10 z",
+				fill: "#7C90A0"
+			},
+			".connection": { "stroke-width": 3, stroke: "black" }
+		},
+		router: { name: "manhattan" },
+		connector: { name: "rounded" }
+	});
+	graph.addCell(link);
+}
+
+function renderRuleLink(sourceID, targetID, label) {
+	let decisionCell = getCell(sourceID);
+	decisionCell.get("ports").items.forEach();
+	let link = new joint.shapes.devs.Link({
 		source: { id: sourceID },
 		target: { id: targetID },
 		attrs: {
@@ -12505,6 +12553,16 @@ function renderLink(sourceID, targetID) {
 		connector: { name: "rounded" }
 	});
 	graph.addCell(link);
+}
+
+function getCell(id) {
+	let theCell = null;
+	graph.getCells().forEach(cell => {
+		if (cell.id === id) {
+			theCell = cell;
+		}
+	});
+	return theCell;
 }
 
 function renderBegin(begin) {
@@ -12556,6 +12614,7 @@ function renderBegin(begin) {
 		let activity = Object(__WEBPACK_IMPORTED_MODULE_0__app_js__["getActivityById"])(element.id);
 		activity.x = position.x;
 		activity.y = position.y;
+		Object(__WEBPACK_IMPORTED_MODULE_2__flow_storage_js__["c" /* updateExistingFlow */])();
 	});
 	graph.addCell(model);
 	begin.id = model.id;
@@ -12609,6 +12668,7 @@ function renderEnd(end) {
 		let activity = Object(__WEBPACK_IMPORTED_MODULE_0__app_js__["getActivityById"])(element.id);
 		activity.x = position.x;
 		activity.y = position.y;
+		Object(__WEBPACK_IMPORTED_MODULE_2__flow_storage_js__["c" /* updateExistingFlow */])();
 	});
 	graph.addCell(model);
 	end.id = model.id;
@@ -12664,6 +12724,7 @@ function renderSay(say) {
 		let activity = Object(__WEBPACK_IMPORTED_MODULE_0__app_js__["getActivityById"])(element.id);
 		activity.x = position.x;
 		activity.y = position.y;
+		Object(__WEBPACK_IMPORTED_MODULE_2__flow_storage_js__["c" /* updateExistingFlow */])();
 	});
 	graph.addCell(model);
 	say.id = model.id;
@@ -12719,6 +12780,7 @@ function renderEscalate(say) {
 		let activity = Object(__WEBPACK_IMPORTED_MODULE_0__app_js__["getActivityById"])(element.id);
 		activity.x = position.x;
 		activity.y = position.y;
+		Object(__WEBPACK_IMPORTED_MODULE_2__flow_storage_js__["c" /* updateExistingFlow */])();
 	});
 	graph.addCell(model);
 	say.id = model.id;
@@ -12774,6 +12836,7 @@ function renderCustom(say) {
 		let activity = Object(__WEBPACK_IMPORTED_MODULE_0__app_js__["getActivityById"])(element.id);
 		activity.x = position.x;
 		activity.y = position.y;
+		Object(__WEBPACK_IMPORTED_MODULE_2__flow_storage_js__["c" /* updateExistingFlow */])();
 	});
 	graph.addCell(model);
 	say.id = model.id;
@@ -12829,6 +12892,7 @@ function renderDisconnect(say) {
 		let activity = Object(__WEBPACK_IMPORTED_MODULE_0__app_js__["getActivityById"])(element.id);
 		activity.x = position.x;
 		activity.y = position.y;
+		Object(__WEBPACK_IMPORTED_MODULE_2__flow_storage_js__["c" /* updateExistingFlow */])();
 	});
 	graph.addCell(model);
 	say.id = model.id;
@@ -12884,6 +12948,7 @@ function renderService(say) {
 		let activity = Object(__WEBPACK_IMPORTED_MODULE_0__app_js__["getActivityById"])(element.id);
 		activity.x = position.x;
 		activity.y = position.y;
+		Object(__WEBPACK_IMPORTED_MODULE_2__flow_storage_js__["c" /* updateExistingFlow */])();
 	});
 	graph.addCell(model);
 	say.id = model.id;
@@ -12939,6 +13004,7 @@ function renderControl(say) {
 		let activity = Object(__WEBPACK_IMPORTED_MODULE_0__app_js__["getActivityById"])(element.id);
 		activity.x = position.x;
 		activity.y = position.y;
+		Object(__WEBPACK_IMPORTED_MODULE_2__flow_storage_js__["c" /* updateExistingFlow */])();
 	});
 	graph.addCell(model);
 	say.id = model.id;
@@ -12994,6 +13060,7 @@ function renderMemory(say) {
 		let activity = Object(__WEBPACK_IMPORTED_MODULE_0__app_js__["getActivityById"])(element.id);
 		activity.x = position.x;
 		activity.y = position.y;
+		Object(__WEBPACK_IMPORTED_MODULE_2__flow_storage_js__["c" /* updateExistingFlow */])();
 	});
 	graph.addCell(model);
 	say.id = model.id;
@@ -13049,6 +13116,7 @@ function renderQuestion(say) {
 		let activity = Object(__WEBPACK_IMPORTED_MODULE_0__app_js__["getActivityById"])(element.id);
 		activity.x = position.x;
 		activity.y = position.y;
+		Object(__WEBPACK_IMPORTED_MODULE_2__flow_storage_js__["c" /* updateExistingFlow */])();
 	});
 	graph.addCell(model);
 	say.id = model.id;
@@ -13103,6 +13171,7 @@ function renderForm(form) {
 		let activity = Object(__WEBPACK_IMPORTED_MODULE_0__app_js__["getActivityById"])(element.id);
 		activity.x = position.x;
 		activity.y = position.y;
+		Object(__WEBPACK_IMPORTED_MODULE_2__flow_storage_js__["c" /* updateExistingFlow */])();
 	});
 	graph.addCell(model);
 	form.id = model.id;
@@ -13157,6 +13226,7 @@ function renderDecision(decision) {
 		let activity = Object(__WEBPACK_IMPORTED_MODULE_0__app_js__["getActivityById"])(element.id);
 		activity.x = position.x;
 		activity.y = position.y;
+		Object(__WEBPACK_IMPORTED_MODULE_2__flow_storage_js__["c" /* updateExistingFlow */])();
 	});
 	graph.addCell(model);
 	decision.id = model.id;
@@ -67099,6 +67169,7 @@ class Say {
 		this.nextActivity = "";
 		this.sleep = "3000";
 		this.utterance = "Lorem Ipsum";
+		this.utteranceLog = "";
 	}
 }
 function say() {
@@ -68353,10 +68424,12 @@ function redo() {
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return startTimers; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__app_js__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__flow_storage_js__ = __webpack_require__(78);
+
 
 
 function updateFlowTimer() {
-	localStorage.setItem("vinter-flow", JSON.stringify(flow));
+	Object(__WEBPACK_IMPORTED_MODULE_1__flow_storage_js__["c" /* updateExistingFlow */])();
 	Object(__WEBPACK_IMPORTED_MODULE_0__app_js__["updateAutomaticSaveStatus"])(new Date().toLocaleTimeString());
 }
 
@@ -68372,7 +68445,9 @@ function startTimers() {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return loadExistingFlow; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return loadExistingFlow; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return deleteExistingFlow; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return updateExistingFlow; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__app_js__ = __webpack_require__(1);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__event_js__ = __webpack_require__(2);
 
@@ -68385,6 +68460,14 @@ function loadExistingFlow() {
 		console.log("loading...");
 		Object(__WEBPACK_IMPORTED_MODULE_1__event_js__["a" /* publish */])("loadfromstorage", vinter_flow);
 	}
+}
+
+function deleteExistingFlow() {
+	localStorage.removeItem("vinter-flow");
+}
+
+function updateExistingFlow() {
+	localStorage.setItem("vinter-flow", JSON.stringify(flow));
 }
 
 Object(__WEBPACK_IMPORTED_MODULE_1__event_js__["b" /* subscribe */])("onflowcreated", () => {
