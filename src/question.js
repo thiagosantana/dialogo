@@ -27,6 +27,9 @@ class Question {
 				}
 			]
 		};
+		this.x = "";
+		this.y = "";
+		this.id = "";
 	}
 	addOption(label) {
 		let obj = {

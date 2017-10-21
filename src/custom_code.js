@@ -9,6 +9,9 @@ class CustomCode {
 		this.type = "CustomCode";
 		this.nextActivity = "";
 		this.script = "";
+		this.x = "";
+		this.y = "";
+		this.id = "";
 	}
 }
 

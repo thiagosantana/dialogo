@@ -13,6 +13,9 @@ class ServiceCall {
 		this.outputParametersScope = "DIALOG";
 		this.inputParameters = [];
 		this.outputParameters = [];
+		this.x = "";
+		this.y = "";
+		this.id = "";
 	}
 
 	addInputParameter(input) {

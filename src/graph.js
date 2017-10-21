@@ -178,6 +178,12 @@ function renderJSON(json) {
 
 function updatePosition() {}
 
+function renderPort(cellID, portLabel) {
+	let dsCell = getCell(cellID);
+	let portsArray = dsCell.get("outPorts");
+	dsCell.set("outPorts", portsArray.concat(portLabel));
+}
+
 function renderLink(sourceID, targetID, label) {
 	let link = new joint.shapes.devs.Link({
 		source: { id: sourceID, port: label },
@@ -1019,4 +1025,4 @@ function removeConnectedLinks(id) {
 	});
 }
 
-export { graphInfo, renderLink };
+export { graphInfo, renderLink, renderPort };

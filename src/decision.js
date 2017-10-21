@@ -5,6 +5,7 @@ import {
 	removeAllChilds
 } from "./app.js";
 import { subscribe, publish } from "./event.js";
+import { updateExistingFlow } from "./flow_storage.js";
 
 class Decision {
 	constructor() {
@@ -12,6 +13,9 @@ class Decision {
 		this.type = "DecisionSwitch";
 		this.defaultNextActivity = "";
 		this.rules = [];
+		this.x = "";
+		this.y = "";
+		this.id = "";
 	}
 
 	addRule(rule) {
@@ -58,6 +62,7 @@ const configureNewDecisionBehavior = () => {
 };
 
 const onEditDecision = decision => {
+	console.log("DS TO EDIT", decision);
 	changeElementDisplay("vinter-modal-edit-decision", "block");
 	let btnCloseModal = document.getElementById("close-edit-decision");
 	let btnAddRule = document.getElementById("vinter-btn-add-decision-rule");
@@ -75,6 +80,7 @@ const onEditDecision = decision => {
 		});
 		removeAllChilds("vinter-div-decision-rule");
 		changeElementDisplay("vinter-modal-edit-decision", "none");
+		updateExistingFlow();
 	};
 	let btnDeleteDecision = document.getElementById(
 		"vinter-btn-confirm-delete-decision"

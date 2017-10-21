@@ -1,5 +1,5 @@
 import { subscribe, publish } from "./event.js";
-import { graphInfo, renderLink } from "./graph.js";
+import { graphInfo, renderLink, renderPort } from "./graph.js";
 import { say } from "./say.js";
 import { begin } from "./begin.js";
 import { end } from "./end.js";
@@ -147,8 +147,12 @@ function initNewFlow(newFlowName, newFlowId) {
 
 function addBeginActivity(activity) {
 	if (activity) {
-		vinter_flow.workflows[0].activities.push(activity);
-		publish("onbeginadded", activity);
+		let theBegin = begin();
+		theBegin.x = activity.x;
+		theBegin.y = activity.y;
+		theBegin.nextActivity = activity.nextActivity;
+		vinter_flow.workflows[0].activities.push(theBegin);
+		publish("onbeginadded", theBegin);
 	} else {
 		let theBegin = begin();
 		vinter_flow.workflows[0].activities.push(theBegin);
@@ -159,8 +163,11 @@ function addBeginActivity(activity) {
 
 function addEndActivity(activity) {
 	if (activity) {
-		vinter_flow.workflows[0].activities.push(activity);
-		publish("onendadded", activity);
+		let theEnd = end();
+		theEnd.x = activity.x;
+		theEnd.y = activity.y;
+		vinter_flow.workflows[0].activities.push(theEnd);
+		publish("onendadded", theEnd);
 	} else {
 		let theEnd = end();
 		vinter_flow.workflows[0].activities.push(theEnd);
@@ -171,8 +178,16 @@ function addEndActivity(activity) {
 
 function addSayActivity(activity) {
 	if (activity) {
-		vinter_flow.workflows[0].activities.push(activity);
-		publish("onsayadded", activity);
+		let theNewSay = say();
+		theNewSay.name = activity.name;
+		theNewSay.nextActivity = activity.nextActivity;
+		theNewSay.sleep = activity.sleep;
+		theNewSay.utterance = activity.utterance;
+		theNewSay.utteranceLog = activity.utteranceLog;
+		theNewSay.x = activity.x;
+		theNewSay.y = activity.y;
+		vinter_flow.workflows[0].activities.push(theNewSay);
+		publish("onsayadded", theNewSay);
 	} else {
 		let theNewSay = say();
 		vinter_flow.workflows[0].activities.push(theNewSay);
@@ -183,8 +198,16 @@ function addSayActivity(activity) {
 
 function addServiceCallActivity(activity) {
 	if (activity) {
-		vinter_flow.workflows[0].activities.push(activity);
-		publish("onservicecalladded", activity);
+		let theNewServiceCall = serviceCall();
+		theNewServiceCall.name = activity.name;
+		theNewServiceCall.nextActivity = activity.nextActivity;
+		theNewServiceCall.serviceName = activity.serviceName;
+		theNewServiceCall.inputParameters = activity.inputParameters;
+		theNewServiceCall.outputParameters = activity.outputParameters;
+		theNewServiceCall.x = activity.x;
+		theNewServiceCall.y = activity.y;
+		vinter_flow.workflows[0].activities.push(theNewServiceCall);
+		publish("onservicecalladded", theNewServiceCall);
 	} else {
 		let theNewServiceCall = serviceCall();
 		vinter_flow.workflows[0].activities.push(theNewServiceCall);
@@ -195,10 +218,16 @@ function addServiceCallActivity(activity) {
 
 function addControlManagerActivity(activity) {
 	if (activity) {
-		vinter_flow.workflows[0].activities.push(activity);
-		publish("oncontrolmanageradded", activity);
+		let theNewControlManager = controlManager();
+		theNewControlManager.name = activity.name;
+		theNewControlManager.nextActivity = activity.nextActivity;
+		theNewControlManager.actions = activity.actions;
+		theNewControlManager.x = activity.x;
+		theNewControlManager.y = activity.y;
+		vinter_flow.workflows[0].activities.push(theNewControlManager);
+		publish("oncontrolmanageradded", theNewControlManager);
 	} else {
-		let theNewControlManager = controlManager(false);
+		let theNewControlManager = controlManager();
 		vinter_flow.workflows[0].activities.push(theNewControlManager);
 		publish("oncontrolmanageradded", theNewControlManager);
 	}
@@ -207,8 +236,17 @@ function addControlManagerActivity(activity) {
 
 function addFormActivity(activity) {
 	if (activity) {
-		vinter_flow.workflows[0].activities.push(activity);
-		publish("onformadded", activity);
+		let theForm = form();
+		theForm.name = activity.name;
+		theForm.nextActivity = activity.nextActivity;
+		theForm.cancelNextActivityName = activity.cancelNextActivityName;
+		theForm.utterance = activity.utterance;
+		theForm.fields = activity.fields;
+		theForm.validator = activity.validator;
+		theForm.x = activity.x;
+		theForm.y = activity.y;
+		vinter_flow.workflows[0].activities.push(theForm);
+		publish("onformadded", theForm);
 	} else {
 		let theForm = form();
 		vinter_flow.workflows[0].activities.push(theForm);
@@ -219,8 +257,14 @@ function addFormActivity(activity) {
 
 function addDecisionActivity(activity) {
 	if (activity) {
-		vinter_flow.workflows[0].activities.push(activity);
-		publish("ondecisionadded", activity);
+		let theDecision = decision();
+		theDecision.name = activity.name;
+		theDecision.defaultNextActivity = activity.defaultNextActivity;
+		theDecision.rules = activity.rules;
+		theDecision.x = activity.x;
+		theDecision.y = activity.y;
+		vinter_flow.workflows[0].activities.push(theDecision);
+		publish("ondecisionadded", theDecision);
 	} else {
 		let theDecision = decision();
 		vinter_flow.workflows[0].activities.push(theDecision);
@@ -231,8 +275,16 @@ function addDecisionActivity(activity) {
 
 function addQuestionActivity(activity) {
 	if (activity) {
-		vinter_flow.workflows[0].activities.push(activity);
-		publish("onquestionadded", activity);
+		let theQuestion = question();
+		theQuestion.name = activity.name;
+		theQuestion.question = activity.question;
+		theQuestion.utterance = activity.utterance;
+		theQuestion.nextActivity = activity.nextActivity;
+		theQuestion.validator = activity.validator;
+		theQuestion.x = activity.x;
+		theQuestion.y = activity.y;
+		vinter_flow.workflows[0].activities.push(theQuestion);
+		publish("onquestionadded", theQuestion);
 	} else {
 		let theQuestion = question();
 		vinter_flow.workflows[0].activities.push(theQuestion);
@@ -243,8 +295,14 @@ function addQuestionActivity(activity) {
 
 function addMemoryActivity(activity) {
 	if (activity) {
-		vinter_flow.workflows[0].activities.push(activity);
-		publish("onmemoryadded", activity);
+		let theMemory = memory();
+		theMemory.name = activity.name;
+		theMemory.values = activity.values;
+		theMemory.nextActivity = activity.nextActivity;
+		theMemory.x = activity.x;
+		theMemory.y = activity.y;
+		vinter_flow.workflows[0].activities.push(theMemory);
+		publish("onmemoryadded", theMemory);
 	} else {
 		let theMemory = memory();
 		vinter_flow.workflows[0].activities.push(theMemory);
@@ -255,8 +313,14 @@ function addMemoryActivity(activity) {
 
 function addCustomCodeActivity(activity) {
 	if (activity) {
-		vinter_flow.workflows[0].activities.push(activity);
-		publish("oncustomcodeadded", activity);
+		let theCustom = custom();
+		theCustom.name = activity.name;
+		theCustom.nextActivity = activity.nextActivity;
+		theCustom.script = activity.script;
+		theCustom.x = activity.x;
+		theCustom.y = activity.y;
+		vinter_flow.workflows[0].activities.push(theCustom);
+		publish("oncustomcodeadded", theCustom);
 	} else {
 		let theCustom = custom();
 		vinter_flow.workflows[0].activities.push(theCustom);
@@ -267,8 +331,14 @@ function addCustomCodeActivity(activity) {
 
 function addDisconnectActivity(activity) {
 	if (activity) {
-		vinter_flow.workflows[0].activities.push(activity);
-		publish("ondisconnectadded", activity);
+		let theDisconnect = disconnect();
+		theDisconnect.name = activity.name;
+		theDisconnect.utterance = activity.utterance;
+		theDisconnect.nextActivity = activity.nextActivity;
+		theDisconnect.x = activity.x;
+		theDisconnect.y = activity.y;
+		vinter_flow.workflows[0].activities.push(theDisconnect);
+		publish("ondisconnectadded", theDisconnect);
 	} else {
 		let theDisconnect = disconnect();
 		vinter_flow.workflows[0].activities.push(theDisconnect);
@@ -279,8 +349,15 @@ function addDisconnectActivity(activity) {
 
 function addEscalateActivity(activity) {
 	if (activity) {
-		vinter_flow.workflows[0].activities.push(activity);
-		publish("onescalateadded", activity);
+		let theEscalate = escalate();
+		theEscalate.name = activity.name;
+		theEscalate.utterance = activity.utterance;
+		theEscalate.sleep = activity.sleep;
+		theEscalate.nextActivity = activity.nextActivity;
+		theEscalate.x = activity.x;
+		theEscalate.y = activity.y;
+		vinter_flow.workflows[0].activities.push(theEscalate);
+		publish("onescalateadded", theEscalate);
 	} else {
 		let theEscalate = escalate();
 		vinter_flow.workflows[0].activities.push(theEscalate);
@@ -420,6 +497,20 @@ function load(strJson) {
 				"cancelNextActivityName"
 			);
 		}
+		if (activity.type === "DecisionSwitch") {
+			activity.rules.forEach(rule => {
+				renderPort(activity.id, rule.label);
+			});
+			activity.rules.forEach(rule => {
+				if (rule.nextActivity) {
+					renderLink(
+						activity.id,
+						getActivityByName(rule.nextActivity).id,
+						rule.label
+					);
+				}
+			});
+		}
 	});
 	console.log(objJson);
 }
@@ -495,6 +586,7 @@ subscribe("onshowmenu", () => {
 
 subscribe("ondeleteactivity", id => {
 	removeFromActivityArray(id);
+	updateExistingFlow();
 });
 
 init();

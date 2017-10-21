@@ -8,6 +8,9 @@ class Disconnect {
 		this.disconnectType = "3";
 		this.utterance = "Tchau";
 		this.nextActivity = "";
+		this.x = "";
+		this.y = "";
+		this.id = "";
 	}
 }
 

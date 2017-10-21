@@ -28,6 +28,9 @@ class Form {
 			maxAttempt: 5,
 			items: []
 		};
+		this.x = "";
+		this.y = "";
+		this.id = "";
 	}
 	addField(field) {
 		this.fields.push(field);

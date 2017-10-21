@@ -7,6 +7,9 @@ class Memory {
 		this.name = makeName("MEMORY_");
 		this.values = [];
 		this.nextActivity = "";
+		this.x = "";
+		this.y = "";
+		this.id = "";
 	}
 	addValue(value) {
 		this.values.push(value);

@@ -264,8 +264,12 @@ function initNewFlow(newFlowName, newFlowId) {
 
 function addBeginActivity(activity) {
 	if (activity) {
-		vinter_flow.workflows[0].activities.push(activity);
-		Object(__WEBPACK_IMPORTED_MODULE_0__event_js__["a" /* publish */])("onbeginadded", activity);
+		let theBegin = Object(__WEBPACK_IMPORTED_MODULE_3__begin_js__["a" /* begin */])();
+		theBegin.x = activity.x;
+		theBegin.y = activity.y;
+		theBegin.nextActivity = activity.nextActivity;
+		vinter_flow.workflows[0].activities.push(theBegin);
+		Object(__WEBPACK_IMPORTED_MODULE_0__event_js__["a" /* publish */])("onbeginadded", theBegin);
 	} else {
 		let theBegin = Object(__WEBPACK_IMPORTED_MODULE_3__begin_js__["a" /* begin */])();
 		vinter_flow.workflows[0].activities.push(theBegin);
@@ -276,8 +280,11 @@ function addBeginActivity(activity) {
 
 function addEndActivity(activity) {
 	if (activity) {
-		vinter_flow.workflows[0].activities.push(activity);
-		Object(__WEBPACK_IMPORTED_MODULE_0__event_js__["a" /* publish */])("onendadded", activity);
+		let theEnd = Object(__WEBPACK_IMPORTED_MODULE_4__end_js__["a" /* end */])();
+		theEnd.x = activity.x;
+		theEnd.y = activity.y;
+		vinter_flow.workflows[0].activities.push(theEnd);
+		Object(__WEBPACK_IMPORTED_MODULE_0__event_js__["a" /* publish */])("onendadded", theEnd);
 	} else {
 		let theEnd = Object(__WEBPACK_IMPORTED_MODULE_4__end_js__["a" /* end */])();
 		vinter_flow.workflows[0].activities.push(theEnd);
@@ -288,8 +295,16 @@ function addEndActivity(activity) {
 
 function addSayActivity(activity) {
 	if (activity) {
-		vinter_flow.workflows[0].activities.push(activity);
-		Object(__WEBPACK_IMPORTED_MODULE_0__event_js__["a" /* publish */])("onsayadded", activity);
+		let theNewSay = Object(__WEBPACK_IMPORTED_MODULE_2__say_js__["a" /* say */])();
+		theNewSay.name = activity.name;
+		theNewSay.nextActivity = activity.nextActivity;
+		theNewSay.sleep = activity.sleep;
+		theNewSay.utterance = activity.utterance;
+		theNewSay.utteranceLog = activity.utteranceLog;
+		theNewSay.x = activity.x;
+		theNewSay.y = activity.y;
+		vinter_flow.workflows[0].activities.push(theNewSay);
+		Object(__WEBPACK_IMPORTED_MODULE_0__event_js__["a" /* publish */])("onsayadded", theNewSay);
 	} else {
 		let theNewSay = Object(__WEBPACK_IMPORTED_MODULE_2__say_js__["a" /* say */])();
 		vinter_flow.workflows[0].activities.push(theNewSay);
@@ -300,8 +315,16 @@ function addSayActivity(activity) {
 
 function addServiceCallActivity(activity) {
 	if (activity) {
-		vinter_flow.workflows[0].activities.push(activity);
-		Object(__WEBPACK_IMPORTED_MODULE_0__event_js__["a" /* publish */])("onservicecalladded", activity);
+		let theNewServiceCall = Object(__WEBPACK_IMPORTED_MODULE_6__service_js__["a" /* serviceCall */])();
+		theNewServiceCall.name = activity.name;
+		theNewServiceCall.nextActivity = activity.nextActivity;
+		theNewServiceCall.serviceName = activity.serviceName;
+		theNewServiceCall.inputParameters = activity.inputParameters;
+		theNewServiceCall.outputParameters = activity.outputParameters;
+		theNewServiceCall.x = activity.x;
+		theNewServiceCall.y = activity.y;
+		vinter_flow.workflows[0].activities.push(theNewServiceCall);
+		Object(__WEBPACK_IMPORTED_MODULE_0__event_js__["a" /* publish */])("onservicecalladded", theNewServiceCall);
 	} else {
 		let theNewServiceCall = Object(__WEBPACK_IMPORTED_MODULE_6__service_js__["a" /* serviceCall */])();
 		vinter_flow.workflows[0].activities.push(theNewServiceCall);
@@ -312,10 +335,16 @@ function addServiceCallActivity(activity) {
 
 function addControlManagerActivity(activity) {
 	if (activity) {
-		vinter_flow.workflows[0].activities.push(activity);
-		Object(__WEBPACK_IMPORTED_MODULE_0__event_js__["a" /* publish */])("oncontrolmanageradded", activity);
+		let theNewControlManager = Object(__WEBPACK_IMPORTED_MODULE_12__control_manager_js__["a" /* controlManager */])();
+		theNewControlManager.name = activity.name;
+		theNewControlManager.nextActivity = activity.nextActivity;
+		theNewControlManager.actions = activity.actions;
+		theNewControlManager.x = activity.x;
+		theNewControlManager.y = activity.y;
+		vinter_flow.workflows[0].activities.push(theNewControlManager);
+		Object(__WEBPACK_IMPORTED_MODULE_0__event_js__["a" /* publish */])("oncontrolmanageradded", theNewControlManager);
 	} else {
-		let theNewControlManager = Object(__WEBPACK_IMPORTED_MODULE_12__control_manager_js__["a" /* controlManager */])(false);
+		let theNewControlManager = Object(__WEBPACK_IMPORTED_MODULE_12__control_manager_js__["a" /* controlManager */])();
 		vinter_flow.workflows[0].activities.push(theNewControlManager);
 		Object(__WEBPACK_IMPORTED_MODULE_0__event_js__["a" /* publish */])("oncontrolmanageradded", theNewControlManager);
 	}
@@ -324,8 +353,17 @@ function addControlManagerActivity(activity) {
 
 function addFormActivity(activity) {
 	if (activity) {
-		vinter_flow.workflows[0].activities.push(activity);
-		Object(__WEBPACK_IMPORTED_MODULE_0__event_js__["a" /* publish */])("onformadded", activity);
+		let theForm = Object(__WEBPACK_IMPORTED_MODULE_13__form_js__["a" /* form */])();
+		theForm.name = activity.name;
+		theForm.nextActivity = activity.nextActivity;
+		theForm.cancelNextActivityName = activity.cancelNextActivityName;
+		theForm.utterance = activity.utterance;
+		theForm.fields = activity.fields;
+		theForm.validator = activity.validator;
+		theForm.x = activity.x;
+		theForm.y = activity.y;
+		vinter_flow.workflows[0].activities.push(theForm);
+		Object(__WEBPACK_IMPORTED_MODULE_0__event_js__["a" /* publish */])("onformadded", theForm);
 	} else {
 		let theForm = Object(__WEBPACK_IMPORTED_MODULE_13__form_js__["a" /* form */])();
 		vinter_flow.workflows[0].activities.push(theForm);
@@ -336,8 +374,14 @@ function addFormActivity(activity) {
 
 function addDecisionActivity(activity) {
 	if (activity) {
-		vinter_flow.workflows[0].activities.push(activity);
-		Object(__WEBPACK_IMPORTED_MODULE_0__event_js__["a" /* publish */])("ondecisionadded", activity);
+		let theDecision = Object(__WEBPACK_IMPORTED_MODULE_5__decision_js__["a" /* decision */])();
+		theDecision.name = activity.name;
+		theDecision.defaultNextActivity = activity.defaultNextActivity;
+		theDecision.rules = activity.rules;
+		theDecision.x = activity.x;
+		theDecision.y = activity.y;
+		vinter_flow.workflows[0].activities.push(theDecision);
+		Object(__WEBPACK_IMPORTED_MODULE_0__event_js__["a" /* publish */])("ondecisionadded", theDecision);
 	} else {
 		let theDecision = Object(__WEBPACK_IMPORTED_MODULE_5__decision_js__["a" /* decision */])();
 		vinter_flow.workflows[0].activities.push(theDecision);
@@ -348,8 +392,16 @@ function addDecisionActivity(activity) {
 
 function addQuestionActivity(activity) {
 	if (activity) {
-		vinter_flow.workflows[0].activities.push(activity);
-		Object(__WEBPACK_IMPORTED_MODULE_0__event_js__["a" /* publish */])("onquestionadded", activity);
+		let theQuestion = Object(__WEBPACK_IMPORTED_MODULE_7__question_js__["a" /* question */])();
+		theQuestion.name = activity.name;
+		theQuestion.question = activity.question;
+		theQuestion.utterance = activity.utterance;
+		theQuestion.nextActivity = activity.nextActivity;
+		theQuestion.validator = activity.validator;
+		theQuestion.x = activity.x;
+		theQuestion.y = activity.y;
+		vinter_flow.workflows[0].activities.push(theQuestion);
+		Object(__WEBPACK_IMPORTED_MODULE_0__event_js__["a" /* publish */])("onquestionadded", theQuestion);
 	} else {
 		let theQuestion = Object(__WEBPACK_IMPORTED_MODULE_7__question_js__["a" /* question */])();
 		vinter_flow.workflows[0].activities.push(theQuestion);
@@ -360,8 +412,14 @@ function addQuestionActivity(activity) {
 
 function addMemoryActivity(activity) {
 	if (activity) {
-		vinter_flow.workflows[0].activities.push(activity);
-		Object(__WEBPACK_IMPORTED_MODULE_0__event_js__["a" /* publish */])("onmemoryadded", activity);
+		let theMemory = Object(__WEBPACK_IMPORTED_MODULE_8__memory_js__["a" /* memory */])();
+		theMemory.name = activity.name;
+		theMemory.values = activity.values;
+		theMemory.nextActivity = activity.nextActivity;
+		theMemory.x = activity.x;
+		theMemory.y = activity.y;
+		vinter_flow.workflows[0].activities.push(theMemory);
+		Object(__WEBPACK_IMPORTED_MODULE_0__event_js__["a" /* publish */])("onmemoryadded", theMemory);
 	} else {
 		let theMemory = Object(__WEBPACK_IMPORTED_MODULE_8__memory_js__["a" /* memory */])();
 		vinter_flow.workflows[0].activities.push(theMemory);
@@ -372,8 +430,14 @@ function addMemoryActivity(activity) {
 
 function addCustomCodeActivity(activity) {
 	if (activity) {
-		vinter_flow.workflows[0].activities.push(activity);
-		Object(__WEBPACK_IMPORTED_MODULE_0__event_js__["a" /* publish */])("oncustomcodeadded", activity);
+		let theCustom = Object(__WEBPACK_IMPORTED_MODULE_9__custom_code_js__["a" /* custom */])();
+		theCustom.name = activity.name;
+		theCustom.nextActivity = activity.nextActivity;
+		theCustom.script = activity.script;
+		theCustom.x = activity.x;
+		theCustom.y = activity.y;
+		vinter_flow.workflows[0].activities.push(theCustom);
+		Object(__WEBPACK_IMPORTED_MODULE_0__event_js__["a" /* publish */])("oncustomcodeadded", theCustom);
 	} else {
 		let theCustom = Object(__WEBPACK_IMPORTED_MODULE_9__custom_code_js__["a" /* custom */])();
 		vinter_flow.workflows[0].activities.push(theCustom);
@@ -384,8 +448,14 @@ function addCustomCodeActivity(activity) {
 
 function addDisconnectActivity(activity) {
 	if (activity) {
-		vinter_flow.workflows[0].activities.push(activity);
-		Object(__WEBPACK_IMPORTED_MODULE_0__event_js__["a" /* publish */])("ondisconnectadded", activity);
+		let theDisconnect = Object(__WEBPACK_IMPORTED_MODULE_10__disconnect_js__["a" /* disconnect */])();
+		theDisconnect.name = activity.name;
+		theDisconnect.utterance = activity.utterance;
+		theDisconnect.nextActivity = activity.nextActivity;
+		theDisconnect.x = activity.x;
+		theDisconnect.y = activity.y;
+		vinter_flow.workflows[0].activities.push(theDisconnect);
+		Object(__WEBPACK_IMPORTED_MODULE_0__event_js__["a" /* publish */])("ondisconnectadded", theDisconnect);
 	} else {
 		let theDisconnect = Object(__WEBPACK_IMPORTED_MODULE_10__disconnect_js__["a" /* disconnect */])();
 		vinter_flow.workflows[0].activities.push(theDisconnect);
@@ -396,8 +466,15 @@ function addDisconnectActivity(activity) {
 
 function addEscalateActivity(activity) {
 	if (activity) {
-		vinter_flow.workflows[0].activities.push(activity);
-		Object(__WEBPACK_IMPORTED_MODULE_0__event_js__["a" /* publish */])("onescalateadded", activity);
+		let theEscalate = Object(__WEBPACK_IMPORTED_MODULE_11__escalate_js__["a" /* escalate */])();
+		theEscalate.name = activity.name;
+		theEscalate.utterance = activity.utterance;
+		theEscalate.sleep = activity.sleep;
+		theEscalate.nextActivity = activity.nextActivity;
+		theEscalate.x = activity.x;
+		theEscalate.y = activity.y;
+		vinter_flow.workflows[0].activities.push(theEscalate);
+		Object(__WEBPACK_IMPORTED_MODULE_0__event_js__["a" /* publish */])("onescalateadded", theEscalate);
 	} else {
 		let theEscalate = Object(__WEBPACK_IMPORTED_MODULE_11__escalate_js__["a" /* escalate */])();
 		vinter_flow.workflows[0].activities.push(theEscalate);
@@ -537,6 +614,20 @@ function load(strJson) {
 				"cancelNextActivityName"
 			);
 		}
+		if (activity.type === "DecisionSwitch") {
+			activity.rules.forEach(rule => {
+				Object(__WEBPACK_IMPORTED_MODULE_1__graph_js__["b" /* renderPort */])(activity.id, rule.label);
+			});
+			activity.rules.forEach(rule => {
+				if (rule.nextActivity) {
+					Object(__WEBPACK_IMPORTED_MODULE_1__graph_js__["a" /* renderLink */])(
+						activity.id,
+						getActivityByName(rule.nextActivity).id,
+						rule.label
+					);
+				}
+			});
+		}
 	});
 	console.log(objJson);
 }
@@ -612,6 +703,7 @@ Object(__WEBPACK_IMPORTED_MODULE_0__event_js__["b" /* subscribe */])("onshowmenu
 
 Object(__WEBPACK_IMPORTED_MODULE_0__event_js__["b" /* subscribe */])("ondeleteactivity", id => {
 	removeFromActivityArray(id);
+	Object(__WEBPACK_IMPORTED_MODULE_17__flow_storage_js__["c" /* updateExistingFlow */])();
 });
 
 init();
@@ -12353,6 +12445,7 @@ function shiftRanks(t, g, delta) {
 "use strict";
 /* unused harmony export graphInfo */
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return renderLink; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return renderPort; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__app_js__ = __webpack_require__(1);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__event_js__ = __webpack_require__(2);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__flow_storage_js__ = __webpack_require__(78);
@@ -12529,6 +12622,12 @@ function renderJSON(json) {
 }
 
 function updatePosition() {}
+
+function renderPort(cellID, portLabel) {
+	let dsCell = getCell(cellID);
+	let portsArray = dsCell.get("outPorts");
+	dsCell.set("outPorts", portsArray.concat(portLabel));
+}
 
 function renderLink(sourceID, targetID, label) {
 	let link = new joint.shapes.devs.Link({
@@ -67290,6 +67389,8 @@ function end() {
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return decision; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__app_js__ = __webpack_require__(1);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__event_js__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__flow_storage_js__ = __webpack_require__(78);
+
 
 
 
@@ -67299,6 +67400,9 @@ class Decision {
 		this.type = "DecisionSwitch";
 		this.defaultNextActivity = "";
 		this.rules = [];
+		this.x = "";
+		this.y = "";
+		this.id = "";
 	}
 
 	addRule(rule) {
@@ -67345,6 +67449,7 @@ const configureNewDecisionBehavior = () => {
 };
 
 const onEditDecision = decision => {
+	console.log("DS TO EDIT", decision);
 	Object(__WEBPACK_IMPORTED_MODULE_0__app_js__["changeElementDisplay"])("vinter-modal-edit-decision", "block");
 	let btnCloseModal = document.getElementById("close-edit-decision");
 	let btnAddRule = document.getElementById("vinter-btn-add-decision-rule");
@@ -67362,6 +67467,7 @@ const onEditDecision = decision => {
 		});
 		Object(__WEBPACK_IMPORTED_MODULE_0__app_js__["removeAllChilds"])("vinter-div-decision-rule");
 		Object(__WEBPACK_IMPORTED_MODULE_0__app_js__["changeElementDisplay"])("vinter-modal-edit-decision", "none");
+		Object(__WEBPACK_IMPORTED_MODULE_2__flow_storage_js__["c" /* updateExistingFlow */])();
 	};
 	let btnDeleteDecision = document.getElementById(
 		"vinter-btn-confirm-delete-decision"
@@ -67454,6 +67560,9 @@ class ServiceCall {
 		this.outputParametersScope = "DIALOG";
 		this.inputParameters = [];
 		this.outputParameters = [];
+		this.x = "";
+		this.y = "";
+		this.id = "";
 	}
 
 	addInputParameter(input) {
@@ -67608,6 +67717,9 @@ class Question {
 				}
 			]
 		};
+		this.x = "";
+		this.y = "";
+		this.id = "";
 	}
 	addOption(label) {
 		let obj = {
@@ -67792,6 +67904,9 @@ class Memory {
 		this.name = Object(__WEBPACK_IMPORTED_MODULE_0__app_js__["makeName"])("MEMORY_");
 		this.values = [];
 		this.nextActivity = "";
+		this.x = "";
+		this.y = "";
+		this.id = "";
 	}
 	addValue(value) {
 		this.values.push(value);
@@ -67901,6 +68016,9 @@ class CustomCode {
 		this.type = "CustomCode";
 		this.nextActivity = "";
 		this.script = "";
+		this.x = "";
+		this.y = "";
+		this.id = "";
 	}
 }
 
@@ -67984,6 +68102,9 @@ class Disconnect {
 		this.disconnectType = "3";
 		this.utterance = "Tchau";
 		this.nextActivity = "";
+		this.x = "";
+		this.y = "";
+		this.id = "";
 	}
 }
 
@@ -68074,6 +68195,9 @@ class Escalate {
 		this.utterance = "Going to the human!";
 		this.sleep = "3000";
 		this.nextActivity = "";
+		this.x = "";
+		this.y = "";
+		this.id = "";
 	}
 }
 
@@ -68158,11 +68282,14 @@ Object(__WEBPACK_IMPORTED_MODULE_1__event_js__["b" /* subscribe */])("oneditesca
 
 
 class ControlManager {
-	constructor(canEnable) {
+	constructor() {
 		this.name = Object(__WEBPACK_IMPORTED_MODULE_0__app_js__["makeName"])("ControlManager_");
 		this.type = "ClientControlManagement";
 		this.nextActivity = "";
 		this.actions = [];
+		this.x = "";
+		this.y = "";
+		this.id = "";
 	}
 
 	addAction(action) {
@@ -68280,6 +68407,9 @@ class Form {
 			maxAttempt: 5,
 			items: []
 		};
+		this.x = "";
+		this.y = "";
+		this.id = "";
 	}
 	addField(field) {
 		this.fields.push(field);

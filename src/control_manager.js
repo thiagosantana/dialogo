@@ -2,11 +2,14 @@ import { makeName, isFlowInitialized, changeElementDisplay } from "./app.js";
 import { subscribe, publish } from "./event.js";
 
 class ControlManager {
-	constructor(canEnable) {
+	constructor() {
 		this.name = makeName("ControlManager_");
 		this.type = "ClientControlManagement";
 		this.nextActivity = "";
 		this.actions = [];
+		this.x = "";
+		this.y = "";
+		this.id = "";
 	}
 
 	addAction(action) {

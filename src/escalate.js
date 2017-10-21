@@ -8,6 +8,9 @@ class Escalate {
 		this.utterance = "Going to the human!";
 		this.sleep = "3000";
 		this.nextActivity = "";
+		this.x = "";
+		this.y = "";
+		this.id = "";
 	}
 }
 
