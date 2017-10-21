@@ -102,7 +102,6 @@ $("#vinter-graph").mousemove(event => {
 	if (dragStartPosition) {
 		let nextX = event.offsetX - dragStartPosition.x;
 		let nextY = event.offsetY - dragStartPosition.y;
-		console.log(nextX, nextY);
 		paper.setOrigin(
 			event.offsetX - dragStartPosition.x,
 			event.offsetY - dragStartPosition.y
@@ -182,7 +181,7 @@ function updatePosition() {}
 function renderLink(sourceID, targetID, label) {
 	let link = new joint.shapes.devs.Link({
 		source: { id: sourceID, port: label },
-		target: { id: targetID },
+		target: { id: targetID, port: " " },
 		attrs: {
 			".marker-target": {
 				d: "M 10 0 L 0 5 L 10 10 z",
@@ -347,7 +346,7 @@ function renderSay(say) {
 	let model = new joint.shapes.devs.Model({
 		position: { x: positionX, y: positionY },
 		size: { width: 44, height: 43 },
-		inPorts: [""],
+		inPorts: [" "],
 		outPorts: ["nextActivity"],
 		ports: {
 			groups: {
@@ -403,7 +402,7 @@ function renderEscalate(say) {
 	let model = new joint.shapes.devs.Model({
 		position: { x: positionX, y: positionY },
 		size: { width: 44, height: 43 },
-		inPorts: [""],
+		inPorts: [" "],
 		outPorts: ["nextActivity"],
 		ports: {
 			groups: {
@@ -459,7 +458,7 @@ function renderCustom(say) {
 	let model = new joint.shapes.devs.Model({
 		position: { x: positionX, y: positionY },
 		size: { width: 68, height: 43 },
-		inPorts: [""],
+		inPorts: [" "],
 		outPorts: ["nextActivity"],
 		ports: {
 			groups: {
@@ -515,7 +514,7 @@ function renderDisconnect(say) {
 	let model = new joint.shapes.devs.Model({
 		position: { x: positionX, y: positionY },
 		size: { width: 59, height: 38 },
-		inPorts: [""],
+		inPorts: [" "],
 		outPorts: ["nextActivity"],
 		ports: {
 			groups: {
@@ -571,7 +570,7 @@ function renderService(say) {
 	let model = new joint.shapes.devs.Model({
 		position: { x: positionX, y: positionY },
 		size: { width: 70, height: 38 },
-		inPorts: [""],
+		inPorts: [" "],
 		outPorts: ["nextActivity"],
 		ports: {
 			groups: {
@@ -627,7 +626,7 @@ function renderControl(say) {
 	let model = new joint.shapes.devs.Model({
 		position: { x: positionX, y: positionY },
 		size: { width: 135, height: 38 },
-		inPorts: [""],
+		inPorts: [" "],
 		outPorts: ["nextActivity"],
 		ports: {
 			groups: {
@@ -683,7 +682,7 @@ function renderMemory(say) {
 	let model = new joint.shapes.devs.Model({
 		position: { x: positionX, y: positionY },
 		size: { width: 100, height: 38 },
-		inPorts: [""],
+		inPorts: [" "],
 		outPorts: ["nextActivity"],
 		ports: {
 			groups: {
@@ -739,7 +738,7 @@ function renderQuestion(say) {
 	let model = new joint.shapes.devs.Model({
 		position: { x: positionX, y: positionY },
 		size: { width: 110, height: 38 },
-		inPorts: [""],
+		inPorts: [" "],
 		outPorts: ["nextActivity"],
 		ports: {
 			groups: {
@@ -795,7 +794,7 @@ function renderForm(form) {
 	let model = new joint.shapes.devs.Model({
 		position: { x: positionX, y: positionY },
 		size: { width: 50, height: 45 },
-		inPorts: [""],
+		inPorts: [" "],
 		outPorts: ["nextActivity", "cancelNextActivityName"],
 		ports: {
 			groups: {
@@ -850,7 +849,7 @@ function renderDecision(decision) {
 	let model = new joint.shapes.devs.Model({
 		position: { x: positionX, y: positionY },
 		size: { width: 27, height: 120 },
-		inPorts: [""],
+		inPorts: [" "],
 		outPorts: ["defaultNextActivity"],
 		ports: {
 			groups: {

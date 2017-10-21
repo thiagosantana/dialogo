@@ -271,6 +271,7 @@ function addBeginActivity(activity) {
 		vinter_flow.workflows[0].activities.push(theBegin);
 		Object(__WEBPACK_IMPORTED_MODULE_0__event_js__["a" /* publish */])("onbeginadded", theBegin);
 	}
+	Object(__WEBPACK_IMPORTED_MODULE_17__flow_storage_js__["c" /* updateExistingFlow */])();
 }
 
 function addEndActivity(activity) {
@@ -282,6 +283,7 @@ function addEndActivity(activity) {
 		vinter_flow.workflows[0].activities.push(theEnd);
 		Object(__WEBPACK_IMPORTED_MODULE_0__event_js__["a" /* publish */])("onendadded", theEnd);
 	}
+	Object(__WEBPACK_IMPORTED_MODULE_17__flow_storage_js__["c" /* updateExistingFlow */])();
 }
 
 function addSayActivity(activity) {
@@ -293,6 +295,7 @@ function addSayActivity(activity) {
 		vinter_flow.workflows[0].activities.push(theNewSay);
 		Object(__WEBPACK_IMPORTED_MODULE_0__event_js__["a" /* publish */])("onsayadded", theNewSay);
 	}
+	Object(__WEBPACK_IMPORTED_MODULE_17__flow_storage_js__["c" /* updateExistingFlow */])();
 }
 
 function addServiceCallActivity(activity) {
@@ -304,6 +307,7 @@ function addServiceCallActivity(activity) {
 		vinter_flow.workflows[0].activities.push(theNewServiceCall);
 		Object(__WEBPACK_IMPORTED_MODULE_0__event_js__["a" /* publish */])("onservicecalladded", theNewServiceCall);
 	}
+	Object(__WEBPACK_IMPORTED_MODULE_17__flow_storage_js__["c" /* updateExistingFlow */])();
 }
 
 function addControlManagerActivity(activity) {
@@ -315,6 +319,7 @@ function addControlManagerActivity(activity) {
 		vinter_flow.workflows[0].activities.push(theNewControlManager);
 		Object(__WEBPACK_IMPORTED_MODULE_0__event_js__["a" /* publish */])("oncontrolmanageradded", theNewControlManager);
 	}
+	Object(__WEBPACK_IMPORTED_MODULE_17__flow_storage_js__["c" /* updateExistingFlow */])();
 }
 
 function addFormActivity(activity) {
@@ -326,6 +331,7 @@ function addFormActivity(activity) {
 		vinter_flow.workflows[0].activities.push(theForm);
 		Object(__WEBPACK_IMPORTED_MODULE_0__event_js__["a" /* publish */])("onformadded", theForm);
 	}
+	Object(__WEBPACK_IMPORTED_MODULE_17__flow_storage_js__["c" /* updateExistingFlow */])();
 }
 
 function addDecisionActivity(activity) {
@@ -337,6 +343,7 @@ function addDecisionActivity(activity) {
 		vinter_flow.workflows[0].activities.push(theDecision);
 		Object(__WEBPACK_IMPORTED_MODULE_0__event_js__["a" /* publish */])("ondecisionadded", theDecision);
 	}
+	Object(__WEBPACK_IMPORTED_MODULE_17__flow_storage_js__["c" /* updateExistingFlow */])();
 }
 
 function addQuestionActivity(activity) {
@@ -348,6 +355,7 @@ function addQuestionActivity(activity) {
 		vinter_flow.workflows[0].activities.push(theQuestion);
 		Object(__WEBPACK_IMPORTED_MODULE_0__event_js__["a" /* publish */])("onquestionadded", theQuestion);
 	}
+	Object(__WEBPACK_IMPORTED_MODULE_17__flow_storage_js__["c" /* updateExistingFlow */])();
 }
 
 function addMemoryActivity(activity) {
@@ -359,6 +367,7 @@ function addMemoryActivity(activity) {
 		vinter_flow.workflows[0].activities.push(theMemory);
 		Object(__WEBPACK_IMPORTED_MODULE_0__event_js__["a" /* publish */])("onmemoryadded", theMemory);
 	}
+	Object(__WEBPACK_IMPORTED_MODULE_17__flow_storage_js__["c" /* updateExistingFlow */])();
 }
 
 function addCustomCodeActivity(activity) {
@@ -370,6 +379,7 @@ function addCustomCodeActivity(activity) {
 		vinter_flow.workflows[0].activities.push(theCustom);
 		Object(__WEBPACK_IMPORTED_MODULE_0__event_js__["a" /* publish */])("oncustomcodeadded", theCustom);
 	}
+	Object(__WEBPACK_IMPORTED_MODULE_17__flow_storage_js__["c" /* updateExistingFlow */])();
 }
 
 function addDisconnectActivity(activity) {
@@ -381,6 +391,7 @@ function addDisconnectActivity(activity) {
 		vinter_flow.workflows[0].activities.push(theDisconnect);
 		Object(__WEBPACK_IMPORTED_MODULE_0__event_js__["a" /* publish */])("ondisconnectadded", theDisconnect);
 	}
+	Object(__WEBPACK_IMPORTED_MODULE_17__flow_storage_js__["c" /* updateExistingFlow */])();
 }
 
 function addEscalateActivity(activity) {
@@ -392,6 +403,7 @@ function addEscalateActivity(activity) {
 		vinter_flow.workflows[0].activities.push(theEscalate);
 		Object(__WEBPACK_IMPORTED_MODULE_0__event_js__["a" /* publish */])("onescalateadded", theEscalate);
 	}
+	Object(__WEBPACK_IMPORTED_MODULE_17__flow_storage_js__["c" /* updateExistingFlow */])();
 }
 
 function getBeginActivity() {
@@ -12442,7 +12454,6 @@ $("#vinter-graph").mousemove(event => {
 	if (dragStartPosition) {
 		let nextX = event.offsetX - dragStartPosition.x;
 		let nextY = event.offsetY - dragStartPosition.y;
-		console.log(nextX, nextY);
 		paper.setOrigin(
 			event.offsetX - dragStartPosition.x,
 			event.offsetY - dragStartPosition.y
@@ -12522,7 +12533,7 @@ function updatePosition() {}
 function renderLink(sourceID, targetID, label) {
 	let link = new joint.shapes.devs.Link({
 		source: { id: sourceID, port: label },
-		target: { id: targetID },
+		target: { id: targetID, port: " " },
 		attrs: {
 			".marker-target": {
 				d: "M 10 0 L 0 5 L 10 10 z",
@@ -12687,7 +12698,7 @@ function renderSay(say) {
 	let model = new joint.shapes.devs.Model({
 		position: { x: positionX, y: positionY },
 		size: { width: 44, height: 43 },
-		inPorts: [""],
+		inPorts: [" "],
 		outPorts: ["nextActivity"],
 		ports: {
 			groups: {
@@ -12743,7 +12754,7 @@ function renderEscalate(say) {
 	let model = new joint.shapes.devs.Model({
 		position: { x: positionX, y: positionY },
 		size: { width: 44, height: 43 },
-		inPorts: [""],
+		inPorts: [" "],
 		outPorts: ["nextActivity"],
 		ports: {
 			groups: {
@@ -12799,7 +12810,7 @@ function renderCustom(say) {
 	let model = new joint.shapes.devs.Model({
 		position: { x: positionX, y: positionY },
 		size: { width: 68, height: 43 },
-		inPorts: [""],
+		inPorts: [" "],
 		outPorts: ["nextActivity"],
 		ports: {
 			groups: {
@@ -12855,7 +12866,7 @@ function renderDisconnect(say) {
 	let model = new joint.shapes.devs.Model({
 		position: { x: positionX, y: positionY },
 		size: { width: 59, height: 38 },
-		inPorts: [""],
+		inPorts: [" "],
 		outPorts: ["nextActivity"],
 		ports: {
 			groups: {
@@ -12911,7 +12922,7 @@ function renderService(say) {
 	let model = new joint.shapes.devs.Model({
 		position: { x: positionX, y: positionY },
 		size: { width: 70, height: 38 },
-		inPorts: [""],
+		inPorts: [" "],
 		outPorts: ["nextActivity"],
 		ports: {
 			groups: {
@@ -12967,7 +12978,7 @@ function renderControl(say) {
 	let model = new joint.shapes.devs.Model({
 		position: { x: positionX, y: positionY },
 		size: { width: 135, height: 38 },
-		inPorts: [""],
+		inPorts: [" "],
 		outPorts: ["nextActivity"],
 		ports: {
 			groups: {
@@ -13023,7 +13034,7 @@ function renderMemory(say) {
 	let model = new joint.shapes.devs.Model({
 		position: { x: positionX, y: positionY },
 		size: { width: 100, height: 38 },
-		inPorts: [""],
+		inPorts: [" "],
 		outPorts: ["nextActivity"],
 		ports: {
 			groups: {
@@ -13079,7 +13090,7 @@ function renderQuestion(say) {
 	let model = new joint.shapes.devs.Model({
 		position: { x: positionX, y: positionY },
 		size: { width: 110, height: 38 },
-		inPorts: [""],
+		inPorts: [" "],
 		outPorts: ["nextActivity"],
 		ports: {
 			groups: {
@@ -13135,7 +13146,7 @@ function renderForm(form) {
 	let model = new joint.shapes.devs.Model({
 		position: { x: positionX, y: positionY },
 		size: { width: 50, height: 45 },
-		inPorts: [""],
+		inPorts: [" "],
 		outPorts: ["nextActivity", "cancelNextActivityName"],
 		ports: {
 			groups: {
@@ -13190,7 +13201,7 @@ function renderDecision(decision) {
 	let model = new joint.shapes.devs.Model({
 		position: { x: positionX, y: positionY },
 		size: { width: 27, height: 120 },
-		inPorts: [""],
+		inPorts: [" "],
 		outPorts: ["defaultNextActivity"],
 		ports: {
 			groups: {
@@ -67157,6 +67168,8 @@ module.exports = "0.7.4";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return say; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__app_js__ = __webpack_require__(1);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__event_js__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__flow_storage_js__ = __webpack_require__(78);
+
 
 
 
@@ -67211,11 +67224,13 @@ const onEditSay = say => {
 		editable = null;
 		textUtterance.value = "";
 		textSleep.value = "";
+		Object(__WEBPACK_IMPORTED_MODULE_2__flow_storage_js__["c" /* updateExistingFlow */])();
 	};
 	let btnDelete = document.getElementById("vinter-btn-confirm-delete-say");
 	btnDelete.onclick = () => {
 		Object(__WEBPACK_IMPORTED_MODULE_0__app_js__["changeElementDisplay"])("vinter-modal-edit-say", "none");
 		Object(__WEBPACK_IMPORTED_MODULE_1__event_js__["a" /* publish */])("ondeleteactivity", say.id);
+		Object(__WEBPACK_IMPORTED_MODULE_2__flow_storage_js__["c" /* updateExistingFlow */])();
 	};
 };
 

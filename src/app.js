@@ -15,7 +15,11 @@ import { form } from "./form.js";
 import { openMenu } from "./menu.js";
 import { undo, redo } from "./undo_redo.js";
 import { startTimers } from "./timer.js";
-import { loadExistingFlow, deleteExistingFlow } from "./flow_storage.js";
+import {
+	loadExistingFlow,
+	deleteExistingFlow,
+	updateExistingFlow
+} from "./flow_storage.js";
 
 let vinter_flow = {};
 window.flow = vinter_flow;
@@ -150,6 +154,7 @@ function addBeginActivity(activity) {
 		vinter_flow.workflows[0].activities.push(theBegin);
 		publish("onbeginadded", theBegin);
 	}
+	updateExistingFlow();
 }
 
 function addEndActivity(activity) {
@@ -161,6 +166,7 @@ function addEndActivity(activity) {
 		vinter_flow.workflows[0].activities.push(theEnd);
 		publish("onendadded", theEnd);
 	}
+	updateExistingFlow();
 }
 
 function addSayActivity(activity) {
@@ -172,6 +178,7 @@ function addSayActivity(activity) {
 		vinter_flow.workflows[0].activities.push(theNewSay);
 		publish("onsayadded", theNewSay);
 	}
+	updateExistingFlow();
 }
 
 function addServiceCallActivity(activity) {
@@ -183,6 +190,7 @@ function addServiceCallActivity(activity) {
 		vinter_flow.workflows[0].activities.push(theNewServiceCall);
 		publish("onservicecalladded", theNewServiceCall);
 	}
+	updateExistingFlow();
 }
 
 function addControlManagerActivity(activity) {
@@ -194,6 +202,7 @@ function addControlManagerActivity(activity) {
 		vinter_flow.workflows[0].activities.push(theNewControlManager);
 		publish("oncontrolmanageradded", theNewControlManager);
 	}
+	updateExistingFlow();
 }
 
 function addFormActivity(activity) {
@@ -205,6 +214,7 @@ function addFormActivity(activity) {
 		vinter_flow.workflows[0].activities.push(theForm);
 		publish("onformadded", theForm);
 	}
+	updateExistingFlow();
 }
 
 function addDecisionActivity(activity) {
@@ -216,6 +226,7 @@ function addDecisionActivity(activity) {
 		vinter_flow.workflows[0].activities.push(theDecision);
 		publish("ondecisionadded", theDecision);
 	}
+	updateExistingFlow();
 }
 
 function addQuestionActivity(activity) {
@@ -227,6 +238,7 @@ function addQuestionActivity(activity) {
 		vinter_flow.workflows[0].activities.push(theQuestion);
 		publish("onquestionadded", theQuestion);
 	}
+	updateExistingFlow();
 }
 
 function addMemoryActivity(activity) {
@@ -238,6 +250,7 @@ function addMemoryActivity(activity) {
 		vinter_flow.workflows[0].activities.push(theMemory);
 		publish("onmemoryadded", theMemory);
 	}
+	updateExistingFlow();
 }
 
 function addCustomCodeActivity(activity) {
@@ -249,6 +262,7 @@ function addCustomCodeActivity(activity) {
 		vinter_flow.workflows[0].activities.push(theCustom);
 		publish("oncustomcodeadded", theCustom);
 	}
+	updateExistingFlow();
 }
 
 function addDisconnectActivity(activity) {
@@ -260,6 +274,7 @@ function addDisconnectActivity(activity) {
 		vinter_flow.workflows[0].activities.push(theDisconnect);
 		publish("ondisconnectadded", theDisconnect);
 	}
+	updateExistingFlow();
 }
 
 function addEscalateActivity(activity) {
@@ -271,6 +286,7 @@ function addEscalateActivity(activity) {
 		vinter_flow.workflows[0].activities.push(theEscalate);
 		publish("onescalateadded", theEscalate);
 	}
+	updateExistingFlow();
 }
 
 function getBeginActivity() {

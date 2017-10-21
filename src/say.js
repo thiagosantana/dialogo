@@ -1,5 +1,6 @@
 import { makeName, isFlowInitialized, changeElementDisplay } from "./app.js";
 import { subscribe, publish } from "./event.js";
+import { updateExistingFlow } from "./flow_storage.js";
 
 let editable = null;
 
@@ -52,11 +53,13 @@ const onEditSay = say => {
 		editable = null;
 		textUtterance.value = "";
 		textSleep.value = "";
+		updateExistingFlow();
 	};
 	let btnDelete = document.getElementById("vinter-btn-confirm-delete-say");
 	btnDelete.onclick = () => {
 		changeElementDisplay("vinter-modal-edit-say", "none");
 		publish("ondeleteactivity", say.id);
+		updateExistingFlow();
 	};
 };
 
