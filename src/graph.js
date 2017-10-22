@@ -109,6 +109,10 @@ $("#vinter-graph").mousemove(event => {
 	}
 });
 
+paper.on("cell:mouseover", param1 => {
+	console.log(param1);
+});
+
 paper.on("cell:pointerclick", cellView => {
 	let activity = getActivityById(cellView.model.id);
 	if (activity.type === "Say") publish("oneditsay", activity);
