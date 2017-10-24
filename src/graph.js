@@ -109,9 +109,7 @@ $("#vinter-graph").mousemove(event => {
 	}
 });
 
-paper.on("cell:mouseover", param1 => {
-	console.log(param1);
-});
+paper.on("cell:mouseover", param1 => {});
 
 paper.on("cell:pointerclick", cellView => {
 	let activity = getActivityById(cellView.model.id);
@@ -189,6 +187,7 @@ function renderPort(cellID, portLabel) {
 }
 
 function renderLink(sourceID, targetID, label) {
+	console.log("RENDER", sourceID, targetID, label);
 	let link = new joint.shapes.devs.Link({
 		source: { id: sourceID, port: label },
 		target: { id: targetID, port: " " },

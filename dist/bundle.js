@@ -592,43 +592,7 @@ function load(strJson) {
 
 		initialized = true;
 	});
-	objJson.workflows[0].activities.forEach(activity => {
-		if (activity.nextActivity) {
-			Object(__WEBPACK_IMPORTED_MODULE_1__graph_js__["a" /* renderLink */])(
-				activity.id,
-				getActivityByName(activity.nextActivity).id,
-				"nextActivity"
-			);
-		}
-		if (activity.defaultNextActivity) {
-			Object(__WEBPACK_IMPORTED_MODULE_1__graph_js__["a" /* renderLink */])(
-				activity.id,
-				getActivityByName(activity.defaultNextActivity).id,
-				"defaultNextActivity"
-			);
-		}
-		if (activity.cancelNextActivityName) {
-			Object(__WEBPACK_IMPORTED_MODULE_1__graph_js__["a" /* renderLink */])(
-				activity.id,
-				getActivityByName(activity.defaultNextActivity).id,
-				"cancelNextActivityName"
-			);
-		}
-		if (activity.type === "DecisionSwitch") {
-			activity.rules.forEach(rule => {
-				Object(__WEBPACK_IMPORTED_MODULE_1__graph_js__["b" /* renderPort */])(activity.id, rule.label);
-			});
-			activity.rules.forEach(rule => {
-				if (rule.nextActivity) {
-					Object(__WEBPACK_IMPORTED_MODULE_1__graph_js__["a" /* renderLink */])(
-						activity.id,
-						getActivityByName(rule.nextActivity).id,
-						rule.label
-					);
-				}
-			});
-		}
-	});
+
 	console.log(objJson);
 }
 
@@ -12481,8 +12445,8 @@ function shiftRanks(t, g, delta) {
 
 "use strict";
 /* unused harmony export graphInfo */
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return renderLink; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return renderPort; });
+/* unused harmony export renderLink */
+/* unused harmony export renderPort */
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__app_js__ = __webpack_require__(1);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__event_js__ = __webpack_require__(2);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__flow_storage_js__ = __webpack_require__(6);
@@ -12591,9 +12555,7 @@ $("#vinter-graph").mousemove(event => {
 	}
 });
 
-paper.on("cell:mouseover", param1 => {
-	console.log(param1);
-});
+paper.on("cell:mouseover", param1 => {});
 
 paper.on("cell:pointerclick", cellView => {
 	let activity = Object(__WEBPACK_IMPORTED_MODULE_0__app_js__["getActivityById"])(cellView.model.id);
@@ -12671,6 +12633,7 @@ function renderPort(cellID, portLabel) {
 }
 
 function renderLink(sourceID, targetID, label) {
+	console.log("RENDER", sourceID, targetID, label);
 	let link = new joint.shapes.devs.Link({
 		source: { id: sourceID, port: label },
 		target: { id: targetID, port: " " },
@@ -67323,6 +67286,9 @@ class Say {
 		this.sleep = "3000";
 		this.utterance = "Lorem Ipsum";
 		this.utteranceLog = "";
+		this.x = "";
+		this.y = "";
+		this.id = "";
 	}
 }
 function say() {

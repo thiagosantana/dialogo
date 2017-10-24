@@ -12,6 +12,9 @@ class Say {
 		this.sleep = "3000";
 		this.utterance = "Lorem Ipsum";
 		this.utteranceLog = "";
+		this.x = "";
+		this.y = "";
+		this.id = "";
 	}
 }
 function say() {

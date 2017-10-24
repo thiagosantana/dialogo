@@ -475,43 +475,7 @@ function load(strJson) {
 
 		initialized = true;
 	});
-	objJson.workflows[0].activities.forEach(activity => {
-		if (activity.nextActivity) {
-			renderLink(
-				activity.id,
-				getActivityByName(activity.nextActivity).id,
-				"nextActivity"
-			);
-		}
-		if (activity.defaultNextActivity) {
-			renderLink(
-				activity.id,
-				getActivityByName(activity.defaultNextActivity).id,
-				"defaultNextActivity"
-			);
-		}
-		if (activity.cancelNextActivityName) {
-			renderLink(
-				activity.id,
-				getActivityByName(activity.defaultNextActivity).id,
-				"cancelNextActivityName"
-			);
-		}
-		if (activity.type === "DecisionSwitch") {
-			activity.rules.forEach(rule => {
-				renderPort(activity.id, rule.label);
-			});
-			activity.rules.forEach(rule => {
-				if (rule.nextActivity) {
-					renderLink(
-						activity.id,
-						getActivityByName(rule.nextActivity).id,
-						rule.label
-					);
-				}
-			});
-		}
-	});
+
 	console.log(objJson);
 }
 
