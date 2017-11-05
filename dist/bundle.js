@@ -68307,6 +68307,8 @@ class ControlManager {
 			}
 		});
 	}
+
+
 }
 
 const configureNewControlManagerBehavior = () => {
@@ -68348,7 +68350,7 @@ function configEditBtn(control) {
 	let editBtn = document.getElementById("vinter-btn-confirm-edit-control");
 	editBtn.onclick = () => {
 		let select = document.getElementById("control-property");
-		if (select.value) control.addAction(select.value);
+		if (select.value && control.actions.length === 0) control.addAction(select.value);
 		Object(__WEBPACK_IMPORTED_MODULE_0__app_js__["changeElementDisplay"])("vinter-modal-edit-control", "none");
 	};
 }
